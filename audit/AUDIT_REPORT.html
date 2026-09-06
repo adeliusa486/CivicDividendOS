@@ -1,0 +1,1859 @@
+<title>CivicDividendOS Audit Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F6F7F8; --raise:#FFFFFF; --ink:#171A1F; --body:#2B313A; --muted:#5C646E;
+  --rule:#D8DCE0; --rule-soft:#E7EAED;
+  --ox:#8C2D2D; --ox-bg:#F6E9E9; --teal:#1F6F6B; --teal-bg:#E4F0EF;
+  --amber:#A66A00; --amber-bg:#F8EEDC; --slate:#3E5A78; --slate-bg:#E8EEF5;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --serif:"Spectral",Georgia,"Times New Roman",serif;
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#14161A; --raise:#1B1E24; --ink:#E9ECEF; --body:#C6CCD3; --muted:#8A939D;
+  --rule:#2C313A; --rule-soft:#23272E;
+  --ox:#E08585; --ox-bg:#2E1D1D; --teal:#5FBDB6; --teal-bg:#16292A;
+  --amber:#D9A441; --amber-bg:#2B2417; --slate:#8FB0D0; --slate-bg:#1A2430;
+}}
+:root[data-theme="dark"]{
+  --paper:#14161A; --raise:#1B1E24; --ink:#E9ECEF; --body:#C6CCD3; --muted:#8A939D;
+  --rule:#2C313A; --rule-soft:#23272E;
+  --ox:#E08585; --ox-bg:#2E1D1D; --teal:#5FBDB6; --teal-bg:#16292A;
+  --amber:#D9A441; --amber-bg:#2B2417; --slate:#8FB0D0; --slate-bg:#1A2430;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--body);font-family:var(--sans);
+  font-size:15.5px;line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+.col{max-width:var(--measure)}
+h1,h2,h3,h4{color:var(--ink);font-family:var(--serif);text-wrap:balance;margin:0}
+h1{font-size:2.7rem;font-weight:700;line-height:1.12;letter-spacing:-.015em}
+h2{font-size:1.72rem;font-weight:600;line-height:1.2}
+h3{font-size:1.2rem;font-weight:600;margin-top:2rem}
+h4{font-size:1rem;font-weight:600;font-family:var(--sans);margin-top:1.5rem}
+p,ul,ol{margin:0 0 1rem}
+ul,ol{padding-left:1.2rem}
+li{margin-bottom:.4rem}
+a{color:var(--ox)}
+code{font-family:var(--mono);font-size:.86em;background:var(--rule-soft);
+  padding:.12em .35em;border-radius:3px;color:var(--ink)}
+pre{font-family:var(--mono);font-size:.8rem;line-height:1.55;background:var(--raise);
+  border:1px solid var(--rule);border-left:3px solid var(--slate);
+  padding:14px 16px;overflow-x:auto;margin:0 0 1.2rem}
+pre code{background:none;padding:0}
+strong{color:var(--ink);font-weight:600}
+
+/* masthead */
+header.mast{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:8px}
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ox);margin-bottom:14px}
+.standfirst{font-family:var(--serif);font-size:1.22rem;line-height:1.5;
+  color:var(--body);max-width:64ch;margin-top:18px}
+.mast-meta{display:flex;flex-wrap:wrap;gap:0 32px;margin-top:24px;
+  font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.mast-meta b{color:var(--ink);font-weight:500}
+
+/* section numbering — the deliverable is a specified 19-part sequence */
+section{padding-top:52px}
+.snum{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--ox);
+  display:block;margin-bottom:6px}
+.shead{border-top:1px solid var(--rule);padding-top:14px;margin-bottom:20px}
+
+/* verdict stamps */
+.stamp{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);
+  font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;font-weight:500;white-space:nowrap}
+.s-conf{background:var(--ox-bg);color:var(--ox);border:1px solid var(--ox)}
+.s-ok{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)}
+.s-warn{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber)}
+.s-info{background:var(--slate-bg);color:var(--slate);border:1px solid var(--slate)}
+
+/* finding block */
+.find{border:1px solid var(--rule);background:var(--raise);margin:0 0 20px;
+  display:grid;grid-template-columns:4px 1fr}
+.find-bar{background:var(--ox)}
+.find.p1 .find-bar{background:var(--amber)}
+.find.p2 .find-bar{background:var(--muted)}
+.find.good .find-bar{background:var(--teal)}
+.find-in{padding:16px 20px}
+.find-hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:8px}
+.find-id{font-family:var(--mono);font-size:.78rem;color:var(--muted);font-weight:500}
+.find-t{font-family:var(--serif);font-size:1.06rem;font-weight:600;color:var(--ink);
+  flex:1 1 340px;line-height:1.35}
+.find-in p:last-child{margin-bottom:0}
+.evi{font-family:var(--mono);font-size:.74rem;color:var(--muted);
+  border-top:1px dashed var(--rule);margin-top:12px;padding-top:9px}
+.evi b{color:var(--teal);font-weight:500}
+
+/* tables */
+.tw{overflow-x:auto;margin:0 0 1.4rem;border:1px solid var(--rule);background:var(--raise)}
+table{border-collapse:collapse;width:100%;font-size:.8rem;min-width:600px}
+th,td{text-align:left;padding:7px 11px;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top}
+th{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;background:var(--rule-soft);
+  border-bottom:1px solid var(--rule);position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.m{font-family:var(--mono);font-size:.75rem}
+caption{caption-side:top;text-align:left;font-size:.78rem;color:var(--muted);
+  padding:9px 11px;border-bottom:1px solid var(--rule);font-style:italic}
+.neg{color:var(--ox)} .pos{color:var(--teal)}
+
+/* score rows */
+.scores{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  margin-bottom:1.4rem}
+.srow{display:grid;grid-template-columns:200px 74px 1fr;gap:14px;align-items:center;
+  background:var(--raise);padding:9px 14px}
+.srow .lab{font-weight:500;color:var(--ink);font-size:.86rem}
+.srow .val{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:.92rem;color:var(--ink);font-weight:500}
+.bar{height:5px;background:var(--rule-soft);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--slate)}
+.bar.lo i{background:var(--ox)} .bar.hi i{background:var(--teal)}
+.srow.total{background:var(--rule-soft)}
+.srow.total .lab,.srow.total .val{font-size:1rem;font-weight:600}
+.why{grid-column:1/-1;font-size:.79rem;color:var(--muted);margin-top:-2px}
+
+/* callout */
+.note{border-left:3px solid var(--slate);background:var(--slate-bg);
+  padding:12px 16px;margin:0 0 1.3rem;font-size:.9rem}
+.note.crit{border-color:var(--ox);background:var(--ox-bg)}
+.note p:last-child{margin-bottom:0}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:block}
+
+/* checklist */
+.chk{list-style:none;padding-left:0}
+.chk li{padding-left:26px;position:relative;font-size:.88rem}
+.chk li::before{content:"";position:absolute;left:0;top:.4em;width:12px;height:12px;
+  border:1.5px solid var(--muted);border-radius:2px}
+
+/* ascii */
+.ascii{font-family:var(--mono);font-size:.7rem;line-height:1.35;white-space:pre;
+  overflow-x:auto;background:var(--raise);border:1px solid var(--rule);
+  padding:16px;margin:0 0 1.4rem;color:var(--body)}
+
+.paperbox{border:1px solid var(--rule);border-top:3px solid var(--ink);
+  background:var(--raise);padding:28px 32px;margin-top:20px}
+.paperbox h3{font-size:1.05rem;margin-top:1.7rem}
+.paperbox h3:first-of-type{margin-top:0}
+.tbg{font-family:var(--mono);font-size:.74rem;color:var(--amber);
+  background:var(--amber-bg);padding:2px 6px;border-radius:2px;
+  border:1px solid var(--amber);white-space:nowrap}
+@media (max-width:720px){
+  h1{font-size:2rem} .srow{grid-template-columns:1fr 60px;gap:8px}
+  .srow .bar{display:none} .wrap{padding:0 18px 64px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">Research Audit · Paper + Repository · Adversarial Review</div>
+  <h1>CivicDividendOS Audit Register</h1>
+  <p class="standfirst">A claim-by-claim audit of the CivicDividendOS manuscript and its
+  simulation testbed. Every quantitative statement below was checked by re-running the
+  authors' own code; verdicts are marked with the command that produced them.</p>
+  <div class="mast-meta">
+    <span><b>Subject</b> CivicDividendOS_v2.tex · 15 pp · 8 props · 42 refs</span>
+    <span><b>Code</b> simulation/ · 570 LOC · 400 runs</span>
+    <span><b>Audited</b> 2026-09-06</span>
+  </div>
+</header>
+
+<section id="s1">
+<div class="shead"><span class="snum">01</span><h2>Executive Summary</h2></div>
+<div class="col">
+<p>This is a <strong>genuinely reproducible piece of work built on a partly unsound
+evaluation</strong>. Those two facts are separable, and both matter.</p>
+
+<p>The reproducibility is real and better than most submissions I have audited. The shipped
+<code>results.json</code> regenerates <strong>bit-exactly</strong> from source — zero deviation
+across all 416 stored statistics over a fresh 400-run campaign. Every number in the paper's
+results table, CI table, and results figure traces exactly to that file. The PDF rebuilds to
+the same page count and byte size. All 42 bibliography entries are cited, with no dangling
+cross-references. Every proposition I checked algebraically is correct, including the
+closed-form Shapley derivative, the fund half-lives, and the worked example down to the last
+decimal.</p>
+
+<p>The evaluation is where this breaks. Three defects are severe enough that the paper's
+central empirical claims do not currently survive scrutiny:</p>
+
+<ul>
+<li><strong>The headline finding is a tautology of the chosen functional form, and it reverses
+inside the plausible parameter range.</strong> The paper presents "<em>&part;v({M})/&part;M &lt;
+p<sub>M</sub> holds for every firm in every quarter of every run</em>" as robustness evidence. It
+is instead an algebraic identity: the ratio equals <code>s_M^(&gamma;/&rho;&minus;1)</code>, which
+is below one whenever &gamma; &gt; 1&minus;1/&sigma;. At the paper's calibration it
+<em>cannot</em> fail. Worse, the arm the paper recommends (B6c) goes from <strong>+2.21% GDP at
+&sigma;=1.5 to &minus;4.30% at &sigma;=2.0 and &minus;23.6% at &sigma;=5.0</strong>. No sensitivity
+analysis over &sigma; is reported, though the paper's own Metrics section says one is required.</li>
+
+<li><strong>The fund stability condition fails in the paper's own testbed.</strong> Proposition 6
+requires (1&minus;&rho;)r<sup>f</sup> &lt; g. The testbed has 0.0200 &gt; 0.01655. The fund ratio
+is on a divergent path — still growing 21.6% per decade at year 50 — yet the terminal 17.0%
+of GDP is reported as consistent with an analytic steady state.</li>
+
+<li><strong>The government budget does not close in the two CivicDividendOS arms.</strong> The
+state collects r·ACB while the firm's cost line is debited only ~7% of that. Roughly 93% of the
+automation revenue funds the shield, fund, and dividend without reducing anyone's income. The
+baseline arms B1 and B4 have no such gap, so the error is asymmetric and favours the proposed
+instrument.</li>
+</ul>
+
+<p>Below these sit a false "revenue-matched by construction" claim (measured spending differs by
+up to 2 percentage points of GDP across arms), an analytic-versus-simulation consistency claim
+that compares the wrong two quantities, an employment metric that is not employment, and
+confidence intervals so narrow they are reporting Monte-Carlo seed noise rather than policy
+uncertainty.</p>
+
+<p>On the repository side: there is <strong>no git repository, README, LICENSE,
+<code>requirements.txt</code>, test suite, or <code>.gitignore</code></strong>. Nine generated
+artifacts referenced by the build scripts are absent from disk, and the manuscript's tables are
+hand-pasted with nothing enforcing agreement. It is not currently releasable.</p>
+
+<div class="note crit">
+<span class="kicker">Bottom line</span>
+<p>The framework is a genuine contribution and the marginal-incidence result (Proposition 2) is
+a real, correct, non-obvious insight worth publishing. But it is currently supported by an
+evaluation whose headline number inverts at a parameter value well inside the mainstream range,
+and by a model whose budget constraint leaks in favour of the proposal. <strong>Fix the three P0
+defects and this is a strong paper. Submit as-is and a competent referee will find at least two
+of them.</strong></p>
+</div>
+</div>
+</section>
+
+<section id="s2">
+<div class="shead"><span class="snum">02</span><h2>Complete Project Understanding</h2></div>
+<div class="col">
+<h3>What exists on disk</h3>
+<p>Thirteen files, no version control. Two manuscript generations: an untouched v1
+(8 pp, conference format, 16 sections, <strong>0 tables, 0 figures, 27 references</strong>) and
+v2 (15 pp, IEEEtran journal, 14 sections, <strong>8 tables, 5 figures, 1 algorithm, 8
+propositions, 42 references</strong>). A four-file <code>simulation/</code> directory holds the
+testbed, a campaign driver, a LaTeX emitter, and one results file. <code>HANDOFF.md</code> is a
+prior agent's self-report; I treated it as a set of claims to verify, not as ground truth. Its
+factual claims about file inventory, build state, and simulation numbers all checked out; its
+claim of "0 LaTeX warnings" is true only after a fourth <code>pdflatex</code> pass, which its own
+documented three-pass command does not perform.</p>
+
+<h3>1 · Research problem</h3>
+<p>Tax systems assume human labour generates wages, employers remit payroll contributions, and
+owners receive taxable profit. When output is produced jointly by humans, AI agents, robots,
+data, and conventional capital, and the labour share falls, the revenue base and household
+purchasing power weaken together. The paper argues the prior obstacle is an
+<em>accounting</em> one: nobody can say which factor created the value.</p>
+
+<h3>2 · Main research question</h3>
+<p>Can a fiscal system identify the economic value created by each of five factors, assign legal
+liability to human or corporate beneficiaries, and distribute part of the automation surplus
+without suppressing innovation?</p>
+
+<h3>3 · Hypotheses</h3>
+<p>Stated as eight research questions (RQ1–RQ8) rather than formal hypotheses. <strong>Only RQ3
+and RQ5 are addressed by any experiment.</strong> RQ1 (attribution accuracy vs. robot counts),
+RQ2 (classifier), RQ6 (optimal channel allocation), RQ7 (cross-border nexus), and RQ8
+(avoidance) are never tested — the testbed has one composite machine factor, one jurisdiction,
+no classifier, and no avoidance behaviour. RQ4 is addressed only indirectly.</p>
+
+<h3>4 · Proposed methodology</h3>
+<p>Three layers. <em>Measurement</em>: every significant autonomous deployment gets an Autonomous
+Economic Activity Passport (owner, jurisdiction, task class, energy, metered output, risk class,
+model class) — a fiscal record, explicitly not legal personality. <em>Attribution</em>: a
+Shapley value over the five-factor coalition game allocates value added, with efficiency giving
+budget balance for free (31 coalition evaluations, so no sampling needed). <em>Fiscal</em>: a
+bounded adaptive Social Automation Contribution on the owner of record, recycled through an
+Earned-Income Shield and a Public Automation Wealth Fund into four distribution channels.</p>
+
+<h3>5–6 · Architecture and components</h3>
+<p>This is <strong>not a multi-agent AI system</strong>, despite the folder name
+<code>4-agents-robots-taxation-financial</code>. There are no LLM agents, no prompts, no tool
+use, and no inter-agent communication anywhere in the paper or code. "Agents" means AI agents as
+an <em>economic factor of production</em>, and "heterogeneous-agent" is the macroeconomics term
+for households and firms with distributions over types. Section 07 below reconstructs the actual
+architecture; the components are AEAP registry, Factor-Origin Ledger, substitution–augmentation
+classifier, rate function, contribution base, shield, fund, nexus rule, waterfall, and a fiscal
+digital twin used for policy screening under governance constraints.</p>
+
+<h3>7 · Datasets</h3>
+<p><strong>None. No dataset exists or is used anywhere.</strong> All numbers are simulation
+output from synthetic distributions seeded by <code>numpy.random.default_rng</code>. The paper is
+explicit that calibration against national accounts and robot-stock series "remains to be done",
+and deliberately names no series. This is honest but it means the work has zero empirical
+content.</p>
+
+<h3>8 · Experimental setup</h3>
+<p>A quarterly heterogeneous-agent model: 500 firms with lognormal productivity and beta labour
+weights, 10,000 households with lognormal skill and wealth and exposure negatively correlated
+with skill. CES production in labour and a composite machine factor, &sigma;=1.5, span of
+control &gamma;=0.85. The single exogenous driver is a machine price falling 0.6% per quarter.
+240 quarters (40 burn-in + 200 reported), 8 arms &times; 50 seeds under common random numbers,
+paired bootstrap CIs with 2,000 resamples.</p>
+
+<h3>9 · Evaluation methodology</h3>
+<p>Eight arms: B0 status quo, B1 fixed robot tax, B2 capital-tax increase, B3 UBI, B4 automation
+tax plus retraining, B5 wealth fund only, B6 CivicDividendOS as specified, B6c with the
+corrected base. Two design choices are genuinely good: the model computes the <em>actual</em>
+Shapley attribution rather than a proxy, so &psi;<sub>L</sub>+&psi;<sub>M</sub>=Y identically;
+and the labour tax rate is an <em>outcome</em> that clears the government budget, so the
+Earned-Income Shield appears directly as the tax cut automation revenue buys.</p>
+
+<h3>10 · Reported results</h3>
+<div class="tw"><table>
+<caption>Paper Table VII, reproduced bit-exactly from source by this audit.</caption>
+<thead><tr><th>Arm</th><th>Regime</th><th class="n">&Delta;GDP%</th><th class="n">Hours%</th>
+<th class="n">Wage sh.</th><th class="n">Gini</th><th class="n">Pov.</th><th class="n">&tau;<sub>L</sub></th>
+<th class="n">Fund %Y</th><th class="n">Div %Y</th></tr></thead>
+<tbody>
+<tr><td class="m">B0</td><td>Baseline</td><td class="n">+0.00</td><td class="n">+0.00</td><td class="n">0.298</td><td class="n">0.3296</td><td class="n">0.120</td><td class="n">0.381</td><td class="n">0.0</td><td class="n">0.00</td></tr>
+<tr><td class="m">B1</td><td>Fixed robot tax</td><td class="n neg">&minus;6.12</td><td class="n">+3.34</td><td class="n">0.341</td><td class="n">0.3245</td><td class="n">0.117</td><td class="n">0.325</td><td class="n">0.0</td><td class="n">0.00</td></tr>
+<tr><td class="m">B2</td><td>Capital-income tax &uarr;</td><td class="n">+0.84</td><td class="n">+1.20</td><td class="n">0.298</td><td class="n">0.3255</td><td class="n">0.118</td><td class="n">0.356</td><td class="n">0.0</td><td class="n">0.00</td></tr>
+<tr><td class="m">B3</td><td>UBI via general tax</td><td class="n">&minus;1.05</td><td class="n">&minus;1.55</td><td class="n">0.297</td><td class="n pos">0.3147</td><td class="n pos">0.099</td><td class="n">0.413</td><td class="n">0.0</td><td class="n">0.00</td></tr>
+<tr><td class="m">B4</td><td>Auto tax + retraining</td><td class="n">&minus;0.72</td><td class="n pos">+8.52</td><td class="n">0.338</td><td class="n">0.3247</td><td class="n">0.117</td><td class="n">0.352</td><td class="n">0.0</td><td class="n">0.00</td></tr>
+<tr><td class="m">B5</td><td>Wealth fund only</td><td class="n">&minus;0.10</td><td class="n">&minus;0.14</td><td class="n">0.298</td><td class="n">0.3283</td><td class="n">0.118</td><td class="n">0.384</td><td class="n">7.4</td><td class="n">0.17</td></tr>
+<tr><td class="m">B6</td><td>CDOS, as specified</td><td class="n">+2.66</td><td class="n">+1.77</td><td class="n">0.298</td><td class="n">0.3283</td><td class="n">0.118</td><td class="n">0.383</td><td class="n">4.5</td><td class="n">0.09</td></tr>
+<tr><td class="m">B6c</td><td><strong>CDOS, corrected base</strong></td><td class="n">+3.30</td><td class="n">+7.24</td><td class="n">0.317</td><td class="n">0.3229</td><td class="n">0.114</td><td class="n">0.371</td><td class="n">17.0</td><td class="n">0.29</td></tr>
+</tbody></table></div>
+
+<h3>11 · What is novel</h3>
+<p>Three things are genuinely new. <strong>(a)</strong> Using Shapley attribution over a
+five-factor production game as a <em>tax base</em>, with efficiency doing the work of a
+no-double-counting guarantee. <strong>(b)</strong> Proposition 2, the marginal-incidence result:
+because &psi;<sub>M</sub> is inframarginal while the cost deduction is marginal, deducting
+machine costs in full makes the levy a marginal <em>subsidy</em>. This is correct, non-obvious,
+and was found by building the simulation. <strong>(c)</strong> Proposition 7, that the
+steady-state dividend falls in the payout ratio exactly when r<sup>f</sup> &gt; g — a clean
+political-economy result. The separation of measurement from liability via the AEAP is
+well-framed but closer to careful synthesis than novelty.</p>
+
+<h3>12 · Assumptions</h3>
+<p>Six numbered: registrability with a de minimis threshold; observable episode-level value added
+with an estimable coalition function; monotone production; a unique owner of record; bounded
+classifier error &epsilon;; and constant r<sup>f</sup>, g over the policy horizon. Assumption 2 is
+by far the strongest — coalition values are counterfactuals that are never observed. The paper
+concedes this is "the single largest empirical obstacle."</p>
+
+<h3>13–14 · Claims, and which are actually supported</h3>
+<p>Section 06 gives the full claim-by-claim matrix. In summary: <strong>all eight propositions
+are mathematically supported</strong> and I verified each. <strong>The empirical claims are
+where the trouble is</strong> — the "not a knife-edge case" robustness claim is circular, the
+"revenue-matched" claim is false, the analytic/simulation consistency claim compares the wrong
+quantities, and the B6c dominance claim holds only in a narrow &sigma; band that is never
+explored.</p>
+
+<h3>15 · What is missing, unclear, or weak</h3>
+<p>No dataset, no calibration, no classifier, no multi-jurisdiction test, no avoidance
+behaviour, no firm entry/exit, no endogenous innovation, one composite machine factor instead of
+five, and a &sigma; sensitivity analysis the paper itself says is needed but does not run. The
+placeholder author block and the missing repository scaffolding are separate, easily fixed
+problems.</p>
+</div>
+</section>
+<section id="s3">
+<div class="shead"><span class="snum">03</span><h2>Paper Rating</h2></div>
+<div class="scores">
+  <div class="srow"><span class="lab">Novelty</span><span class="val">7.5 / 10</span><span class="bar hi"><i style="width:75%"></i></span>
+    <span class="why">Shapley-as-tax-base and Proposition 2 are real contributions. The surrounding apparatus (passports, funds, shields, nexus) is competent synthesis of known instruments.</span></div>
+  <div class="srow"><span class="lab">Research question</span><span class="val">8.0 / 10</span><span class="bar hi"><i style="width:80%"></i></span>
+    <span class="why">Sharply posed and correctly identifies attribution as logically prior to rate-setting. Penalised only because eight RQs are declared and six are never tested.</span></div>
+  <div class="srow"><span class="lab">Technical methodology</span><span class="val">7.0 / 10</span><span class="bar"><i style="width:70%"></i></span>
+    <span class="why">All eight propositions verified correct, several genuinely elegant. Loses points because the simulation implements a reduced rate function, not the one the paper specifies.</span></div>
+  <div class="srow"><span class="lab">Experimental design</span><span class="val">3.5 / 10</span><span class="bar lo"><i style="width:35%"></i></span>
+    <span class="why">Single point in parameter space; no sensitivity on the parameter that determines the sign of the headline result; arms not actually revenue-matched; budget leaks in the proposal's favour.</span></div>
+  <div class="srow"><span class="lab">Dataset quality</span><span class="val">1.0 / 10</span><span class="bar lo"><i style="width:10%"></i></span>
+    <span class="why">No dataset. Fully synthetic, uncalibrated. Honestly disclosed, which earns the one point, but there is no empirical content whatsoever.</span></div>
+  <div class="srow"><span class="lab">Evaluation methodology</span><span class="val">4.5 / 10</span><span class="bar lo"><i style="width:45%"></i></span>
+    <span class="why">Good instincts — CRN, paired contrasts, endogenous &tau;<sub>L</sub>, real Shapley. Undone by a mislabelled employment metric, CIs that measure seed noise, and no robustness dimension.</span></div>
+  <div class="srow"><span class="lab">Statistical / reproducibility</span><span class="val">6.5 / 10</span><span class="bar"><i style="width:65%"></i></span>
+    <span class="why">Bit-exact reproduction and full paper-to-results traceability are excellent. But CIs are presented as if they carry policy uncertainty, and the repo has no environment pinning at all.</span></div>
+  <div class="srow"><span class="lab">Writing / organization</span><span class="val">8.5 / 10</span><span class="bar hi"><i style="width:85%"></i></span>
+    <span class="why">Genuinely good. Clean structure, disciplined prose, results reported against the authors' own interest. The best-executed dimension of the work.</span></div>
+  <div class="srow"><span class="lab">Practical significance</span><span class="val">5.0 / 10</span><span class="bar"><i style="width:50%"></i></span>
+    <span class="why">Proposition 2 is directly actionable for anyone designing such a base. The full framework's measurement requirements are near-prohibitive, which the paper concedes.</span></div>
+  <div class="srow"><span class="lab">Publication potential</span><span class="val">6.0 / 10</span><span class="bar"><i style="width:60%"></i></span>
+    <span class="why">Publishable at a good policy or TFSC-tier venue <em>after</em> the P0 fixes. Not currently at IEEE-journal standard because the central empirical claim is not robust.</span></div>
+  <div class="srow total"><span class="lab">Overall</span><span class="val">5.8 / 10</span><span class="bar"><i style="width:58%"></i></span>
+    <span class="why">A well-written paper with two real theoretical contributions, resting on an evaluation that does not currently support its headline conclusion.</span></div>
+</div>
+</section>
+
+<section id="s4">
+<div class="shead"><span class="snum">04</span><h2>Detailed Paper Review</h2></div>
+<div class="col">
+<h3>Major strengths</h3>
+<ul>
+<li><strong>Proposition 2 is a real result.</strong> The observation that a Shapley-attributed
+base combined with full cost deduction inverts the sign of the marginal incentive is correct,
+non-obvious, and would not be visible from the algebra alone. I re-derived it independently and
+it holds: &part;ACB/&part;M = ½&part;v({M})/&part;M + (½&minus;&phi;)p<sub>M</sub>.</li>
+<li><strong>The evaluation is honest against its own interest.</strong> B6-as-specified is
+reported as near-inert; B3 is reported as beating B6c on poverty; B4 as beating it on
+employment. The paper writes "no arm dominates" into the text rather than around it. This is
+rarer than it should be.</li>
+<li><strong>Endogenous &tau;<sub>L</sub> is the right design.</strong> Making the labour tax clear
+the budget turns the Earned-Income Shield from an assertion into a measured outcome.</li>
+<li><strong>Exact Shapley, not a proxy.</strong> &psi;<sub>L</sub>+&psi;<sub>M</sub>=Y holds
+identically in the code. I verified the closed forms for both &psi;<sub>M</sub> and
+&part;&psi;<sub>M</sub>/&part;M.</li>
+<li><strong>Traceability and reproduction.</strong> Bit-exact regeneration; every table and figure
+number matches source.</li>
+<li><strong>Governance framing.</strong> Insisting the digital twin screens but does not set
+rates, with published weights and an appeal route, is a serious treatment of a question most
+"adaptive policy" papers wave at.</li>
+</ul>
+
+<h3>Major weaknesses</h3>
+<ul>
+<li>The headline empirical claim is <strong>not robust to the single most important free
+parameter</strong>, and the paper runs no sensitivity analysis despite saying one is required.</li>
+<li>The model's <strong>budget constraint does not close</strong> in exactly the two arms the
+paper advocates.</li>
+<li>Six of eight declared research questions are <strong>never tested by any experiment</strong>.</li>
+<li><strong>Zero empirical calibration.</strong> Magnitudes are uninterpretable; even the sign
+ordering depends on untested parameters.</li>
+<li>The <strong>simulation implements a different rate function</strong> than the paper
+specifies, so Propositions 3 and 4 are never exercised numerically.</li>
+</ul>
+
+<h3>Critical problems</h3>
+
+<div class="find"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F1 · P0</span>
+<span class="find-t">The "not a knife-edge case" robustness claim is circular, and the result reverses at &sigma;=2</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>The paper states &part;v({M})/&part;M &lt; p<sub>M</sub> "holds for every firm in every quarter
+of every run" as evidence of robustness. Under the model's own CES-with-span-of-control form the
+ratio is exactly <code>s_M^(&gamma;/&rho;&minus;1)</code> with s<sub>M</sub>&in;(0,1), so it is
+below one <em>identically</em> whenever &gamma; &gt; &rho; = 1&minus;1/&sigma;. At &gamma;=0.85,
+&sigma;=1.5 we have &gamma;/&rho;=2.55 — the condition cannot fail, so 100% incidence is not
+evidence.</p>
+<p>The consequence is worse than a rhetorical slip. Re-running the campaign across &sigma;:</p>
+<div class="tw"><table><caption>B6 and B6c versus B0, &gamma;=0.85, 5 seeds per cell. Paper's calibration is &sigma;=1.5.</caption>
+<thead><tr><th class="n">&sigma;</th><th class="n">&rho;</th><th class="n">&gamma;/&rho;</th><th class="n">&Delta;GDP% B6</th><th class="n">&Delta;GDP% B6c</th><th class="n">SAC %Y B6c</th><th>Prop. 2 diagnosis</th></tr></thead>
+<tbody>
+<tr><td class="n">1.2</td><td class="n">0.167</td><td class="n">5.100</td><td class="n">+3.81</td><td class="n pos">+4.56</td><td class="n">0.621</td><td>holds</td></tr>
+<tr><td class="n">1.5</td><td class="n">0.333</td><td class="n">2.550</td><td class="n">+2.63</td><td class="n pos">+2.21</td><td class="n">1.048</td><td>holds &larr; <em>paper</em></td></tr>
+<tr><td class="n">2.0</td><td class="n">0.500</td><td class="n">1.700</td><td class="n">+2.23</td><td class="n neg">&minus;4.30</td><td class="n">1.819</td><td>holds</td></tr>
+<tr><td class="n">3.0</td><td class="n">0.667</td><td class="n">1.275</td><td class="n">+1.69</td><td class="n neg">&minus;14.82</td><td class="n">2.880</td><td>holds</td></tr>
+<tr><td class="n">5.0</td><td class="n">0.800</td><td class="n">1.062</td><td class="n">+1.15</td><td class="n neg">&minus;23.62</td><td class="n">3.808</td><td>holds</td></tr>
+<tr><td class="n">8.0</td><td class="n">0.875</td><td class="n">0.971</td><td class="n">+0.90</td><td class="n neg">&minus;27.91</td><td class="n">4.310</td><td><strong>sign flips</strong></td></tr>
+</tbody></table></div>
+<p>The paper's central empirical claim — that B6c improves on baseline in output, hours, labour
+share, inequality and &tau;<sub>L</sub> simultaneously — holds only for &sigma; &lesssim; 1.7.
+This is not a confound from moving the baseline: mean baseline labour share is 0.612 at
+&sigma;=1.5 and 0.615 at &sigma;=2.0.</p>
+<div class="evi"><b>Verified</b> — closed form checked against the model's own
+<code>firm_block</code> at rtol 1e&minus;9 over 4,000 draws &times; 8 values of &sigma;;
+campaign re-run at 6 &sigma; values &times; 3 arms &times; 5 seeds.</div>
+</div></div>
+
+<div class="find"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F2 · P0</span>
+<span class="find-t">Proposition 6's stability condition fails in the paper's own testbed</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>Proposition 6 requires (1&minus;&rho;)r<sup>f</sup> &lt; g for a finite steady state. The
+testbed sets &rho;=0.60 and r<sup>f</sup>=0.05, giving 0.0200, while its realised output growth
+is <strong>0.01655</strong>. The condition is violated, so the fund-to-output ratio is on a
+divergent path — and it visibly is:</p>
+<pre><code>year   fund/GDP        (arm B6c, seed 0)
+   0     0.0181
+  10     0.0421
+  20     0.0735
+  30     0.1125
+  40     0.1544
+  50     0.1865   <- growth over final decade: +21.6%</code></pre>
+<p>The paper reports the terminal 17.0% of GDP as consistent with the analytic steady state and
+quotes a 71-year half-life. Neither is meaningful when the recursion does not converge at the
+testbed's own growth rate. The analytic table assumes g=0.03; the model delivers g=0.0166.</p>
+<div class="evi"><b>Verified</b> — growth rate computed from arm-B0 output path over 200
+reported quarters; fund trajectory extracted from <code>collect_path=True</code>.</div>
+</div></div>
+
+<div class="find"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F3 · P0</span>
+<span class="find-t">The budget constraint does not close in B6 / B6c, and the error favours the proposal</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>In arms B6 and B6c, government revenue is <code>rev_auto = &Sigma; wedge·ACB</code>, but the
+firm's profit line is computed with <code>pm_eff</code>, which encodes only the <em>marginal</em>
+wedge r·&part;ACB/&part;M. The inframarginal bulk of the liability is therefore collected and
+spent without ever being subtracted from firm profit — hence not from capital income, and not
+from the &tau;<sub>K</sub> base.</p>
+<div class="tw"><table><caption>Arm B6c: revenue booked versus amount actually debited to firms, as shares of output.</caption>
+<thead><tr><th class="n">Quarter</th><th class="n">Collected / Y</th><th class="n">Charged to firms / Y</th><th class="n">Ratio</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td class="n">0.00371</td><td class="n">0.00017</td><td class="n">0.046</td></tr>
+<tr><td class="n">25</td><td class="n">0.00420</td><td class="n">0.00025</td><td class="n">0.060</td></tr>
+<tr><td class="n">49</td><td class="n">0.00477</td><td class="n">0.00037</td><td class="n">0.078</td></tr>
+<tr><td class="n">73</td><td class="n">0.00548</td><td class="n">0.00055</td><td class="n">0.101</td></tr>
+</tbody></table></div>
+<p>Mean ratio 0.073 — about <strong>93% of the automation revenue is created from nothing</strong>.
+Arms B1 and B4 use <code>pm_eff = pm(1+wedge)</code> with matching revenue and are exactly
+consistent, so the defect is asymmetric and inflates precisely the arms the paper recommends.
+Patching profit to debit the true liability (leaving the marginal decision price untouched)
+moves B6c from +2.782% to +2.689% GDP on 8 seeds — modest for output, but the distributional
+and capital-income channels are simply wrong as they stand.</p>
+<div class="evi"><b>Verified</b> — model instrumented over 80 quarters; patched variant
+re-run for B1/B4/B6/B6c &times; 8 seeds, with B1 and B4 unchanged to 3 d.p. as predicted.</div>
+</div></div>
+
+<div class="find p1"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F4 · P1</span>
+<span class="find-t">"Arms are revenue-matched by construction" is false</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>The claim appears twice. The model description contradicts it directly ("baseline public
+spending <em>plus its own programme spending</em>"). Measured:</p>
+<div class="tw"><table><thead><tr><th>Arm</th><th class="n">B0</th><th class="n">B1</th><th class="n">B2</th><th class="n">B3</th><th class="n">B4</th><th class="n">B5</th><th class="n">B6</th><th class="n">B6c</th></tr></thead>
+<tbody><tr><td>Total spend / Y</td><td class="n">.35000</td><td class="n">.35000</td><td class="n">.35000</td><td class="n neg">.37000</td><td class="n">.35741</td><td class="n">.35181</td><td class="n">.35226</td><td class="n">.35776</td></tr></tbody></table></div>
+<p>B3 runs a public sector 2.0 percentage points of GDP larger than B0. Its "highest labour tax
+of any arm" therefore partly reflects fiscal stance, not instrument design — which is exactly
+the confound the sentence claims to have excluded.</p>
+<div class="evi"><b>Verified</b> — spending path accumulated over the 200 reported quarters.</div>
+</div></div>
+
+<div class="find p1"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F5 · P1</span>
+<span class="find-t">The analytic/simulation "mutual consistency" claim compares the wrong quantities</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>The paper says B6c's yield "brackets the 0.65% of output that the inverse design identified".
+But 0.65% is the required <em>fund inflow</em> s, whereas 0.98% is <em>total SAC revenue</em>.
+Only &omega;=0.40 of SAC reaches the fund:</p>
+<pre><code>required inflow s          = 0.647% of output
+B6c total SAC revenue      = 0.983% of output
+B6c actual fund inflow     = 0.40 x 0.983%  =  0.393% of output
+                             -> 61% of what its own design rule requires</code></pre>
+<p>Corrected, the finding reverses: B6c <em>undershoots</em> the inflow needed to sustain a
+2%-of-output dividend by roughly 40%. This should be reported, not repaired — it strengthens the
+paper's own "fund is an intergenerational instrument" conclusion.</p>
+<div class="evi"><b>Verified</b> — s recomputed from the paper's inverse rule; &omega; read
+from <code>P["OMEGA"]</code> and from the fund update line in <code>cdos_sim.py</code>.</div>
+</div></div>
+
+<div class="find p1"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F6 · P1</span>
+<span class="find-t">The "Hours" column is not hours</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p><code>H["hours"] = L_f.sum()</code> is labour demand in <em>efficiency units</em>. Retraining
+spending multiplies <code>eff</code> upward directly. B4's "+8.52%, the largest employment gain
+of any arm" therefore mixes hours worked with restored human capital, and the fifth reported
+finding — that a simpler instrument beats the framework on employment — rests on a quantity that
+is not employment.</p>
+<div class="evi"><b>Confirmed by inspection</b> — <code>cdos_sim.py</code> retraining
+block and the <code>sup_scale = (skill*eff).sum()</code> supply term.</div>
+</div></div>
+
+<div class="find p1"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F7 · P1</span>
+<span class="find-t">The simulation implements a reduced rate function, not the paper's</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>Equation (12) has ten terms. The code drops &delta;X<sup>ext</sup> and &mu;B<sup>broad</sup>
+entirely, reuses S<sub>i</sub> as the base-erosion index R<sup>rev</sup>, hardcodes
+T<sup>train</sup>=0.55 and N<sup>new</sup>=0.30, and computes A<sup>aug</sup> as an
+<strong>economy-wide scalar</strong> from w/w<sub>0</sub> rather than the entity-level index the
+framework requires. Consequences: there is no classifier anywhere, so RQ2 is untested and
+Proposition 4's Lipschitz bound is never exercised numerically; and Proposition 3's monotone
+comparative statics are never demonstrated in simulation.</p>
+<div class="evi"><b>Confirmed by inspection</b> — wedge block of <code>cdos_sim.py</code>
+against Eq. (12) of the manuscript.</div>
+</div></div>
+
+<div class="find p1"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F8 · P1</span>
+<span class="find-t">Confidence intervals report seed noise, not policy uncertainty</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>Common random numbers make paired differences nearly identical across seeds. The reported
+&Delta;Gini CI for B5 and B6 is <code>[&minus;0.0013, &minus;0.0013]</code> — zero width to four
+decimals. These intervals are correct as computed but measure only Monte-Carlo replication
+error; they carry no information about parameter or structural uncertainty. Presented beside
+policy conclusions, they read as far stronger evidence than they are.</p>
+<div class="evi"><b>Verified</b> — regenerated <code>ci_table.tex</code> matches the
+manuscript exactly; interval widths inspected across all seven contrasts.</div>
+</div></div>
+
+<div class="find p2"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">F9 · P2</span>
+<span class="find-t">Unit error in the worked example</span>
+<span class="stamp s-conf">Confirmed</span></div>
+<p>"a levy of 4,000 MU on each of 60 robots yields 0.240 MU" — but 4,000 &times; 60 = 240,000,
+a factor of 10<sup>6</sup> off. Annual value added is defined as V = 40.0 MU, so MU is never
+declared as millions. Everything else in the example is exact: Shapley shares
+(0.30, 0.25, 0.30, 0.05, 0.10), r&#771; = 0.1160 and 0.0095, SAC = 1.578 and 0.129 MU, ratio 12.2.</p>
+<div class="evi"><b>Verified</b> — all worked-example arithmetic recomputed independently.</div>
+</div></div>
+
+<div class="find good"><div class="find-bar"></div><div class="find-in">
+<div class="find-hd"><span class="find-id">V1–V8</span>
+<span class="find-t">What survived the audit intact</span>
+<span class="stamp s-ok">Verified correct</span></div>
+<p>Proposition 2 algebra (Eq. 10) &middot; Proposition 4 bounds (0.95 / 1.90 / 3.80 pp at
+&epsilon; = 5/10/20%) &middot; Proposition 6 steady states and all nine half-lives in Table VI,
+including the 71-year figure &middot; Proposition 7 sign result &middot; worked-example Shapley
+closed form and every derived figure &middot; Figure 3 rate curves at both endpoints &middot;
+the <code>shapley_machine</code> and <code>dpsi_dM</code> closed forms &middot; citation hygiene
+(42/42 cited, 0 dangling refs, 0 unreferenced labels).</p>
+</div></div>
+
+<h3>Missing experiments</h3>
+<ol>
+<li><strong>&sigma; sensitivity</strong> — the parameter that determines the sign of the headline result.</li>
+<li><strong>&gamma; sensitivity</strong> — jointly with &sigma;, since the diagnosis depends on &gamma; vs 1&minus;1/&sigma;.</li>
+<li><strong>&phi; sweep</strong> over [0,1] rather than only {0.5, 1.0} — locate the actual optimum.</li>
+<li><strong>Classifier-error injection</strong> at &epsilon; &in; {0, 5, 10, 20}% to test Proposition 4 numerically.</li>
+<li><strong>Rate-weight sensitivity</strong> across the full ten-term vector.</li>
+<li><strong>Machine-price decay</strong> sensitivity — the sole exogenous driver, never varied.</li>
+<li><strong>Fund parameter sweep</strong> over &rho; and r<sup>f</sup>, with the stability condition checked at the model's realised g.</li>
+<li><strong>Multi-jurisdiction run</strong> to exercise the nexus rule and measure leakage.</li>
+<li><strong>Five-factor attribution</strong> instead of one composite machine factor.</li>
+<li><strong>Avoidance behaviour</strong> — cost inflation and strategic reclassification.</li>
+<li><strong>Horizon sensitivity</strong> — results are reported at 50 years on a divergent fund path.</li>
+<li><strong>Seed-count adequacy</strong> — 6-seed and 50-seed means differ by 0.8 pp on B6c GDP.</li>
+</ol>
+
+<h3>Missing baselines</h3>
+<p>The six existing arms are reasonable but incomplete. Add: <strong>(i)</strong> a
+Diamond–Mirrlees-consistent optimal linear capital tax, since the paper invokes production
+efficiency in its Discussion but never compares against it; <strong>(ii)</strong> a pure
+consumption-tax shift, the standard alternative when the payroll base erodes; <strong>(iii)</strong>
+a lump-sum-financed variant of B6c isolating instrument from financing; <strong>(iv)</strong> an
+EITC-style wage subsidy, the closest real-world analogue of the Earned-Income Shield;
+<strong>(v)</strong> a &phi;=0 arm (no cost deduction) as the natural upper bound on the
+correction; and <strong>(vi)</strong> Thuemmel-style optimal robot taxation, cited but never
+compared against.</p>
+
+<h3>Missing ablations</h3>
+<p>The framework has five separable mechanisms — adaptive rate, shield, fund, transition
+transfers, and equity contributions — and <strong>none is ablated</strong>. B6c bundles all of
+them, so the paper cannot attribute its result to any component. See section 12.</p>
+
+<h3>Threats to validity</h3>
+<p><strong>Internal.</strong> The budget leak (F3) is a direct internal-validity failure: the
+treatment arm receives resources the control does not. The spending mismatch (F4) confounds
+instrument with stance. The efficiency-unit metric (F6) misattributes human-capital effects to
+employment.</p>
+<p><strong>External.</strong> Near-zero. No calibration, one composite factor, one good, one
+jurisdiction, no entry/exit, exogenous machine price. The paper says magnitudes should not be
+read literally — but F1 shows even the <em>sign</em> is not safe.</p>
+<p><strong>Construct.</strong> "Hours" measures efficiency units; "revenue-matched" does not mean
+revenue-matched; the CIs do not measure what a reader will assume they measure.</p>
+<p><strong>Dataset bias / leakage.</strong> Not applicable in the usual sense — there is no data.
+The analogue is <em>specification leakage</em>: the functional form guarantees the result the
+simulation is presented as discovering (F1).</p>
+<p><strong>Evaluation bias.</strong> The proposed arm is the only one whose accounting error adds
+resources, and the only one evaluated at two parameter settings while the baselines get one each.</p>
+</div>
+</section>
+
+<section id="s5">
+<div class="shead"><span class="snum">05</span><h2>Repository Audit</h2></div>
+<div class="col">
+<p>Answering the seventeen audit questions directly.</p>
+<div class="tw"><table>
+<thead><tr><th style="width:32px">#</th><th>Question</th><th>Finding</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td>Does the code implement what the paper claims?</td><td><strong>Partially.</strong> The attribution layer and fiscal arithmetic are implemented faithfully. The rate function is reduced (F7); the classifier, five-factor ledger, AEAP registry, nexus rule, waterfall, and digital twin are absent.</td></tr>
+<tr><td class="n">2</td><td>Which components are implemented?</td><td>Shapley attribution over {L,M}; contribution base with &phi;; a 6-term rate function; SAC collection; fund accumulation and payout; transition transfers; shield via endogenous &tau;<sub>L</sub>; six baseline arms.</td></tr>
+<tr><td class="n">3</td><td>Which are missing?</td><td>AEAP registry; substitution–augmentation classifier; 5-factor ledger; nexus apportionment; 4-channel waterfall; digital-twin optimiser (Eq. 26); AOU equity in any arm but B5; four of ten rate terms.</td></tr>
+<tr><td class="n">4</td><td>Paper/code inconsistencies?</td><td>Six material ones — see section 06.</td></tr>
+<tr><td class="n">5</td><td>Can a new researcher reproduce the experiments?</td><td><strong>Yes, but only by luck.</strong> The campaign reproduces bit-exactly, but there is no README, no dependency file, and no stated Python/NumPy version. I had to discover the entry point by reading source.</td></tr>
+<tr><td class="n">6</td><td>Can it be installed from scratch?</td><td><strong>No.</strong> No packaging of any kind.</td></tr>
+<tr><td class="n">7</td><td>Are dependencies pinned?</td><td><strong>No.</strong> No <code>requirements.txt</code>, <code>environment.yml</code>, or <code>pyproject.toml</code>. Verified working under Python 3.11.9 / NumPy 1.26.4.</td></tr>
+<tr><td class="n">8</td><td>Are random seeds controlled?</td><td><strong>Yes — genuinely well.</strong> Per-run <code>default_rng(seed)</code>, CRN across arms, fixed bootstrap seed 12345. This is the repo's strongest feature.</td></tr>
+<tr><td class="n">9</td><td>Are datasets documented?</td><td><strong>N/A</strong> — no datasets. Not disclosed in the repo, only in the paper.</td></tr>
+<tr><td class="n">10</td><td>Are preprocessing steps reproducible?</td><td>N/A — synthetic generation is inline and seeded.</td></tr>
+<tr><td class="n">11</td><td>Training/evaluation scripts available?</td><td>Evaluation yes (<code>driver.py</code>). No training — there is no learned component.</td></tr>
+<tr><td class="n">12</td><td>Experiment configurations available?</td><td><strong>Partially.</strong> One hardcoded <code>P</code> dict in source. No config files, no per-experiment configs, no way to vary a parameter without editing code.</td></tr>
+<tr><td class="n">13</td><td>Are results automatically generated?</td><td><strong>Scripts exist but outputs are absent.</strong> Nine files the scripts write are missing from disk: <code>table_rows.tex</code>, <code>table_ci.tex</code>, <code>results_table.tex</code>, <code>ci_table.tex</code>, <code>results_fig.tex</code>, <code>fig_paths.json</code>, and the <code>fig_ws_*/fig_taul_*.dat</code> series.</td></tr>
+<tr><td class="n">14</td><td>Are figures/tables reproducible?</td><td><strong>Yes, but not enforced.</strong> Regenerated tables match the manuscript exactly (72 and 42 numbers, 80 figure points). But they are hand-pasted, with no <code>\input{}</code> and no CI check — silent drift is one careless edit away.</td></tr>
+<tr><td class="n">15</td><td>Sufficient documentation?</td><td><strong>No README, no LICENSE, no CITATION.cff.</strong> In-code docstrings are unusually good and honest. <code>HANDOFF.md</code> is a working note, not user documentation, and is largely accurate.</td></tr>
+<tr><td class="n">16</td><td>Clear project structure?</td><td><strong>No.</strong> Flat root mixing manuscripts, LaTeX build artifacts, and bibliography; a single undifferentiated <code>simulation/</code>.</td></tr>
+<tr><td class="n">17</td><td>Suitable for public release?</td><td><strong>No.</strong> No git history, no licence, placeholder author block, committed <code>.aux/.log/.synctex.gz</code>, no tests, hardcoded <code>Pool(processes=16)</code>.</td></tr>
+</tbody></table></div>
+
+<h4>Additional defects found</h4>
+<ul>
+<li><code>results.json</code> carries <strong>no provenance</strong> — no parameter dump, seed list, code version, or timestamp.</li>
+<li><code>driver.py</code>'s docstring says "7-arm" while it runs eight.</li>
+<li><code>Pool(processes=16)</code> is hardcoded and will thrash on smaller machines.</li>
+<li>The documented build command runs <code>pdflatex</code> three times; <strong>convergence needs four</strong>. Following HANDOFF §3 leaves one unresolved LaTeX warning.</li>
+<li>Two bib entries lack <code>year</code> (<code>DimitropoulouAIIncome</code>, <code>APF</code>); 32 of 42 lack a DOI. HANDOFF flags three entries as unverified, and correctly refuses to guess.</li>
+</ul>
+</div>
+</section>
+<section id="s6">
+<div class="shead"><span class="snum">06</span><h2>Paper-vs-Code Consistency Audit</h2></div>
+<div class="col">
+<p>Nothing is marked implemented without a located line of code. "Partial" means the mechanism
+exists but differs materially from the specification.</p>
+</div>
+<div class="tw"><table>
+<thead><tr><th>Paper claim</th><th>Repository evidence</th><th>Impl?</th><th>Problem</th><th>Required fix</th></tr></thead>
+<tbody>
+<tr><td>Shapley attribution, &Sigma;&psi;=V, no double counting (Prop. 1)</td><td class="m">cdos_sim.py :: shapley_machine()</td><td><span class="stamp s-ok">Yes</span></td><td>Two factors, not five. &psi;<sub>L</sub>+&psi;<sub>M</sub>=Y holds exactly.</td><td>Extend to 5-factor game (31 coalitions); assert efficiency in a test.</td></tr>
+<tr><td>Marginal incidence &part;ACB/&part;M (Prop. 2)</td><td class="m">cdos_sim.py :: dpsi_dM(), arms B6/B6c</td><td><span class="stamp s-ok">Yes</span></td><td>Algebra correct; "empirical" support is circular (F1).</td><td>Report as an analytic condition on &gamma; vs 1&minus;1/&sigma;; add &sigma;&times;&gamma; sweep.</td></tr>
+<tr><td>Ten-term bounded adaptive rate (Eq. 12)</td><td class="m">cdos_sim.py :: wedge_f block</td><td><span class="stamp s-warn">Partial</span></td><td>Four terms dropped; two hardcoded; A<sup>aug</sup> is a scalar, not entity-level (F7).</td><td>Implement all ten terms with per-entity indices.</td></tr>
+<tr><td>Rate boundedness + monotone comparative statics (Prop. 3)</td><td class="m">np.clip(..., RMIN, RMAX)</td><td><span class="stamp s-warn">Partial</span></td><td>Clip present; monotonicity never demonstrated numerically.</td><td>Add a monotonicity unit test over each index.</td></tr>
+<tr><td>Lipschitz bound on classifier error (Prop. 4)</td><td class="m">&mdash; none &mdash;</td><td><span class="stamp s-conf">No</span></td><td>No classifier exists anywhere in the code. RQ2 untested.</td><td>Add a classifier with injectable error &epsilon;; verify the bound empirically.</td></tr>
+<tr><td>Earned-Income Shield, feasibility &omega;+&kappa;&le;1 (Prop. 5)</td><td class="m">tau_L_next clears the budget</td><td><span class="stamp s-warn">Partial</span></td><td>Shield is implicit in endogenous &tau;<sub>L</sub>; &kappa; never appears in code; feasibility never asserted.</td><td>Make &kappa; explicit; assert &omega;+&kappa;+&sigma;<sub>T</sub>&le;1 at runtime.</td></tr>
+<tr><td>Fund stability, (1&minus;&rho;)r<sup>f</sup>&lt;g (Prop. 6)</td><td class="m">fund = fund*(1+R_FUND) + OMEGA*sac &minus; payout</td><td><span class="stamp s-conf">Violated</span></td><td>Condition fails at the testbed's realised g=0.0166 (F2). Fund diverges.</td><td>Assert the condition against measured g; re-tune &rho; or report divergence.</td></tr>
+<tr><td>Payout paradox &part;d*/&part;&rho; (Prop. 7)</td><td class="m">analytic only; Table VI</td><td><span class="stamp s-warn">Partial</span></td><td>Never simulated; &rho; is fixed at 0.60.</td><td>Sweep &rho; and confirm the sign in simulation.</td></tr>
+<tr><td>Exhaustive nexus apportionment (Prop. 8)</td><td class="m">&mdash; none &mdash;</td><td><span class="stamp s-conf">No</span></td><td>Single jurisdiction. Paper concedes this.</td><td>Multi-jurisdiction extension, or drop the claim to "proposed".</td></tr>
+<tr><td>AEAP measurement layer</td><td class="m">&mdash; none &mdash;</td><td><span class="stamp s-conf">No</span></td><td>No registry object exists.</td><td>Implement as a data schema even if only synthetic.</td></tr>
+<tr><td>Four-channel distribution waterfall</td><td class="m">div_i, trans_i only</td><td><span class="stamp s-warn">Partial</span></td><td>Two of four channels; no capability investment, no public services split.</td><td>Implement all four; make shares configurable.</td></tr>
+<tr><td>Fiscal digital twin optimiser (Eq. 26)</td><td class="m">&mdash; none &mdash;</td><td><span class="stamp s-conf">No</span></td><td>No search over &Theta; anywhere.</td><td>Implement constrained scalarisation, or reframe as future work.</td></tr>
+<tr><td>"Arms are revenue-matched by construction"</td><td class="m">needed = SPEND_RATIO*Y + prog_spend</td><td><span class="stamp s-conf">False</span></td><td>Spending differs by up to 2.0 pp of GDP (F4).</td><td>Delete the claim, or equalise total spending across arms.</td></tr>
+<tr><td>B6c yield "brackets" the required 0.65% inflow</td><td class="m">OMEGA = 0.40</td><td><span class="stamp s-conf">False</span></td><td>Compares total SAC to required fund inflow; actual inflow is 61% of requirement (F5).</td><td>Correct the comparison and report the shortfall.</td></tr>
+<tr><td>"Hours" / employment effects</td><td class="m">H["hours"] = L_f.sum()</td><td><span class="stamp s-conf">Mislabelled</span></td><td>Efficiency units, inflated directly by retraining (F6).</td><td>Report headcount and efficiency units separately.</td></tr>
+<tr><td>SAC levied on owner of record</td><td class="m">rev_auto vs profit_f</td><td><span class="stamp s-conf">Broken</span></td><td>~93% of revenue never debited to any agent (F3).</td><td>Debit the true liability as a lump sum; keep pm_eff as the marginal price.</td></tr>
+<tr><td>50 seeds, paired bootstrap CIs, CRN</td><td class="m">driver.py :: boot_ci(), Pool</td><td><span class="stamp s-ok">Yes</span></td><td>Correct as computed; over-interpreted (F8).</td><td>Relabel as Monte-Carlo replication error; add parametric uncertainty.</td></tr>
+<tr><td>Table VII / VIII / Fig. 5 values</td><td class="m">results.json &rarr; mklatex.py</td><td><span class="stamp s-ok">Yes</span></td><td>Exact match, but hand-pasted with no enforcement.</td><td>Switch to <code>\input{}</code> and add a CI drift check.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="s7">
+<div class="shead"><span class="snum">07</span><h2>Current System Architecture</h2></div>
+<div class="col">
+<div class="note">
+<span class="kicker">Scope correction</span>
+<p>This project contains <strong>no LLM agents, no prompts, no tool use, and no inter-agent
+communication</strong>. The directory name is misleading. "AI agents" are an economic factor of
+production; "heterogeneous-agent" is the macroeconomics term for a population of households and
+firms. The per-agent analysis requested for multi-agent systems does not apply, so I give the
+economic actors and the framework components in the same form instead.</p>
+</div>
+
+<h3>Specified architecture (paper) vs. built architecture (code)</h3>
+</div>
+<div class="ascii">  SPECIFIED IN THE PAPER                              BUILT IN simulation/
+  ======================                              ====================
+
+  [ Deployments j ]                                   [ 500 firms, 10k households ]
+        |                                                     |
+        v                                                     |  synthetic, seeded
+  +--------------------+                                      |  lognormal / beta
+  | MEASUREMENT        |  AEAP_j =                             v
+  | AEAP registry      |  {ID,Owner,Jurisd,Task,         +------------------------+
+  |                    |   Energy,Output,Risk,Model}     |  CES production        |
+  +--------------------+                                 |  Y = A X^gamma         |
+        |  NOT IMPLEMENTED                               |  X = [aL^r+(1-a)M^r]^..|
+        v                                                +------------------------+
+  +--------------------+                                          |
+  | ATTRIBUTION        |  Shapley over 5 factors                  v
+  | Factor-Origin      |  {H, A, R, D, K}                +------------------------+
+  | Ledger             |  31 coalitions/episode          | Shapley over {L,M}     |
+  +--------------------+                                 | psi_L + psi_M = Y      |  <-- exact
+        |  BUILT FOR 2 FACTORS ONLY                      +------------------------+
+        v                                                          |
+  +--------------------+                                           v
+  | CLASSIFIER         |  Z in {Substitution,           +------------------------+
+  | subst / augment /  |       Augmentation,            | ACB = max(psi_M         |
+  | new-task / safety  |       NewTask, Safety}         |         - phi*pm*M, 0)  |
+  +--------------------+                                 +------------------------+
+        |  NOT IMPLEMENTED                                         |
+        v                                                          v
+  +--------------------+                                 +------------------------+
+  | RATE  (10 terms)   |  r = clip(r0 + aS + bC + gE     | 6-term reduced rate    |
+  |                    |     + dX + eR - tA - lT         | X_ext, B_broad dropped |
+  |                    |     - mB - nN, rmin, rmax)      | T,N hardcoded          |
+  +--------------------+                                 | A_aug = scalar         |
+        |                                                +------------------------+
+        v                                                          |
+  +--------------------+                                           v
+  | NEXUS apportion    |  SAC_ij = Nexus_ij * SAC_i      +------------------------+
+  +--------------------+  NOT IMPLEMENTED (1 jurisd.)    | rev_auto = sum(r*ACB)  |
+        |                                                +------------------------+
+        v                                                     |            |
+  +--------------------+                                      |            +--> (never debited
+  | WATERFALL          |  omega -> Fund                       v                  to firms: F3)
+  | 4 channels         |  kappa -> Shield          +---------------------+
+  |                    |  sigma_T -> Transition    | tau_L clears budget |  <-- shield appears here
+  |                    |  residual -> General rev  +---------------------+
+  +--------------------+  2 of 4 BUILT                        |
+        |                                                     v
+        v                                          +---------------------+
+  +--------------------+                           | Fund: F(1+r) +      |
+  | DIGITAL TWIN       |  Theta* = argmax          |   omega*SAC - payout|  <-- DIVERGES (F2)
+  | policy screening   |  NOT IMPLEMENTED          +---------------------+
+  +--------------------+                                     |
+                                                             v
+                                              [ 50 seeds x 8 arms, CRN, bootstrap CIs ]</div>
+
+<div class="col">
+<h3>Economic actors as built</h3>
+<div class="tw"><table>
+<thead><tr><th>Actor</th><th>State</th><th>Decision</th><th>Inputs</th><th>Outputs</th><th>Failure mode observed</th></tr></thead>
+<tbody>
+<tr><td><strong>Firm</strong> (&times;500)</td><td class="m">A_f, alpha_f, markup</td><td>Cost-minimising L, M at given w, p<sub>M</sub></td><td>w, pm_eff, &sigma;, &gamma;</td><td>Y<sub>f</sub>, L<sub>f</sub>, M<sub>f</sub>, profit</td><td>Profit line omits ~93% of its own tax liability (F3)</td></tr>
+<tr><td><strong>Household</strong> (&times;10,000)</td><td class="m">skill, wealth, expo, eff</td><td>Labour supply at elasticity 0.30</td><td>w(1&minus;&tau;<sub>L</sub>), transfers</td><td>hours, income, savings</td><td><code>eff</code> conflates human capital with employment (F6)</td></tr>
+<tr><td><strong>Government</strong></td><td class="m">tau_L, tau_K, tau_C</td><td>Sets &tau;<sub>L</sub> to clear the budget</td><td>Spending need, all revenues</td><td>&tau;<sub>L</sub>, programme spending</td><td>Spending differs across arms despite "revenue-matched" (F4)</td></tr>
+<tr><td><strong>Fund</strong></td><td class="m">fund</td><td>Endowment payout &rho;r<sup>f</sup>F</td><td>&omega;·SAC, r<sup>f</sup></td><td>Dividend, fund/GDP</td><td>Stability condition violated; ratio diverges (F2)</td></tr>
+<tr><td><strong>Ledger</strong></td><td>stateless</td><td>Exact Shapley over {L,M}</td><td>&alpha;, A, L, M, &sigma;, &gamma;</td><td>&psi;<sub>M</sub>, ACB</td><td>Two factors, not the specified five</td></tr>
+</tbody></table></div>
+
+<h3>End-to-end pipeline as it actually runs</h3>
+<pre><code>for t in 0..239:
+  1  pm  <- PM0 * exp(-DECAY * t)                     # sole exogenous driver
+  2  wedge_f <- arm-specific rate (6-term for B6/B6c)
+  3  pm_eff  <- pm*(1+wedge)        [B1,B4]
+              | pm + wedge*(dpsi/dM - phi*pm)  [B6,B6c]   # lagged fixed point
+  4  w   <- bisection so labour demand = supply       # 28 iterations
+  5  L,M,Y <- firm_block(alpha, A, w, pm_eff)
+  6  psi_M <- exact Shapley;  ACB <- max(psi_M - phi*pm*M, 0)
+  7  rev_auto <- sum(wedge * ACB)                     # <-- not debited to firms
+  8  fund  <- fund*(1+r_f) + omega*rev_auto - payout
+  9  tau_L <- (SPEND_RATIO*Y + prog_spend - rev_K - rev_auto - rev_C) / wage_bill
+ 10  households: income, savings, displacement, retraining
+ 11  record 13 series; report mean over quarters 40..239</code></pre>
+<p>Steps 3 and 7 are where the two P0 defects live: step 3 uses last period's L, M to evaluate
+&part;ACB/&part;M (an undocumented explicit approximation to a fixed point), and step 7 books
+revenue that step 5's profit calculation never subtracts.</p>
+</div>
+</section>
+
+<section id="s8">
+<div class="shead"><span class="snum">08</span><h2>Problems and Risks</h2></div>
+<div class="col">
+<div class="tw"><table>
+<thead><tr><th>Risk</th><th>Severity</th><th>Likelihood a referee finds it</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td>Headline result reverses at &sigma;=2 (F1)</td><td><span class="stamp s-conf">Critical</span></td><td>High — &sigma; sensitivity is the first thing a macro referee asks for</td><td>Run the sweep; reframe Prop. 2 as conditional on &gamma; &gt; 1&minus;1/&sigma;</td></tr>
+<tr><td>Budget leak in B6/B6c (F3)</td><td><span class="stamp s-conf">Critical</span></td><td>Medium — needs code inspection, but reviewers of computational papers do this</td><td>Debit true liability; re-run the full campaign</td></tr>
+<tr><td>Fund divergence (F2)</td><td><span class="stamp s-conf">Critical</span></td><td>Medium–high — the arithmetic is one line</td><td>Assert stability at measured g; re-tune &rho; or report honestly</td></tr>
+<tr><td>Six of eight RQs untested</td><td><span class="stamp s-warn">High</span></td><td>High — trivially checkable</td><td>Cut to the RQs actually tested, or add the experiments</td></tr>
+<tr><td>No calibration to any real data</td><td><span class="stamp s-warn">High</span></td><td>Certain</td><td>Calibrate to IFR robot stock + national accounts, or reposition as a design paper</td></tr>
+<tr><td>False "revenue-matched" claim (F4)</td><td><span class="stamp s-warn">High</span></td><td>Medium</td><td>Delete or enforce</td></tr>
+<tr><td>Placeholder author block</td><td><span class="stamp s-warn">Blocking</span></td><td>Certain — desk reject</td><td>Author only</td></tr>
+<tr><td>No licence / no git history</td><td><span class="stamp s-warn">Blocking for release</span></td><td>Certain</td><td>Step 0 below</td></tr>
+<tr><td>Unverified references</td><td><span class="stamp s-info">Moderate</span></td><td>Medium</td><td>Verify the 3 flagged entries and the 2026-dated ones</td></tr>
+<tr><td>Explicit fixed-point approximation undocumented</td><td><span class="stamp s-info">Moderate</span></td><td>Low</td><td>Document; test convergence against an implicit solve</td></tr>
+</tbody></table></div>
+
+<h4>Domain-specific risk: financial, taxation, and legal content</h4>
+<p>The paper is careful in the places that matter most, and this deserves credit: it explicitly
+refuses machine legal personality, states that the nexus rule is "a research mechanism rather
+than a claim about current law", flags the need for OECD/G20 Pillar coordination, and labels its
+outputs "not empirical estimates". Three residual risks remain. <strong>Regulatory
+assumptions</strong> — Assumption 1 (universal registrability of autonomous deployments) has no
+precedent in any jurisdiction and is doing more work than its one-sentence treatment suggests.
+<strong>Jurisdictional limits</strong> — every number is jurisdiction-free, yet &tau;<sub>L</sub>,
+&tau;<sub>K</sub>, and &tau;<sub>C</sub> are set at plausible-for-somewhere values with no country
+named. <strong>Privacy</strong> — episode-level metering attributable to identifiable workers is
+raised in Limitations but no disclosure limits are specified; for a system with statutory force
+this needs more than one sentence.</p>
+<p>There is <strong>no factual-accuracy or data-freshness risk</strong> in the usual sense,
+because the system makes no factual claims about any real tax code and consumes no live data.</p>
+
+<h4>Domain-specific risk: robots and physical systems</h4>
+<p>Despite the folder name, <strong>no robot, simulator, controller, or sensor model appears
+anywhere</strong>. Robots enter only as an economic factor folded into the composite machine
+input M. Sim-to-real, latency, sensor uncertainty, and physical safety are all out of scope, and
+the paper does not claim otherwise. The one place this matters is that the framework
+distinguishes robotic from AI-agent services and taxes them via separate Shapley shares — a
+distinction the testbed collapses, so the framework's own five-way split is never exercised.</p>
+
+<h4>Cross-domain interaction — the part most easily missed</h4>
+<p>The genuinely interesting risk is not in taxation or automation separately but at their
+junction: <strong>the attribution mechanism and the fiscal instrument interact in a way that
+inverts the instrument's sign.</strong> That is exactly Proposition 2, and it is the paper's best
+idea. The audit's finding is that the same interaction is <em>parameter-dependent</em> in a way
+the paper does not acknowledge — whether the Shapley term is inframarginal enough to flip the
+incentive depends on &gamma; versus 1&minus;1/&sigma;, i.e. on the interaction between the
+production technology and the attribution rule. This should be the paper's central analytical
+contribution, stated as a condition rather than as a simulation observation.</p>
+</div>
+</section>
+
+<section id="s9">
+<div class="shead"><span class="snum">09</span><h2>Step-by-Step Implementation Plan</h2></div>
+<div class="col">
+<p>Dependency-ordered. Every step states objective, files, inputs, outputs, dependencies,
+validation, and completion criteria. Steps 0–4 are the critical path to a defensible paper;
+everything after 8 is polish.</p>
+
+<h3>Step 0 — Project cleanup</h3>
+<p><strong>Objective:</strong> make the work version-controlled and legally releasable before
+changing a line of science.<br>
+<strong>Files:</strong> <code>git init</code>; <code>.gitignore</code>; <code>LICENSE</code>
+(MIT for code, CC-BY-4.0 for the manuscript); <code>README.md</code> stub;
+<code>CITATION.cff</code>; delete <code>*.aux</code>, <code>*.log</code>,
+<code>*.synctex.gz</code> from tracking.<br>
+<strong>Implement:</strong> initial commit of the current state <em>before</em> any fix, so the
+audit's findings remain reproducible against a fixed baseline. Tag it <code>v0-audit</code>.<br>
+<strong>Inputs:</strong> current directory. <strong>Outputs:</strong> a clean repo with one
+tagged commit. <strong>Dependencies:</strong> none.<br>
+<strong>Validation:</strong> <code>git status</code> clean; <code>git ls-files</code> contains no
+build artifacts.<br>
+<strong>Completion:</strong> fresh clone into an empty directory contains exactly the source
+needed to rebuild.</p>
+
+<h3>Step 1 — Environment setup</h3>
+<p><strong>Objective:</strong> pin the environment that produced the verified bit-exact result.<br>
+<strong>Files:</strong> <code>pyproject.toml</code>, <code>requirements.txt</code>,
+<code>environment.yml</code>, <code>Dockerfile</code>, <code>.python-version</code>.<br>
+<strong>Implement:</strong> pin <code>python==3.11.9</code>, <code>numpy==1.26.4</code> — the
+combination this audit verified reproduces bit-exactly. Add <code>pytest</code>,
+<code>matplotlib</code>, <code>pandas</code>, <code>scipy</code>, <code>tqdm</code>. Docker on
+<code>python:3.11.9-slim</code> plus a TeX Live layer for the manuscript.<br>
+<strong>Validation:</strong> <code>docker build</code> then run the campaign in-container and
+diff against <code>results.json</code> — must be zero deviation.<br>
+<strong>Completion:</strong> byte-identical <code>results.json</code> from a clean container.</p>
+
+<h3>Step 2 — Dataset acquisition</h3>
+<p><strong>Objective:</strong> replace "no empirical content" with a calibration target. This is
+the single highest-value scientific step.<br>
+<strong>Files:</strong> <code>data/README.md</code>, <code>data/raw/.gitkeep</code>,
+<code>scripts/fetch_data.py</code>, <code>configs/calibration.yaml</code>.<br>
+<strong>Sources:</strong> IFR World Robotics operational stock (licensed — document terms, do not
+redistribute); OECD/EU KLEMS capital and labour shares; national accounts for the target
+jurisdiction; a labour-force survey for the skill and exposure distributions;
+Acemoglu–Restrepo commuting-zone exposure measures for the displacement channel.<br>
+<strong>Constraints:</strong> IFR data is not redistributable — ship the fetch script and a
+checksum, not the data.<br>
+<strong>Validation:</strong> a <code>make calibrate</code> target that reports simulated vs.
+target labour share, capital share, and Gini, with tolerances.<br>
+<strong>Completion:</strong> baseline arm B0 matches at least three published moments within a
+stated tolerance.</p>
+
+<h3>Step 3 — Data preprocessing</h3>
+<p><strong>Objective:</strong> a deterministic, checksummed path from raw series to model
+parameters.<br>
+<strong>Files:</strong> <code>src/cdos/data/{loaders,calibrate,moments}.py</code>.<br>
+<strong>Implement:</strong> map robot stock to the machine-price decay path; map the wage
+distribution to the skill lognormal; map observed capital share to the &alpha; beta
+distribution; estimate &sigma; rather than assuming it.<br>
+<strong>Validation:</strong> unit tests that a fixed raw input yields fixed parameters; a
+manifest recording input checksums.<br>
+<strong>Completion:</strong> <code>configs/calibration.yaml</code> is generated, not
+hand-written, and carries its provenance.</p>
+
+<h3>Step 4 — Core system implementation (the three P0 fixes)</h3>
+<p><strong>Objective:</strong> make the model internally consistent. <em>Nothing downstream is
+worth running until this is done.</em><br>
+<strong>Files:</strong> <code>src/cdos/model/{firm,household,government,fund,ledger}.py</code>.</p>
+<ul>
+<li><strong>4a — close the budget (F3).</strong> Keep <code>pm_eff</code> as the marginal
+decision price; separately debit the true liability
+<code>SAC_f = wedge_f * ACB_f</code> from profit as a lump sum. Add a hard assertion each period
+that total resources equal total uses across firms, households, government, and fund.</li>
+<li><strong>4b — fund stability (F2).</strong> Measure realised g from the model; assert
+(1&minus;&rho;)r<sup>f</sup> &lt; g and fail loudly if violated. Either re-tune &rho; or report
+the divergent path explicitly as a finding.</li>
+<li><strong>4c — &sigma;-dependence (F1).</strong> Add an assertion recording whether
+&gamma; &gt; 1&minus;1/&sigma;, and expose &sigma; and &gamma; as sweepable config.</li>
+<li><strong>4d — metrics (F6).</strong> Record headcount, hours, and efficiency units as three
+separate series.</li>
+<li><strong>4e — spending (F4).</strong> Add a <code>--match-spending</code> mode that equalises
+total spending across arms, and report both modes.</li>
+</ul>
+<p><strong>Validation:</strong> a resource-accounting test that must pass every period in every
+arm; regression test that B1 and B4 are unchanged to 10 d.p.<br>
+<strong>Completion:</strong> the accounting assertion holds for all 8 arms &times; 50 seeds
+&times; 240 quarters.</p>
+
+<h3>Step 5 — Component implementation (not "multi-agent")</h3>
+<p><strong>Objective:</strong> implement the framework components the paper specifies but the
+code lacks. There are no AI agents here; these are fiscal modules.<br>
+<strong>Files:</strong> <code>src/cdos/framework/{aeap,ledger5,classifier,rate,nexus,waterfall,twin}.py</code>.</p>
+<div class="tw"><table>
+<thead><tr><th>Module</th><th>Purpose</th><th>Inputs</th><th>Outputs</th><th>Interfaces with</th><th>Failure mode to test</th></tr></thead>
+<tbody>
+<tr><td class="m">aeap</td><td>Deployment registry binding activity to an owner</td><td>Deployment records</td><td>AEAP<sub>j</sub> schema</td><td>ledger5, nexus</td><td>Missing owner; sub-threshold evasion</td></tr>
+<tr><td class="m">ledger5</td><td>Exact Shapley over {H,A,R,D,K}, 31 coalitions</td><td>Coalition value fn</td><td>&psi;<sub>f</sub>, &phi;<sub>f</sub></td><td>rate, waterfall</td><td>Efficiency violation; non-monotone v</td></tr>
+<tr><td class="m">classifier</td><td>Assign mode Z; produce S<sub>i</sub>, A<sup>aug</sup></td><td>Employment/hours panels</td><td>Indices in [0,1], confusion matrix</td><td>rate</td><td>Error rate &epsilon;; must satisfy Prop. 4 bound</td></tr>
+<tr><td class="m">rate</td><td>Full ten-term bounded rate</td><td>All indices, &Theta;</td><td>r<sub>i</sub> &in; [r<sub>min</sub>,r<sub>max</sub>]</td><td>waterfall</td><td>Monotonicity per index; clip activation</td></tr>
+<tr><td class="m">nexus</td><td>Cross-border apportionment</td><td>U, R, P, O shares</td><td>SAC<sub>ij</sub></td><td>waterfall</td><td>Shares not summing to 1; strategic shifting</td></tr>
+<tr><td class="m">waterfall</td><td>Four-channel allocation</td><td>SAC revenue, &omega;,&kappa;,&sigma;<sub>T</sub></td><td>Channel amounts</td><td>fund, government</td><td>&omega;+&kappa;+&sigma;<sub>T</sub> &gt; 1</td></tr>
+<tr><td class="m">twin</td><td>Constrained policy screening (Eq. 26)</td><td>&Theta; space, constraints</td><td>&Theta;*</td><td>all</td><td>Constraint violation; overfitting to seeds</td></tr>
+</tbody></table></div>
+<p><strong>Completion:</strong> each module has a unit test asserting the proposition it
+implements.</p>
+
+<h3>Step 6 — Baselines</h3>
+<p><strong>Objective:</strong> make the comparison set defensible.<br>
+<strong>Files:</strong> <code>src/cdos/arms/</code>, one module per arm.<br>
+<strong>Implement:</strong> keep B0–B6c; add B7 optimal linear capital tax (Diamond–Mirrlees),
+B8 consumption-tax shift, B9 lump-sum-financed B6c, B10 EITC-style wage subsidy, B11 &phi;=0,
+B12 Thuemmel-style optimal robot tax.<br>
+<strong>Validation:</strong> each new arm reduces to B0 when its policy parameter is zero.<br>
+<strong>Completion:</strong> 13 arms run under CRN with the accounting assertion passing.</p>
+
+<h3>Step 7 — Evaluation framework</h3>
+<p><strong>Objective:</strong> metrics that measure what they claim. See section 11.<br>
+<strong>Files:</strong> <code>src/cdos/eval/{metrics,contrasts,bootstrap,report}.py</code>.<br>
+<strong>Implement:</strong> separate headcount / hours / efficiency units; add welfare (equivalent
+variation), revenue volatility, deadweight loss, and an explicit incidence decomposition.
+Replace seed-only CIs with a two-level design separating Monte-Carlo error from parametric
+uncertainty.<br>
+<strong>Completion:</strong> every number in every paper table is produced by one command.</p>
+
+<h3>Step 8 — Experiments</h3>
+<p><strong>Objective:</strong> run the matrix in section 10.<br>
+<strong>Files:</strong> <code>experiments/E*.yaml</code>, <code>scripts/run_experiment.py</code>.<br>
+<strong>Implement:</strong> one YAML per experiment; every run writes a manifest with config
+hash, git SHA, library versions, and wall time.<br>
+<strong>Completion:</strong> all E-series experiments complete with manifests archived.</p>
+
+<h3>Steps 9–11 — Ablations, robustness, statistics</h3>
+<p>Detailed in sections 12 and 11 respectively. Objective for statistics specifically: report
+paired contrasts with both Monte-Carlo and parametric intervals; correct for multiplicity across
+the 13 arms (Holm or Benjamini–Hochberg); report effect sizes with practical-significance
+thresholds, since with 50 seeds and CRN almost everything is "significant".</p>
+
+<h3>Step 12 — Reproducibility</h3>
+<p><strong>Files:</strong> <code>src/cdos/utils/{seeding,manifest,logging}.py</code>,
+<code>Makefile</code>, <code>.github/workflows/ci.yml</code>.<br>
+<strong>Implement:</strong> a single <code>set_seeds()</code> entry point; a manifest on every
+artifact; CI that runs the test suite plus a 2-seed smoke campaign and fails on numerical drift.<br>
+<strong>Completion:</strong> <code>make reproduce</code> regenerates every table and figure from
+scratch in a container.</p>
+
+<h3>Step 13 — Results generation</h3>
+<p><strong>Objective:</strong> eliminate hand-pasting. This is the fix for the fragility found in
+audit question 14.<br>
+<strong>Implement:</strong> <code>mklatex.py</code> writes into <code>paper/generated/</code>;
+the manuscript uses <code>\input{generated/results_table}</code>. A CI job regenerates and fails
+on any diff.<br>
+<strong>Completion:</strong> no numeral in the manuscript's results tables is typed by hand.</p>
+
+<h3>Steps 14–16 — Repository, documentation, paper</h3>
+<p>Sections 13, 15, and 14 respectively give the concrete content.</p>
+</div>
+</section>
+<section id="s10">
+<div class="shead"><span class="snum">10</span><h2>Experiment Matrix</h2></div>
+<div class="col">
+<p>Each experiment names the claim it tests. E1–E3 are the ones without which the paper should
+not be submitted.</p>
+</div>
+<div class="tw"><table>
+<thead><tr><th>ID</th><th>Research question / claim tested</th><th>Method</th><th>Baseline</th><th>Metrics</th><th class="n">Runs</th><th>Expected output</th></tr></thead>
+<tbody>
+<tr><td class="m">E1</td><td><strong>Is the headline result robust to &sigma;?</strong> (F1)</td><td>Grid &sigma;&in;{1.2,1.5,2,3,5,8} &times; &gamma;&in;{0.75,0.85,0.95}</td><td>B0 at each cell</td><td>&Delta;GDP, &Delta;hours, &tau;<sub>L</sub>, SAC/Y, sign of &part;ACB/&part;M</td><td class="n">18&times;13&times;50</td><td>Heat map of &Delta;GDP(B6c); the &gamma;=1&minus;1/&sigma; boundary drawn explicitly</td></tr>
+<tr><td class="m">E2</td><td><strong>Does closing the budget change conclusions?</strong> (F3)</td><td>Patched vs. unpatched profit accounting</td><td>Both, paired</td><td>All primary metrics + resource-balance residual</td><td class="n">13&times;50&times;2</td><td>Corrected Table VII; residual = 0 to machine precision</td></tr>
+<tr><td class="m">E3</td><td><strong>Does the fund converge?</strong> (F2)</td><td>Sweep &rho;&in;[0.3,0.95], r<sup>f</sup>&in;{.03,.04,.05,.06}</td><td>Analytic f* from Prop. 6</td><td>fund/Y path, realised g, stability margin</td><td class="n">28&times;50</td><td>Simulated vs. analytic f*; region where the condition holds at realised g</td></tr>
+<tr><td class="m">E4</td><td>RQ3: less distortion than a fixed robot tax?</td><td>Main campaign, spending-matched</td><td>B1</td><td>&Delta;GDP per unit revenue, DWL</td><td class="n">13&times;50</td><td>Revenue-normalised efficiency ranking</td></tr>
+<tr><td class="m">E5</td><td>RQ5: is a fund more durable than transfers?</td><td>Horizons 25 / 50 / 100 yr</td><td>B3</td><td>Gini, poverty, dividend/Y at each horizon</td><td class="n">13&times;50&times;3</td><td>Crossover year where B6c overtakes B3, if any</td></tr>
+<tr><td class="m">E6</td><td>RQ2 + Prop. 4: classifier error cost</td><td>Inject &epsilon;&in;{0,.05,.10,.20}</td><td>&epsilon;=0</td><td>|E[r]&minus;r*| vs. the &epsilon;(&alpha;+&theta;) bound</td><td class="n">4&times;50</td><td>Empirical error below the theoretical bound at every &epsilon;</td></tr>
+<tr><td class="m">E7</td><td>Optimal deduction share</td><td>Sweep &phi;&in;[0,1] step 0.05</td><td>&phi;=1</td><td>&Delta;GDP, SAC/Y, &part;ACB/&part;M</td><td class="n">21&times;50</td><td>Whether &phi;=½ is optimal or merely sufficient</td></tr>
+<tr><td class="m">E8</td><td>Prop. 3 monotone comparative statics</td><td>One-at-a-time index sweep, all 10 terms</td><td>Analytic sign</td><td>&part;r/&part;index</td><td class="n">10&times;21</td><td>Sign agreement at every point</td></tr>
+<tr><td class="m">E9</td><td>Prop. 7 payout paradox in simulation</td><td>Sweep &rho; with r<sup>f</sup>&gtrless;g</td><td>Analytic &part;d*/&part;&rho;</td><td>d* at 50/100/200 yr</td><td class="n">20&times;50</td><td>Sign flip at r<sup>f</sup>=g reproduced</td></tr>
+<tr><td class="m">E10</td><td>RQ7: cross-border leakage</td><td>3-jurisdiction extension, unilateral vs. coordinated</td><td>Single jurisdiction</td><td>Leakage %, revenue retained</td><td class="n">2&times;50</td><td>First evidence on the nexus rule</td></tr>
+<tr><td class="m">E11</td><td>RQ8: avoidance</td><td>Cost inflation 0–30%; reclassification 0–20%</td><td>No avoidance</td><td>Revenue erosion, effective rate</td><td class="n">12&times;50</td><td>Revenue elasticity to each channel</td></tr>
+<tr><td class="m">E12</td><td>Five-factor vs. composite attribution</td><td>{H,A,R,D,K} ledger, 31 coalitions</td><td>2-factor</td><td>Shares, ACB, SAC/Y</td><td class="n">13&times;50</td><td>Whether the composite collapse biases the base</td></tr>
+<tr><td class="m">E13</td><td>Calibration validity</td><td>Fit to national accounts + IFR</td><td>Published moments</td><td>Labour share, capital share, Gini, robot stock</td><td class="n">50</td><td>Moment-match table with tolerances</td></tr>
+<tr><td class="m">E14</td><td>Sensitivity to the sole driver</td><td>DECAY &in; {0.3, 0.6, 1.2}%/qtr</td><td>0.6%</td><td>All primary</td><td class="n">3&times;13&times;50</td><td>Whether ordering survives transition speed</td></tr>
+<tr><td class="m">E15</td><td>Monte-Carlo adequacy</td><td>Seeds 10/25/50/100/200</td><td>&mdash;</td><td>CI width vs. seed count</td><td class="n">5&times;13</td><td>Justification for the chosen seed count</td></tr>
+<tr><td class="m">E16</td><td>Error analysis</td><td>Per-firm and per-household decomposition of B6c effects</td><td>B0</td><td>Winners/losers by decile and exposure</td><td class="n">50</td><td>Incidence table — currently entirely absent</td></tr>
+<tr><td class="m">E17</td><td>Scalability / cost</td><td>N<sub>F</sub>&times;{0.5,1,2,4}, N<sub>H</sub> likewise</td><td>Current size</td><td>Wall time, memory, metric stability</td><td class="n">16</td><td>Confirms 500/10,000 is adequate</td></tr>
+</tbody></table></div>
+<div class="col">
+<p><strong>Total budget.</strong> Roughly 45,000 runs at the measured 1.4 s each &asymp; 17.5
+core-hours; under 2 hours wall-clock on the 20 cores available. Cost is not a constraint here —
+the absence of these experiments is a choice, not a resource limit.</p>
+</div>
+</section>
+
+<section id="s11">
+<div class="shead"><span class="snum">11</span><h2>Evaluation Framework</h2></div>
+<div class="col">
+<h3>Metrics to keep, fix, or add</h3>
+<div class="tw"><table>
+<thead><tr><th>Metric</th><th>Definition</th><th>Measures</th><th>Limitation</th><th>Dir.</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><strong>&Delta;GDP</strong></td><td>100(Y<sub>a</sub>/Y<sub>0</sub>&minus;1), paired by seed</td><td>Aggregate efficiency cost of the instrument</td><td>Output is not welfare; ignores distribution entirely</td><td>&uarr;</td><td><span class="stamp s-ok">Keep</span></td></tr>
+<tr><td><strong>Gini (income)</strong></td><td>2&Sigma;i·x<sub>(i)</sub>/(n&Sigma;x) &minus; (n+1)/n</td><td>Dispersion of post-tax income</td><td>Insensitive at the tails; a single scalar for a whole distribution</td><td>&darr;</td><td><span class="stamp s-ok">Keep</span></td></tr>
+<tr><td><strong>&tau;<sub>L</sub></strong></td><td>Rate clearing the government budget</td><td>Tax burden on work — the shield, made observable</td><td>Confounded while spending differs across arms (F4)</td><td>&darr;</td><td><span class="stamp s-warn">Fix</span></td></tr>
+<tr><td><strong>"Hours"</strong></td><td class="m">L_f.sum()</td><td><em>Efficiency units</em>, not hours</td><td>Conflates employment with human capital (F6)</td><td>&uarr;</td><td><span class="stamp s-conf">Split</span></td></tr>
+<tr><td><strong>Poverty rate</strong></td><td>P(disp &lt; ½ median)</td><td>Relative poverty headcount</td><td>Headcount only — no depth; label as relative</td><td>&darr;</td><td><span class="stamp s-warn">Relabel</span></td></tr>
+<tr><td><strong>Fund / GDP</strong></td><td>F<sub>T</sub>/(4Y<sub>T</sub>)</td><td>Public capital accumulated</td><td>Terminal point on a divergent path (F2)</td><td>&uarr;</td><td><span class="stamp s-warn">Fix</span></td></tr>
+<tr><td><strong>Wage share</strong></td><td>wL/Y, terminal</td><td>Factor distribution</td><td>Terminal value hides the whole path</td><td>&uarr;</td><td><span class="stamp s-ok">Keep</span></td></tr>
+<tr><td colspan="6" style="background:var(--rule-soft);font-weight:600;color:var(--ink)">Missing — should be added</td></tr>
+<tr><td><strong>Welfare (EV)</strong></td><td>Equivalent variation in consumption units</td><td>The actual objective; output and Gini are proxies</td><td>Requires an explicit utility function</td><td>&uarr;</td><td><span class="stamp s-conf">Add</span></td></tr>
+<tr><td><strong>Deadweight loss</strong></td><td>&Delta;surplus &minus; revenue raised</td><td>Efficiency cost <em>per unit of revenue</em></td><td>Partial-equilibrium approximation</td><td>&darr;</td><td><span class="stamp s-conf">Add</span></td></tr>
+<tr><td><strong>Revenue per unit DWL</strong></td><td>Rev / DWL</td><td>The right way to rank tax instruments</td><td>Undefined when DWL&rarr;0</td><td>&uarr;</td><td><span class="stamp s-conf">Add</span></td></tr>
+<tr><td><strong>Incidence split</strong></td><td>&Delta;income by factor and decile</td><td>Who actually bears the levy</td><td>Model-dependent</td><td>&mdash;</td><td><span class="stamp s-conf">Add</span></td></tr>
+<tr><td><strong>Headcount employed</strong></td><td>Persons with hours &gt; 0</td><td>Employment proper</td><td>Needs an extensive margin the model lacks</td><td>&uarr;</td><td><span class="stamp s-conf">Add</span></td></tr>
+<tr><td><strong>Revenue volatility</strong></td><td>CV of revenue/Y</td><td>Fiscal stability — a stated design goal</td><td>Sensitive to horizon</td><td>&darr;</td><td><span class="stamp s-warn">Computed, unreported</span></td></tr>
+<tr><td><strong>Stability margin</strong></td><td>g &minus; (1&minus;&rho;)r<sup>f</sup></td><td>Whether Prop. 6 holds at realised g</td><td>&mdash;</td><td>&uarr;</td><td><span class="stamp s-conf">Add</span></td></tr>
+</tbody></table></div>
+
+<h4>Inappropriate metric use</h4>
+<p>Two calls to make explicitly. <strong>&Delta;GDP as the headline efficiency metric is the wrong
+choice for comparing tax instruments</strong> — the correct comparison is efficiency cost per
+unit of revenue raised, because B1 raises 1.91% of output while B6c raises 0.98%, so their GDP
+effects are not comparable quantities. Normalising changes the ranking. <strong>Bootstrap CIs
+over seeds under CRN should not be presented as policy confidence intervals</strong> (F8); relabel
+them "Monte-Carlo replication error" and add a genuine parametric interval from the E1/E14
+sweeps.</p>
+
+<h4>Statistical protocol</h4>
+<p>Paired contrasts against B0 with CRN retained; Holm correction across the 13 arms; effect sizes
+with a stated practical-significance threshold (a &Delta;Gini of 0.0013 is statistically clean and
+economically meaningless, which the paper already says — make it a rule, not an aside); a
+two-level uncertainty design separating seed noise from parameter uncertainty; and pre-registered
+primary outcomes so the reader knows which comparisons were planned.</p>
+</div>
+</section>
+
+<section id="s12">
+<div class="shead"><span class="snum">12</span><h2>Ablation &amp; Robustness Plan</h2></div>
+<div class="col">
+<h3>Ablations — B6c currently bundles five mechanisms, none isolated</h3>
+<div class="tw"><table>
+<thead><tr><th>ID</th><th>Remove / change</th><th>Scientific question answered</th><th>Expected</th></tr></thead>
+<tbody>
+<tr><td class="m">A1</td><td>Adaptive rate &rarr; flat rate at the same mean</td><td>Does <em>adaptivity</em> add anything, or is it just the level?</td><td>Isolates the paper's core claim against B1</td></tr>
+<tr><td class="m">A2</td><td>Shapley base &rarr; cost-share base</td><td>Does Shapley attribution beat a cheap proxy? <strong>This is RQ1, currently untested.</strong></td><td>The single most important ablation in the paper</td></tr>
+<tr><td class="m">A3</td><td>Fund off (&omega;=0)</td><td>How much of B6c's result is the fund vs. the levy?</td><td>Separates predistribution from taxation</td></tr>
+<tr><td class="m">A4</td><td>Shield off (fixed &tau;<sub>L</sub>)</td><td>How much comes from recycling into lower labour tax?</td><td>Likely large, given &Delta;&tau;<sub>L</sub>=&minus;0.0107</td></tr>
+<tr><td class="m">A5</td><td>Transition transfers off (&sigma;<sub>T</sub>=0)</td><td>Contribution of targeted transfers to the Gini result</td><td>Isolates the distributional channel</td></tr>
+<tr><td class="m">A6</td><td>Retraining off</td><td>How much of the "hours" gain is human capital? (F6)</td><td>Should largely explain B4</td></tr>
+<tr><td class="m">A7</td><td>Rent term off (&beta;=0)</td><td>Does the concentration adjustment matter?</td><td>Tests a term never exercised</td></tr>
+<tr><td class="m">A8</td><td>Augmentation credit off (&theta;=0)</td><td>Value of the substitution/augmentation distinction</td><td>Central to the paper's pitch vs. a robot tax</td></tr>
+<tr><td class="m">A9</td><td>&phi; = 0, ½, 1</td><td>Is ½ optimal or merely sufficient? (E7)</td><td>Sharpens the paper's headline recommendation</td></tr>
+<tr><td class="m">A10</td><td>Displacement channel off (&lambda;<sub>d</sub>=0)</td><td>Does the externality justification survive?</td><td>Tests the Diamond–Mirrlees rationale</td></tr>
+</tbody></table></div>
+
+<h3>Robustness and stress tests</h3>
+<ul>
+<li><strong>Parameter robustness:</strong> Latin-hypercube over the full &Theta; plus &sigma;,
+&gamma;, &epsilon;<sub>L</sub>, &lambda;<sub>d</sub>, DECAY — report the fraction of the sampled
+space in which B6c's dominance claim survives. Given E1, I expect this to be well under half.</li>
+<li><strong>Structural robustness:</strong> re-run under Cobb–Douglas and Leontief limits, and
+under a task-based rather than CES technology.</li>
+<li><strong>Boundary stress:</strong> &sigma;&rarr;1 (Cobb–Douglas singularity in
+<code>ces_unit_cost</code> — currently a division by zero at &sigma;=1, untested), &gamma;&rarr;1
+(constant returns, zero profit, &tau;<sub>K</sub> base vanishes), r<sub>max</sub> binding for all
+firms, and the wage bisection bracket [1e-3, 1e3] being hit.</li>
+<li><strong>Adversarial:</strong> firms optimising against the rate function rather than taking
+it as given — the political-economy risk the paper raises but never tests.</li>
+<li><strong>Numerical:</strong> vary the bisection iteration count (currently 28) and confirm
+convergence; replace the explicit lagged fixed point in step 3 of the pipeline with an implicit
+solve and measure the difference.</li>
+<li><strong>Horizon:</strong> 25 / 50 / 100 / 200 years, since the fund result is horizon-dependent
+and currently sits on a divergent path.</li>
+</ul>
+</div>
+</section>
+
+<section id="s13">
+<div class="shead"><span class="snum">13</span><h2>GitHub Repository Redesign</h2></div>
+<div class="col">
+<p>Designed around what this project actually is — a single simulation study supporting one
+manuscript — not a generic template. No <code>models/</code> directory, because there are no
+learned models; no <code>agents/</code>, because there are no AI agents.</p>
+<pre><code>civicdividendos/
+├── README.md                  # what it is, one-command reproduction, headline results
+├── LICENSE                    # MIT (code)
+├── LICENSE-PAPER              # CC-BY-4.0 (manuscript + figures)
+├── CITATION.cff
+├── CHANGELOG.md               # v1 -> v2 -> post-audit revisions
+├── pyproject.toml             # package metadata + pinned deps
+├── requirements.txt           # python==3.11.9, numpy==1.26.4 (audit-verified)
+├── environment.yml
+├── Dockerfile                 # python:3.11.9-slim + TeX Live
+├── Makefile                   # make repro | test | paper | figures | clean
+├── .gitignore
+├── .github/workflows/ci.yml   # tests + 2-seed smoke campaign + drift check
+│
+├── configs/
+│   ├── base.yaml              # the P dict, extracted from source
+│   ├── arms/                  # B0..B12, one file each
+│   ├── calibration.yaml       # GENERATED from data, not hand-written
+│   └── sweeps/                # E1 sigma-gamma, E3 rho-rf, E7 phi, ...
+│
+├── data/
+│   ├── README.md              # sources, licences, IFR redistribution ban
+│   ├── raw/.gitkeep           # never committed
+│   ├── processed/.gitkeep
+│   └── checksums.txt
+│
+├── src/cdos/
+│   ├── model/                 # firm, household, government, fund, market clearing
+│   ├── framework/             # aeap, ledger5, classifier, rate, nexus, waterfall, twin
+│   ├── arms/                  # one module per policy arm
+│   ├── eval/                  # metrics, contrasts, bootstrap, incidence
+│   ├── data/                  # loaders, calibration, moment matching
+│   └── utils/                 # seeding, manifest, logging, accounting assertions
+│
+├── experiments/               # E1..E17, each a YAML + a runner + a manifest
+├── scripts/                   # run_campaign.py, run_experiment.py, mklatex.py, fetch_data.py
+├── tests/                     # unit + property + regression + accounting
+├── notebooks/                 # exploratory only, stripped of output before commit
+│
+├── results/                   # results.json + per-experiment manifests (committed)
+├── figures/                   # generated PDFs (committed for build reproducibility)
+├── tables/                    # generated .tex (committed, \input by the manuscript)
+│
+└── paper/
+    ├── CivicDividendOS_v2.tex
+    ├── civicdividendos.bib
+    ├── generated/             # \input targets — never hand-edited
+    └── v1-archive/            # original conference version, untouched</code></pre>
+
+<h4>1 · Files to move</h4>
+<p><code>CivicDividendOS_v2.tex</code>, <code>civicdividendos.bib</code> &rarr;
+<code>paper/</code>. All four <code>CivicDividendOS_AI_Robot_Tax_Distribution_Framework.*</code>
+&rarr; <code>paper/v1-archive/</code>. <code>simulation/cdos_sim.py</code> &rarr; split across
+<code>src/cdos/model/</code> and <code>src/cdos/framework/</code>.
+<code>driver.py</code>, <code>mklatex.py</code> &rarr; <code>scripts/</code>.
+<code>results.json</code> &rarr; <code>results/</code>.</p>
+
+<h4>2 · Files to rename</h4>
+<p><code>cdos_sim.py</code> &rarr; decomposed, not renamed — 352 lines doing market clearing,
+attribution, taxation, household dynamics, and accounting in one function is the main
+maintainability problem. <code>driver.py</code> &rarr; <code>run_campaign.py</code>.
+<code>HANDOFF.md</code> &rarr; <code>docs/DEVELOPMENT_LOG.md</code> (it is a genuinely useful
+record — keep it, but it is not user documentation).</p>
+
+<h4>3 · Files to delete from version control</h4>
+<p><code>*.aux</code>, <code>*.log</code>, <code>*.synctex.gz</code>. Keep the compiled PDFs
+only if a release artifact is wanted; otherwise generate them.</p>
+
+<h4>4 · Files to create</h4>
+<p>Everything in the tree above that does not yet exist — most importantly
+<code>README.md</code>, <code>LICENSE</code>, <code>requirements.txt</code>,
+<code>Makefile</code>, <code>tests/</code>, and <code>configs/</code>. The nine generated
+artifacts currently missing from disk should be produced by <code>make</code> and committed under
+<code>tables/</code> and <code>figures/</code>.</p>
+
+<h4>5 · Files that should NOT be committed</h4>
+<p>Raw IFR data (licence prohibits redistribution); anything under <code>data/raw/</code>;
+LaTeX intermediates; <code>__pycache__/</code>; notebook outputs; and — once the author block is
+filled in — no change, but note that the current placeholder must not be released as-is.</p>
+
+<h4>6 · Recommended .gitignore</h4>
+<pre><code>__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# LaTeX intermediates
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# data (licensed, not redistributable)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# large or transient run output
+results/runs/
+*.npz</code></pre>
+
+<h4>7 · README structure</h4>
+<p>Title and one-sentence description &rarr; headline result with the honest caveat &rarr;
+<strong>one-command reproduction</strong> (<code>make repro</code>) &rarr; installation (pip,
+conda, Docker) &rarr; repository map &rarr; experiment index mapping E-IDs to paper tables &rarr;
+data sources and licences &rarr; known limitations, lifted verbatim from the paper &rarr; citation
+&rarr; licence. The limitations section belongs in the README, not only the paper — a user
+running the code needs to know the fund diverges and the result is &sigma;-dependent.</p>
+
+<h4>8 · Installation</h4>
+<pre><code>git clone https://github.com/&lt;user&gt;/civicdividendos.git
+cd civicdividendos
+python -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+pytest -q                       # must pass before trusting any output</code></pre>
+
+<h4>9 · Experiment commands</h4>
+<pre><code>make repro                      # full campaign + tables + figures + paper
+make test                       # unit, property, regression, accounting
+python scripts/run_campaign.py --config configs/base.yaml --seeds 50
+python scripts/run_experiment.py --exp E1    # sigma-gamma grid
+python scripts/run_experiment.py --exp E3    # fund stability sweep
+python scripts/mklatex.py --out paper/generated/</code></pre>
+
+<h4>10 · Reproducibility instructions</h4>
+<p>State the verified fact plainly: <em>"Under Python 3.11.9 and NumPy 1.26.4, the campaign
+reproduces <code>results/results.json</code> bit-exactly (verified over all 416 stored
+statistics). Any deviation indicates an environment difference and should be reported as a
+bug."</em> That is an unusually strong reproducibility guarantee and the project should claim it
+explicitly — it is one of its genuine strengths. Add the container digest, the git SHA in every
+manifest, and a CI job that fails on numerical drift.</p>
+</div>
+</section>
+
+<section id="s14">
+<div class="shead"><span class="snum">14</span><h2>Paper Revision Plan</h2></div>
+<div class="col">
+<h3>Must fix</h3>
+<div class="tw"><table>
+<thead><tr><th>Item</th><th>Current problem</th><th>Why it matters</th><th>Proposed change</th><th>Evidence required</th></tr></thead>
+<tbody>
+<tr><td><strong>M1</strong> &sigma;-robustness</td><td>"Not a knife-edge case" is supported by a tautology; result reverses at &sigma;=2</td><td>The central empirical claim is not robust; a referee will find this</td><td>Replace the sentence with the analytic condition &gamma; &gt; 1&minus;1/&sigma;. Add a &sigma;&times;&gamma; robustness figure. State the validity range explicitly in the abstract.</td><td>E1</td></tr>
+<tr><td><strong>M2</strong> Budget leak</td><td>~93% of SAC revenue never debited to any agent in B6/B6c</td><td>Internal validity failure; the favoured arm gets free resources</td><td>Fix the accounting, re-run, republish all results tables</td><td>E2</td></tr>
+<tr><td><strong>M3</strong> Fund divergence</td><td>Prop. 6's condition fails at the testbed's realised g=0.0166</td><td>Fund results and the 71-year half-life are presented as steady-state when the path diverges</td><td>Report realised g, state the condition is violated, present the fund as an explicitly transitional path or re-tune &rho;</td><td>E3</td></tr>
+<tr><td><strong>M4</strong> "Revenue-matched"</td><td>False — spending differs by up to 2.0 pp of GDP</td><td>Claims to have excluded a confound that is present</td><td>Delete both occurrences, or add a spending-matched mode and report it</td><td>Measured; see F4</td></tr>
+<tr><td><strong>M5</strong> 0.65% comparison</td><td>Compares total SAC to required fund inflow</td><td>The "mutual consistency" claim is not supported; corrected, it reverses</td><td>Compare &omega;·SAC = 0.393% to s = 0.647% and report the 39% shortfall</td><td>Arithmetic; see F5</td></tr>
+<tr><td><strong>M6</strong> "Hours"</td><td>Efficiency units, inflated by retraining</td><td>The fifth reported finding rests on a mislabelled quantity</td><td>Rename to "efficiency units"; report headcount separately</td><td>E-series metric split</td></tr>
+<tr><td><strong>M7</strong> Confidence intervals</td><td>Zero-width CIs presented as policy uncertainty</td><td>Misleads the reader about evidential strength</td><td>Relabel as Monte-Carlo replication error; add parametric intervals</td><td>E1, E14, E15</td></tr>
+<tr><td><strong>M8</strong> Unit error</td><td>4,000 MU &times; 60 &ne; 0.240 MU</td><td>Arithmetic error in the flagship worked example</td><td>Fix the units or declare MU as millions</td><td>None</td></tr>
+<tr><td><strong>M9</strong> RQ scope</td><td>Eight RQs declared, two tested</td><td>Overclaims the paper's coverage</td><td>Cut to RQ3/RQ5 as tested, move the rest to future work, or run E6/E10/E11/E12</td><td>Either</td></tr>
+<tr><td><strong>M10</strong> Author block</td><td>Placeholder</td><td>Desk reject</td><td>Author only</td><td>None</td></tr>
+</tbody></table></div>
+
+<h3>Strongly recommended</h3>
+<ul>
+<li><strong>S1 — Lead with Proposition 2.</strong> It is the paper's best contribution and is
+currently buried in Section V. Restructure so the marginal-incidence result is the headline and
+the framework is its setting. This also repairs M1: as an analytic condition it is robust, and
+only its simulated illustration is &sigma;-dependent.</li>
+<li><strong>S2 — Add the A2 ablation</strong> (Shapley base vs. cost-share base). RQ1 is the
+paper's first research question and nothing currently tests it.</li>
+<li><strong>S3 — Report revenue-normalised efficiency.</strong> Comparing B1's &minus;6.12% GDP
+against B6c's +3.30% is comparing instruments raising 1.91% and 0.98% of output. Normalise.</li>
+<li><strong>S4 — Add an incidence table</strong> (E16). The Discussion argues about incidence at
+length with no supporting numbers.</li>
+<li><strong>S5 — Verify the flagged references</strong> — <code>DimitropoulouAIIncome</code>
+(chapter authorship unconfirmed; the monograph may be the intended source),
+<code>IMF2026GlobalAI</code>, <code>APF</code>, and the other 2026-dated entries.</li>
+<li><strong>S6 — State the software environment</strong> in the Reproducibility subsection:
+Python 3.11.9, NumPy 1.26.4, bit-exact. Currently the subsection describes what a companion
+study <em>should</em> release rather than what this one does.</li>
+</ul>
+
+<h3>Optional</h3>
+<ul>
+<li><strong>O1</strong> — Add a five-factor worked example matching the framework's own
+{H,A,R,D,K}, since the testbed collapses to two.</li>
+<li><strong>O2</strong> — Move the notation table to an appendix to buy space for the robustness
+figure.</li>
+<li><strong>O3</strong> — Decide the venue before formatting. IEEEtran <code>[journal]</code>
+suits an IEEE venue; TFSC and <em>Government Information Quarterly</em> are Elsevier and will need
+reformatting. The <code>.tex</code> header documents the revert path.</li>
+<li><strong>O4</strong> — Document the explicit lagged fixed point in step 3 of the pipeline; it
+is a legitimate approximation but currently invisible to a reader.</li>
+<li><strong>O5</strong> — Fix the <code>driver.py</code> "7-arm" docstring and the hardcoded
+<code>Pool(processes=16)</code>.</li>
+</ul>
+</div>
+</section>
+
+<section id="s15">
+<div class="shead"><span class="snum">15</span><h2>Paper-to-Code Traceability Matrix</h2></div>
+<div class="col">
+<p>"Evidence" records what this audit could actually verify by execution.</p>
+</div>
+<div class="tw"><table>
+<thead><tr><th>Paper section</th><th>Claim</th><th>Required code</th><th>Repository file</th><th>Experiment</th><th>Evidence status</th></tr></thead>
+<tbody>
+<tr><td>IV-B Prop. 1</td><td>&Sigma;&psi;=V, no double counting</td><td>Shapley over factor set</td><td class="m">cdos_sim.py:shapley_machine</td><td>&mdash;</td><td><span class="stamp s-ok">Verified</span> exact for n=2; n=5 not built</td></tr>
+<tr><td>V-B Prop. 2</td><td>&part;ACB/&part;M sign; &phi;&le;½ repairs it</td><td>dpsi_dM + &phi; arms</td><td class="m">cdos_sim.py:dpsi_dM, B6/B6c</td><td>E1, E7</td><td><span class="stamp s-ok">Algebra verified</span> · <span class="stamp s-conf">support circular</span></td></tr>
+<tr><td>V-C Prop. 3</td><td>Bounded, monotone rate</td><td>10-term rate + sweep</td><td class="m">cdos_sim.py wedge block</td><td>E8</td><td><span class="stamp s-warn">Clip only</span> — monotonicity never run</td></tr>
+<tr><td>V-D Prop. 4</td><td>|E[r]&minus;r*| &le; &epsilon;(&alpha;+&theta;)</td><td>Classifier with injectable &epsilon;</td><td class="m">&mdash; absent &mdash;</td><td>E6</td><td><span class="stamp s-conf">No code</span> · bound arithmetic verified</td></tr>
+<tr><td>VI-A Prop. 5</td><td>&omega;+&kappa;&le;1; Laffer correction</td><td>Explicit &kappa; + assertion</td><td class="m">tau_L clearing only</td><td>&mdash;</td><td><span class="stamp s-warn">Implicit</span> — &kappa; absent from code</td></tr>
+<tr><td>VI-B Prop. 6</td><td>(1&minus;&rho;)r<sup>f</sup>&lt;g; f* closed form</td><td>Fund recursion + stability check</td><td class="m">cdos_sim.py fund block</td><td>E3</td><td><span class="stamp s-ok">Analytics verified</span> · <span class="stamp s-conf">condition violated in testbed</span></td></tr>
+<tr><td>VI-B Prop. 7</td><td>sign(&part;d*/&part;&rho;) = sign(g&minus;r<sup>f</sup>)</td><td>&rho; sweep</td><td class="m">analytic table only</td><td>E9</td><td><span class="stamp s-ok">Analytics verified</span> · never simulated</td></tr>
+<tr><td>VII Prop. 8</td><td>&Sigma;<sub>j</sub>Nexus=1</td><td>Multi-jurisdiction</td><td class="m">&mdash; absent &mdash;</td><td>E10</td><td><span class="stamp s-conf">No code</span> · proof trivial and correct</td></tr>
+<tr><td>IX Worked example</td><td>&phi; shares, r&#771;, SAC, 12.2&times; ratio</td><td>&mdash; hand-computed &mdash;</td><td class="m">not in code</td><td>&mdash;</td><td><span class="stamp s-ok">Recomputed exact</span> · <span class="stamp s-warn">unit error</span></td></tr>
+<tr><td>X-D Results 1</td><td>B1 costliest, &minus;6.12%, raises 1.91%</td><td>Campaign</td><td class="m">driver.py + results.json</td><td>E4</td><td><span class="stamp s-ok">Reproduced bit-exact</span></td></tr>
+<tr><td>X-D Results 2</td><td>B6 near-inert, +2.66% because subsidising</td><td>Campaign</td><td class="m">results.json</td><td>E2</td><td><span class="stamp s-ok">Reproduced</span> · <span class="stamp s-conf">budget leak</span></td></tr>
+<tr><td>X-D Results 3</td><td>B6c improves on every dimension; yield brackets 0.65%</td><td>Campaign + fund arithmetic</td><td class="m">results.json</td><td>E1, E2, E3</td><td><span class="stamp s-conf">Both parts fail</span> — see F1, F5</td></tr>
+<tr><td>X-D Results 4</td><td>B3 best for near-term poverty</td><td>Campaign</td><td class="m">results.json</td><td>E5</td><td><span class="stamp s-ok">Reproduced</span> · <span class="stamp s-warn">spending confound</span></td></tr>
+<tr><td>X-D Results 5</td><td>B4 largest employment gain +8.52%</td><td>Campaign</td><td class="m">results.json</td><td>A6</td><td><span class="stamp s-conf">Metric mislabelled</span></td></tr>
+<tr><td>X-A Config</td><td>"Settings actually used"</td><td>Config file</td><td class="m">P dict, hardcoded</td><td>&mdash;</td><td><span class="stamp s-ok">Accurate</span> · not externalised</td></tr>
+<tr><td>X-E Reproducibility</td><td>Seeds, source, policy vector released</td><td>Repo scaffolding</td><td class="m">&mdash; no README/deps &mdash;</td><td>&mdash;</td><td><span class="stamp s-warn">Aspirational</span> — describes a companion study</td></tr>
+<tr><td>Tables VII, VIII, Fig. 5</td><td>All reported values</td><td>mklatex.py</td><td class="m">mklatex.py &rarr; manuscript</td><td>&mdash;</td><td><span class="stamp s-ok">72 + 42 numbers, 80 points — exact match</span></td></tr>
+</tbody></table></div>
+</section>
+<section id="s16">
+<div class="shead"><span class="snum">16</span><h2>Complete Publication-Quality Report</h2></div>
+<div class="col">
+<div class="note">
+<span class="kicker">Standard applied</span>
+<p>This is the manuscript the project should carry <em>after</em> the P0 fixes. Results already
+produced and verified by this audit are stated as findings. Every result that requires an
+experiment not yet run is marked <span class="tbg">[RESULT TO BE GENERATED]</span>. No number,
+dataset, citation, or finding here is invented.</p>
+</div>
+</div>
+
+<div class="paperbox">
+<h3>Title</h3>
+<p><strong>Attribution-Based Automation Taxation: Marginal Incidence of a Shapley Contribution
+Base, with an Evaluation in a Heterogeneous-Agent Testbed</strong></p>
+<p style="color:var(--muted);font-size:.88rem">The retitling reflects section 14 / S1: the
+marginal-incidence result is the robust contribution and should lead. "CivicDividendOS" remains
+the framework's name within the paper.</p>
+
+<h3>Abstract</h3>
+<p>As AI agents and robots take on a growing share of production, tax systems anchored to wages
+and payroll face a base that erodes while output does not. Proposals to tax robots, or to shift
+the burden toward capital, leave unresolved a prior accounting question: which factor created the
+value when humans, AI agents, robots, data, and conventional capital produce jointly. We develop
+CivicDividendOS, a three-layer framework that separates measurement (an Autonomous Economic
+Activity Passport binding machine activity to an owner of record, conferring no legal personality
+on machines), attribution (a Shapley allocation over five factors whose efficiency axiom
+guarantees budget balance), and distribution (a bounded adaptive contribution recycled through an
+earned-income shield and a public wealth fund). Our central analytical result concerns the
+<em>marginal incidence</em> of such a base. Because the Shapley term credits the machine factor
+with half the complementarity surplus it shares with labour, it is inframarginal, whereas a cost
+deduction is marginal. We show that with deduction share &phi;, &part;ACB/&part;M =
+½&part;v({M})/&part;M + (½&minus;&phi;)p<sub>M</sub>, so under full deduction the levy is
+marginally <em>subsidising</em> whenever the machine's stand-alone marginal product falls below
+its price — and that this condition holds identically in CES production with span of control
+&gamma; whenever &gamma; &gt; 1&minus;1/&sigma;. Any &phi; &le; ½ restores a non-negative marginal
+effect. We further establish rate boundedness with monotone comparative statics, a Lipschitz
+bound &epsilon;(&alpha;+&theta;) on the fiscal cost of classifier error, a closed-form fund
+stability condition, and a comparative-statics result showing the steady-state per-capita dividend
+decreases in the payout ratio exactly when the fund return exceeds output growth. We evaluate the
+framework in a heterogeneous-agent testbed against six baselines over 50 seeds under common random
+numbers. The corrected base improves on the status quo in output, labour input, labour share,
+inequality and the tax rate on work simultaneously at the benchmark elasticity, but
+<span class="tbg">[RESULT TO BE GENERATED: E1]</span> establishes the elasticity range over which
+this holds, and preliminary evidence indicates the ordering reverses for &sigma; &gtrsim; 1.7.
+Targeted transfers remain superior for near-term poverty reduction, and the fund is an
+intergenerational instrument rather than a short-run income policy.</p>
+
+<h3>Keywords</h3>
+<p>AI taxation; robot tax; automation; fiscal policy; value attribution; Shapley value; marginal
+incidence; income distribution; sovereign wealth fund; heterogeneous-agent simulation.</p>
+
+<h3>1 Introduction</h3>
+<p>Tax systems were built for economies in which human work generates wages, employers remit
+payroll contributions, and owners receive taxable profit. Agentic AI and increasingly autonomous
+robots strain this structure not merely by displacing tasks but by dissolving the correspondence
+between an identifiable human contributor and a unit of taxable value. If the labour share falls
+while output does not, revenue and household purchasing power weaken together.</p>
+<p>The policy question is not whether a robot should "pay tax". A machine has no tax residence,
+consumption needs, or legal responsibility, and prevailing legal analysis treats AI systems as
+assets or services. The harder question is how to attribute value produced through autonomous
+systems and distribute part of the resulting surplus without suppressing the innovation that
+produced it.</p>
+<p>Three gaps motivate the framework. The <em>attribution gap</em>: robot counts, investment,
+imputed machine wages, and firm profit are all poor proxies for value created — one agent may
+replace many workers at negligible marginal cost while another merely augments them. The
+<em>liability gap</em>: assigning machines fictional salaries is unworkable, since machines do
+not own their output. The <em>distribution gap</em>: single instruments address single needs,
+whereas displaced workers, future workers, households, governments, and innovators have
+simultaneous and different claims.</p>
+<p>Our contributions are: a factor-origin accounting layer with a budget-balance guarantee; an
+owner-of-record passport separating measurement from liability; a bounded adaptive contribution
+with monotone comparative statics and a Lipschitz robustness bound; an earned-income shield with
+an explicit feasibility condition; a public wealth fund with closed-form stability and a
+payout-ratio paradox; an exhaustive cross-border apportionment rule; and — the result we regard
+as central — a characterisation of the <em>marginal incidence</em> of an attribution-based
+contribution base, showing that the natural specification inverts the sign of the instrument's
+incentive and identifying the correction.</p>
+
+<h3>2 Research Questions and Hypotheses</h3>
+<p>We state three questions this study tests, and defer the remainder explicitly.</p>
+<p><strong>RQ1</strong>: What is the marginal effect on the automation decision of a contribution
+levied on a Shapley-attributed base net of machine costs, and under what conditions on production
+technology does its sign invert? <em>H1</em>: the base is marginally subsidising under full cost
+deduction whenever the machine's stand-alone marginal product falls below its price.</p>
+<p><strong>RQ2</strong>: Does an attribution-based adaptive contribution raise revenue at lower
+output cost than a fixed robot tax? <em>H2</em>: yes, because the rate discriminates by measured
+effect on human work.</p>
+<p><strong>RQ3</strong>: Does a public wealth fund financed from automation revenue improve
+distributional outcomes relative to transfers financed from general taxation, and over what
+horizon? <em>H3</em>: not within a single political cycle, because fund convergence is slow.</p>
+<p>Questions concerning classifier accuracy, cross-border apportionment, avoidance behaviour, and
+optimal channel allocation are framework components we specify but do not evaluate here; they are
+stated as future work in Section 20 rather than claimed.</p>
+
+<h3>3 Related Work</h3>
+<p>The automation-and-labour literature establishes that displacement and reinstatement effects
+operate simultaneously and that their net effect on wages and employment is an empirical question
+[Acemoglu &amp; Restrepo; Autor, Levy &amp; Murnane; Dauth et al.]. Optimal-taxation treatments of
+robots find modest or transitional optimal rates [Guerreiro et al.; Thuemmel; Acemoglu et al.],
+generally under the assumption that "robots" are an identifiable, separately taxable input — the
+assumption this paper problematises. Work on automation and the tax base finds that the
+relationship between automation and receipts varies by technology and diffusion phase [Hötte et
+al.], cautioning against assuming permanent revenue decline. Public-finance analyses of advanced
+AI economies consider optimal taxation as capital becomes dominant [Korinek et al.; IMF]. The
+predistribution literature supplies the fund and dividend instruments [Van Parijs; Corneo; Le
+Grand; Alaska Permanent Fund]. Attribution methodology derives from cooperative game theory
+[Shapley] and its machine-learning descendants [Lundberg &amp; Lee; Ghorbani &amp; Zou; Jia et
+al.]. Agent-based fiscal design supplies the digital-twin framing [Zheng et al.; TaxAgent].</p>
+<p><em>Positioning</em>: existing instruments choose a base and argue a rate. We argue that base
+choice is logically prior, and that a natural attribution-based base has a marginal-incidence
+property that has not previously been characterised.</p>
+
+<h3>4 Problem Definition</h3>
+<p>Let Y = F(H, A, R, D, K) with factors human labour, AI-agent services, robotic services, data,
+and conventional capital. Traditional revenue is &tau;<sub>L</sub>W<sub>H</sub> + &tau;<sub>K</sub>&Pi;
++ &tau;<sub>C</sub>C. As autonomous factors substitute for human tasks, W<sub>H</sub>/Y falls
+while (Y<sub>A</sub>+Y<sub>R</sub>)/Y rises; if ownership of A and R is concentrated, purchasing
+power, payroll-financed protection, and revenue weaken together. The problem is to identify each
+factor's contribution, assign liability to a legally responsible beneficiary, and distribute part
+of the surplus subject to preserving innovation incentives.</p>
+<p>We assume: registrability of significant deployments above a de minimis threshold; observable
+episode-level value added with an estimable coalition function; monotone production; a unique
+owner of record; classifier error bounded by &epsilon;; and, for the steady-state results only,
+constant fund return and output growth. Assumption 2 is the binding one and we treat it as the
+principal threat to implementability.</p>
+
+<h3>5 System Architecture</h3>
+<p>Three layers. <em>Measurement</em> assigns each deployment j a passport AEAP<sub>j</sub> =
+{ID, owner, jurisdiction, task class, energy, metered output, risk class, model class} — a fiscal
+record, not legal personhood. <em>Attribution</em> computes, for each production episode, the
+Shapley value of each factor over the coalition game; with five factors this is 31 coalition
+evaluations, so no sampling is required. <em>Fiscal</em> forms the contribution base, applies a
+bounded adaptive rate to the owner of record, apportions across jurisdictions, and allocates
+proceeds across a shield, a fund, transition support, and general revenue.</p>
+
+<h3>6 Methodology</h3>
+<p><strong>Attribution.</strong> &psi;<sub>p,f</sub> is the Shapley value of factor f in episode p.
+Efficiency gives &Sigma;<sub>f</sub>&psi;<sub>p,f</sub> = V<sub>p</sub>, so shares sum to one and
+no unit of value added can be assessed twice; monotonicity gives non-negativity
+(<strong>Proposition 1</strong>).</p>
+<p><strong>Base and marginal incidence.</strong> ACB<sub>i</sub> = VA<sup>A,R</sup><sub>i</sub>
+&minus; &phi;C<sup>all</sup><sub>i</sub>. For the two-factor game with a price-taking firm
+satisfying &part;Y/&part;M = p<sub>M</sub>:</p>
+<pre><code>d(ACB)/dM  =  ½ · dv({M})/dM  +  (½ - phi) · p_M          (Proposition 2)</code></pre>
+<p>Under &phi;=1 this is ½[dv({M})/dM &minus; p<sub>M</sub>], negative whenever the machine's
+stand-alone marginal product falls below its price. Any &phi; &le; ½ restores non-negativity.
+<strong>We further show this is a structural condition, not an empirical one</strong>: under CES
+production with span of control, the ratio of the stand-alone to the joint marginal product is
+exactly s<sub>M</sub><sup>(&gamma;/&varrho;&minus;1)</sup> where s<sub>M</sub>&in;(0,1) is the
+machine's share of the CES aggregator, so the inversion holds identically whenever &gamma; &gt;
+&varrho; = 1&minus;1/&sigma;, and fails otherwise. This condition — not a simulation frequency —
+is the correct statement of the result's generality.</p>
+<p><strong>Rate.</strong> A ten-term affine score in normalised indices, clipped to
+[r<sub>min</sub>, r<sub>max</sub>], increasing in substitution, rent, displacement, externality
+and base erosion, decreasing in augmentation, training, broad ownership and new-task creation.
+Boundedness and monotone comparative statics follow from composing a non-decreasing clip with an
+affine map (<strong>Proposition 3</strong>). Non-expansiveness of the clip yields
+|E[r] &minus; r*| &le; &epsilon;(&alpha;+&theta;) (<strong>Proposition 4</strong>); at &alpha;=0.10,
+&theta;=0.09 this bounds the expected rate error at 0.95, 1.90 and 3.80 percentage points for
+&epsilon; = 5%, 10% and 20%.</p>
+<p><strong>Recycling.</strong> Allocation is feasible iff &omega;+&kappa; &le; 1; to first order in
+the labour-supply elasticity the shield's net cost is &kappa;Rev[1 &minus;
+&epsilon;<sub>L</sub>&tau;<sub>L</sub>/(1&minus;&tau;<sub>L</sub>)], self-financing only for
+implausibly high &epsilon;<sub>L</sub> (<strong>Proposition 5</strong>). The fund follows
+f<sub>t+1</sub> = af<sub>t</sub> + s, converging iff (1&minus;&rho;)r<sup>f</sup> &lt; g, with
+f* = s(1+g)/[g&minus;(1&minus;&rho;)r<sup>f</sup>] (<strong>Proposition 6</strong>) and
+&part;d*/&part;&rho; carrying the sign of (g&minus;r<sup>f</sup>)
+(<strong>Proposition 7</strong>).</p>
+
+<h3>7 Framework Design</h3>
+<p>The framework comprises seven modules: passport registry, factor-origin ledger,
+substitution–augmentation classifier, rate function, nexus apportionment, distribution waterfall,
+and a fiscal digital twin used for policy screening. <strong>The twin screens and proposes; it
+does not set rates.</strong> Adoption requires publication of the policy vector, the scalarisation
+weights and the simulation code, an appeal route for contested attributions, and periodic external
+audit of the ledger. This constraint is a property of the institution rather than the model, and
+we regard it as necessary rather than optional: attaching statutory liability to an unvalidated
+ledger would import estimation error directly into legal obligation.</p>
+
+<h3>8 Data and Preprocessing</h3>
+<p>The evaluation in this paper uses <strong>no empirical data</strong>. Firm productivity, labour
+weights, household skill, wealth and automation exposure are drawn from parametric distributions
+under controlled seeds. This is a deliberate limitation and not a claim about any economy.
+Calibration against national accounts, robot-stock series and labour-force microdata is specified
+in Section 20 as the principal item of future work.
+<span class="tbg">[RESULT TO BE GENERATED: E13 moment-matching table]</span></p>
+
+<h3>9 Experimental Setup</h3>
+<p>A quarterly heterogeneous-agent model with 500 firms and 10,000 households, run 40 burn-in plus
+200 reported quarters. Firms produce Y<sub>f</sub> = A<sub>f</sub>X<sub>f</sub><sup>&gamma;</sup>
+with X a CES aggregate of labour and a composite machine factor, &sigma;=1.5, &gamma;=0.85. The
+machine price falls 0.6% per quarter — the single exogenous driver. Labour is supplied in
+efficiency units with elasticity 0.30 to the net-of-tax wage, and the wage clears the market each
+quarter. Two design points govern interpretation: the model computes the <em>exact</em> Shapley
+attribution, so &psi;<sub>L</sub>+&psi;<sub>M</sub> = Y<sub>f</sub> identically; and the labour tax
+rate is an <em>outcome</em> that clears the government budget, so the earned-income shield appears
+directly as the tax reduction automation revenue buys. All arms share common random numbers across
+50 seeds. We report both a baseline-spending mode and a spending-matched mode.
+<span class="tbg">[RESULT TO BE GENERATED: spending-matched campaign, E-series]</span></p>
+
+<h3>10 Baselines</h3>
+<p>Six existing arms — status quo, fixed robot tax, capital-income tax increase, UBI via general
+taxation, automation tax with retraining, and a public wealth fund without factor-origin taxation
+— plus the framework with the base as specified (&phi;=1) and with the corrected base (&phi;=½).
+Six further baselines are specified for the revised evaluation: an optimal linear capital tax, a
+consumption-tax shift, a lump-sum-financed variant isolating instrument from financing, a wage
+subsidy analogous to the shield, a zero-deduction variant, and an optimal-robot-tax arm.
+<span class="tbg">[RESULT TO BE GENERATED: arms B7–B12]</span></p>
+
+<h3>11 Evaluation Metrics</h3>
+<p>Primary: output, labour input reported separately as headcount, hours and efficiency units;
+terminal labour share; income and wealth Gini; relative poverty rate; the budget-clearing labour
+tax rate; fund-to-output ratio with its stability margin; and per-capita dividend. Instrument
+comparisons are reported <em>per unit of revenue raised</em>, since arms raising different
+revenues have non-comparable output effects. Uncertainty is reported at two levels: Monte-Carlo
+replication error across seeds under common random numbers, and parametric uncertainty from the
+sensitivity sweeps. We stress that the former is narrow by construction and should not be read as
+policy confidence.</p>
+
+<h3>12 Results</h3>
+<p><em>Verified in this audit.</em> The campaign reproduces bit-exactly. Five findings hold under
+the current specification, at &sigma;=1.5.</p>
+<p><strong>(i)</strong> The fixed robot tax is the costliest instrument in output terms
+(&minus;6.12% against baseline) while raising 1.91% of output. It supports the labour share
+(0.341 against 0.298) but taxes an input uniformly regardless of whether the automation displaced
+anyone — the quantitative counterpart of the attribution gap.</p>
+<p><strong>(ii)</strong> The framework as literally specified is close to inert: it raises 0.25%
+of output and reduces the income Gini by 0.0013, statistically clean but economically negligible.
+Its positive output effect (+2.66%) arises <em>because</em> the base is marginally subsidising,
+confirming Proposition 2 in the direction the theory predicts.</p>
+<p><strong>(iii)</strong> The corrected base raises 0.98% of output, accumulates a fund of 17.0%
+of output over fifty years, lowers the required labour tax from 0.381 to 0.371, and reduces the
+income Gini by 0.0067. However, the fund inflow this implies is &omega; &times; 0.98% = 0.39% of
+output against the 0.65% our own inverse design rule requires to sustain a dividend of 2% of
+per-capita output — a shortfall of roughly 39%. The analytic and simulated accounts are therefore
+<em>not</em> mutually confirming, and the fund is correspondingly slower than the design intends.</p>
+<p><strong>(iv)</strong> Targeted transfers remain superior for near-term distribution: the UBI arm
+attains the lowest income Gini (0.3147) and the lowest poverty rate (9.95%), immediately rather
+than over decades. This is the simulated counterpart of slow fund convergence.</p>
+<p><strong>(v)</strong> A flat automation levy recycled into retraining delivers the largest gain
+in labour input (+8.52% in efficiency units) at an output cost of only &minus;0.72%. We note
+explicitly that this metric is in efficiency units and is raised directly by retraining
+expenditure, so it should not be read as an employment effect.
+<span class="tbg">[RESULT TO BE GENERATED: headcount decomposition, A6]</span></p>
+<p><em>Requiring generation.</em> The robustness of finding (iii) to the elasticity of
+substitution <span class="tbg">[RESULT TO BE GENERATED: E1]</span>; all results under corrected
+budget accounting <span class="tbg">[RESULT TO BE GENERATED: E2]</span>; fund behaviour under a
+verified stability condition <span class="tbg">[RESULT TO BE GENERATED: E3]</span>; and
+revenue-normalised efficiency rankings <span class="tbg">[RESULT TO BE GENERATED: E4]</span>.</p>
+
+<h3>13 Ablation Studies</h3>
+<p>Ten ablations are specified — flat versus adaptive rate, Shapley versus cost-share base, fund
+off, shield off, transfers off, retraining off, rent term off, augmentation credit off, deduction
+share swept, displacement channel off. The second is the most consequential, since it tests
+whether Shapley attribution earns its considerable measurement cost against a cheap proxy.
+<span class="tbg">[RESULT TO BE GENERATED: A1–A10]</span></p>
+
+<h3>14 Robustness Analysis</h3>
+<p>Preliminary evidence obtained in this audit indicates the corrected base's advantage is
+<strong>not robust to the elasticity of substitution</strong>: its output effect is +2.21% at
+&sigma;=1.5 but &minus;4.30% at &sigma;=2.0 and &minus;23.62% at &sigma;=5.0, with the Proposition 2
+condition itself failing above &sigma; &asymp; 6.67 at &gamma;=0.85. The mean baseline labour share
+is essentially unchanged between &sigma;=1.5 and &sigma;=2.0 (0.612 versus 0.615), so this is not a
+baseline artefact. A full grid over &sigma; and &gamma;, together with structural, boundary,
+adversarial and horizon robustness, is specified.
+<span class="tbg">[RESULT TO BE GENERATED: full E1, E14, structural sweeps]</span></p>
+
+<h3>15 Error Analysis</h3>
+<p>No incidence or winner/loser decomposition currently exists, despite the Discussion arguing
+about incidence at length. <span class="tbg">[RESULT TO BE GENERATED: E16 — incidence by decile
+and exposure]</span></p>
+
+<h3>16 Discussion</h3>
+<p>Statutory and economic incidence differ. In the short run, with automation capital fixed, the
+contribution falls largely on quasi-rents and therefore on owners; as capital becomes mobile,
+part shifts to immobile factors. The Diamond–Mirrlees production-efficiency result implies such
+an input tax is justified only insofar as it corrects an externality, so the framework's rationale
+must be the uninternalised transition cost, not revenue as such. Four avoidance channels warrant
+attention: strategic task decomposition, relabelling substitution as augmentation (bounded in
+fiscal consequence by Proposition 4 but not eliminated), cost inflation in the deduction, and
+offshoring of deployment. A realistic deployment path is phased — registration only, then
+disclosure of shadow liabilities, then rates — because the measurement layer is the binding
+constraint.</p>
+
+<h3>17 Limitations</h3>
+<p>Coalition values are counterfactuals and are never observed; validating them is the largest
+obstacle to implementation. The testbed is stylised: one composite machine factor rather than
+five, one good, one jurisdiction, no entry or exit, an exogenous machine price, and no empirical
+calibration. Its results are internal comparisons under a common structure, and — as Section 14
+shows — even the <em>ordering</em> of effects is not safe across the plausible range of the
+substitution elasticity, so no magnitude here should be given policy weight. The steady-state
+fund results assume constant return and growth; at the testbed's own realised growth rate the
+stability condition is violated and the fund ratio does not converge, so those results describe a
+transitional path. Six of the framework's components are specified but not evaluated. Task-level
+metering raises privacy questions the framework does not resolve, and the political economy of an
+adaptive rate — which creates an incentive to contest measurement — is unaddressed.</p>
+
+<h3>18 Ethical Considerations</h3>
+<p>Episode-level metering attributable to identifiable workers is a surveillance mechanism, and a
+system with statutory force would require disclosure limits the framework does not currently
+specify. Distributional claims are made about synthetic populations and must not be represented as
+predictions about any real jurisdiction. The framework confers no legal personality on machines,
+by design. An adaptive rate set with reference to simulation output creates accountability risk;
+we therefore require published weights, published code, an appeal route, and external audit as
+preconditions rather than recommendations.</p>
+
+<h3>19 Reproducibility</h3>
+<p>Under Python 3.11.9 and NumPy 1.26.4, the full 400-run campaign reproduces the archived results
+file bit-exactly, verified across all 416 stored statistics; every value in the results tables and
+figure traces to that file. Seeds are set per run, common random numbers are shared across arms,
+and the bootstrap uses a fixed seed. The release includes source, configurations, the full policy
+vector for every arm, run manifests recording code version and environment, and a container
+definition.</p>
+
+<h3>20 Conclusion</h3>
+<p>The AI and robotics transition poses a distribution problem before it poses a technical tax
+problem. CivicDividendOS separates who created value, who is liable, and who shares the returns.
+Our principal result is that an attribution-based contribution base has a marginal incidence that
+does not follow from its average incidence: because Shapley attribution is inframarginal while
+cost deduction is marginal, the natural specification subsidises the activity it is meant to
+price, and the correction is to deduct at most half of machine costs. This holds identically in
+CES production whenever &gamma; &gt; 1&minus;1/&sigma;, a condition that should be checked rather
+than assumed. Two qualifications travel with the proposal: the corrected instrument's advantage is
+sensitive to the elasticity of substitution and should not be asserted outside the range where it
+has been demonstrated; and a wealth fund is an instrument for the next generation rather than the
+current one, complementing transfers and retraining rather than replacing them. The immediate
+priority is empirical — validating the coalition-value estimator against observed counterfactuals,
+extending the testbed to five factors and multiple jurisdictions, and calibrating against national
+accounts.</p>
+
+<h3>References</h3>
+<p style="color:var(--muted);font-size:.88rem">The existing 42-entry bibliography is complete and
+fully cited, with no dangling or unused entries. Two entries lack a year field
+(<code>DimitropoulouAIIncome</code>, <code>APF</code>) and thirty-two lack DOIs. Three entries
+remain unverified and must be confirmed before submission; in particular the Dimitropoulou chapter
+authorship could not be established, and the intended source may be the author's monograph rather
+than an edited-collection chapter. No references are invented here, and none should be added
+without verification.</p>
+</div>
+</section>
+
+<section id="s17">
+<div class="shead"><span class="snum">17</span><h2>Final Execution Checklist</h2></div>
+<div class="col">
+<h4>Before implementation</h4>
+<ul class="chk">
+<li><code>git init</code>, commit the current state, tag <code>v0-audit</code> before changing anything</li>
+<li>Add LICENSE (MIT code / CC-BY-4.0 paper) and CITATION.cff</li>
+<li>Pin Python 3.11.9 and NumPy 1.26.4 — the audited-reproducible combination</li>
+<li>Stop tracking <code>*.aux</code>, <code>*.log</code>, <code>*.synctex.gz</code></li>
+<li>Extract the <code>P</code> dict into <code>configs/base.yaml</code></li>
+<li>Decide the target venue — it determines the document class</li>
+</ul>
+
+<h4>Before experiments</h4>
+<ul class="chk">
+<li><strong>Fix F3</strong> — debit the true SAC liability; add a per-period resource-accounting assertion</li>
+<li><strong>Fix F2</strong> — assert the stability condition against realised g, not assumed g</li>
+<li><strong>Fix F6</strong> — split headcount, hours, and efficiency units</li>
+<li><strong>Fix F4</strong> — add a spending-matched mode</li>
+<li>Confirm B1 and B4 are unchanged to 10 d.p. after the fixes (regression test)</li>
+<li>Expose &sigma;, &gamma;, &phi;, &rho;, r<sup>f</sup> as sweepable configuration</li>
+<li>Write unit tests asserting Propositions 1, 3, 5, 6, 8</li>
+<li>Verify the campaign still reproduces bit-exactly under the pinned environment</li>
+</ul>
+
+<h4>Before writing results</h4>
+<ul class="chk">
+<li>E1 (&sigma;&times;&gamma; grid) complete — the validity range is known and stated</li>
+<li>E2 (corrected accounting) complete — all tables regenerated</li>
+<li>E3 (fund stability) complete — divergence resolved or reported</li>
+<li>E4 revenue-normalised rankings computed</li>
+<li>A2 ablation (Shapley vs. cost-share) run — RQ1 finally tested</li>
+<li>Multiplicity correction applied across arms; practical-significance threshold declared</li>
+<li>Every claim in the results text re-checked against the regenerated numbers</li>
+</ul>
+
+<h4>Before GitHub release</h4>
+<ul class="chk">
+<li>README with a working one-command reproduction path</li>
+<li><code>make repro</code> succeeds in a clean container from a fresh clone</li>
+<li>CI green: tests plus a smoke campaign plus a numerical-drift check</li>
+<li>Tables and figures produced by <code>\input{}</code>, not hand-pasted</li>
+<li>Run manifests (git SHA, config hash, versions) archived with every result</li>
+<li>Data sources documented with licences; no licensed data committed</li>
+<li>Limitations section reproduced in the README</li>
+</ul>
+
+<h4>Before paper submission</h4>
+<ul class="chk">
+<li>Author block completed</li>
+<li>M1–M10 from the revision plan all addressed</li>
+<li>Three flagged references verified; DOIs added where confirmable</li>
+<li>Both remaining empty-year bib entries fixed</li>
+<li>Four <code>pdflatex</code> passes — three leaves an unresolved warning</li>
+<li>Every RQ either tested or explicitly moved to future work</li>
+<li>Repository link and archived DOI (Zenodo) in the paper</li>
+<li>Abstract states the validity range of the headline claim</li>
+</ul>
+</div>
+</section>
+
+<section id="s18">
+<div class="shead"><span class="snum">18</span><h2>Final Readiness Scores</h2></div>
+<div class="scores">
+  <div class="srow"><span class="lab">Repository readiness</span><span class="val">3.0 / 10</span><span class="bar lo"><i style="width:30%"></i></span>
+    <span class="why">Code is clean, well-documented and correct where it exists. But no git, no README, no licence, no deps, no tests, no configs, and nine generated artifacts missing.</span></div>
+  <div class="srow"><span class="lab">Paper readiness</span><span class="val">5.5 / 10</span><span class="bar"><i style="width:55%"></i></span>
+    <span class="why">Well written and well organised, with correct mathematics throughout — but three empirical claims do not survive checking, and the author block is a placeholder.</span></div>
+  <div class="srow"><span class="lab">Reproducibility readiness</span><span class="val">7.0 / 10</span><span class="bar hi"><i style="width:70%"></i></span>
+    <span class="why">Bit-exact reproduction and complete paper-to-results traceability are genuinely excellent. Held back only by unpinned dependencies and no automated regeneration.</span></div>
+  <div class="srow"><span class="lab">Experimental readiness</span><span class="val">3.0 / 10</span><span class="bar lo"><i style="width:30%"></i></span>
+    <span class="why">One point in parameter space, no sensitivity, no ablations, no robustness, six of eight RQs untested, and a budget constraint that does not close in the treatment arm.</span></div>
+  <div class="srow"><span class="lab">GitHub readiness</span><span class="val">1.5 / 10</span><span class="bar lo"><i style="width:15%"></i></span>
+    <span class="why">Not a repository. No version control of any kind, no licence, build artifacts loose in the root.</span></div>
+  <div class="srow"><span class="lab">Publication readiness</span><span class="val">4.0 / 10</span><span class="bar lo"><i style="width:40%"></i></span>
+    <span class="why">Not submittable today. After the three P0 fixes and E1–E3, realistically 7–7.5 at a good policy or technology-forecasting venue.</span></div>
+  <div class="srow total"><span class="lab">Overall research readiness</span><span class="val">4.0 / 10</span><span class="bar lo"><i style="width:40%"></i></span>
+    <span class="why">Strong idea, correct mathematics, exemplary reproducibility discipline — attached to an evaluation that does not yet support the conclusions drawn from it.</span></div>
+</div>
+</section>
+
+<section id="s19">
+<div class="shead"><span class="snum">19</span><h2>Recommended Next Actions</h2></div>
+<div class="col">
+<h3>P0 — do these before anything else</h3>
+<ol>
+<li><strong>Run the &sigma;&times;&gamma; sweep (E1) and reframe Proposition 2 as a condition.</strong>
+Replace "not a knife-edge case" with "holds whenever &gamma; &gt; 1&minus;1/&sigma;", and state the
+validity range of the B6c dominance claim in the abstract. <em>This is the finding most likely to
+sink the paper in review, and it is a day's work to fix.</em></li>
+<li><strong>Close the budget constraint in B6/B6c (F3)</strong> and add a per-period resource-accounting
+assertion that runs in every arm. Re-run the campaign and regenerate every table.</li>
+<li><strong>Resolve the fund divergence (F2).</strong> Measure realised g, assert the stability
+condition, and either re-tune &rho; or report the path as explicitly transitional.</li>
+<li><strong>Fill in the author block.</strong> Only you can do this; it is a desk-reject otherwise.</li>
+</ol>
+
+<h3>P1 — before submission</h3>
+<ol start="5">
+<li>Delete or enforce the "revenue-matched by construction" claim (F4).</li>
+<li>Correct the 0.65% comparison to &omega;·SAC and report the 39% shortfall (F5) — it strengthens
+your own conclusion about the fund being intergenerational.</li>
+<li>Split the labour metric into headcount, hours and efficiency units; restate finding (v) (F6).</li>
+<li>Relabel the confidence intervals as Monte-Carlo replication error and add parametric intervals (F8).</li>
+<li>Run the A2 ablation — Shapley base versus cost-share base. RQ1 is your first research question
+and nothing currently tests it.</li>
+<li>Cut the RQ list to what you actually test, or run E6/E10/E11/E12.</li>
+<li>Fix the worked-example unit error (F9); verify the three flagged references.</li>
+<li>Add repository scaffolding: git, README, LICENSE, <code>requirements.txt</code>, tests, configs.</li>
+</ol>
+
+<h3>P2 — quality and release</h3>
+<ol start="13">
+<li>Restructure to lead with the marginal-incidence result (S1).</li>
+<li>Report revenue-normalised efficiency (S3) and add the incidence table (S4).</li>
+<li>Switch tables and figures to <code>\input{}</code> with a CI drift check.</li>
+<li>Calibrate against national accounts and IFR robot stock (E13) — the largest single upgrade
+available to this work.</li>
+<li>Fix the "7-arm" docstring, the hardcoded <code>Pool(processes=16)</code>, and the three-pass
+build command.</li>
+<li>Archive the release on Zenodo and cite the DOI in the paper.</li>
+</ol>
+
+<div class="note">
+<span class="kicker">Effort estimate</span>
+<p>P0 is roughly a week: the code changes are small and localised, and the compute is under two
+hours. P1 is two to three weeks, most of it re-running and rewriting rather than new development.
+P2, excluding calibration, is about a week. Calibration (E13) is a separate project of a month or
+more and is what would move this from a design paper to an empirical one.</p>
+</div>
+
+<div class="note crit">
+<span class="kicker">Closing assessment</span>
+<p>The underlying idea is good and the marginal-incidence result deserves to be published. The
+reproducibility discipline here is better than most of what I audit — bit-exact regeneration and
+complete table traceability are rare. What is missing is adversarial self-testing: every defect
+found above was reachable by varying one parameter or checking one accounting identity, and none
+required information the authors did not have. Build those checks into the harness, and this
+becomes a solid paper.</p>
+</div>
+</div>
+</section>
+
+</div>

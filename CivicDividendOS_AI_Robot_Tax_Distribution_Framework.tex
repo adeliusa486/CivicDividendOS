@@ -1,0 +1,1075 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+
+\title{CivicDividendOS: A Factor-Origin Fiscal Ledger and Public Automation Dividend Framework for Human--AI--Robot Economies}
+
+\author{\IEEEauthorblockN{Author Name}
+\IEEEauthorblockA{Affiliation\\Email}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The rapid diffusion of artificial-intelligence agents, autonomous software, and physical robots is beginning to weaken the historical correspondence between productive work, human wages, payroll taxation, and household income. Existing automation-tax research largely asks whether robots should be taxed and at what rate, while recent AI public-finance research focuses on capital taxation, corporate profits, consumption taxes, transfers, or sovereign wealth funds. These approaches are valuable but leave an unresolved accounting and distribution problem: when an urban service, firm, or digital platform is jointly operated by humans, AI agents, robots, data, and conventional capital, public authorities lack a principled mechanism for determining which factor created economic value, who should legally bear the fiscal obligation, and how automation-generated surplus should be distributed between private owners, workers, citizens, and the state.
+
+This paper proposes \textit{CivicDividendOS}, a novel factor-origin fiscal and distribution framework for economies in which human labour coexists with autonomous digital and embodied productive systems. The framework introduces an \textit{Autonomous Economic Activity Passport} for every significant AI-agent or robotic deployment. The passport does not grant legal personality to machines; instead, it creates an auditable economic identity linking machine activity to its human or corporate owner, operator, jurisdiction, energy use, task class, and generated output. A \textit{Factor-Origin Ledger} then attributes value added across human labour, AI-agent services, robotic services, data contributions, and conventional capital using task-level causal contribution estimates rather than simply imputing a fictional wage to a robot.
+
+Based on this ledger, CivicDividendOS computes a dynamic \textit{Automation Contribution Base} and applies a \textit{Social Automation Contribution} to the legally responsible owner or beneficiary. The rate is endogenous: it rises when autonomous production substitutes for taxable labour, concentrates economic rents, or creates measurable social externalities, and falls through augmentation, reskilling, human-capability, small-firm, and productivity credits when automation complements workers or produces broad social benefit. Collected revenue and selected equity contributions are divided through a \textit{Public Automation Wealth Fund} into four channels: a universal Civic Automation Dividend, targeted worker-transition insurance, a Human Capability Endowment for education and future expertise, and financing for public services. In parallel, a \textit{Human Earned-Income Shield} reduces payroll or labour-income burdens as the taxable labour share contracts.
+
+The framework therefore changes the fiscal unit of analysis from ``taxing robots'' to \textit{taxing the economically attributable automation surplus at the owner/beneficiary level while socializing part of its long-run capital return}. A policy digital twin continuously stress-tests tax incidence, innovation effects, employment, inequality, revenue stability, and cross-border leakage before rates are adjusted. This provides a computational foundation for a tax-and-dividend system that can preserve public revenue and household purchasing power without treating AI agents or robots as fictional legal persons.
+\end{abstract}
+
+\begin{IEEEkeywords}
+AI taxation, robot tax, automation, fiscal policy, public finance, multi-agent systems,
+income distribution, universal basic capital, sovereign wealth fund, future of work,
+agentic economy, social dividend.
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Modern tax systems were largely designed around economies in which human work
+generates wages, employers remit payroll contributions, households pay income
+and consumption taxes, and owners receive taxable profits from capital.
+Automation has always complicated this structure, but agentic AI and increasingly
+autonomous robots introduce a qualitatively broader challenge. Software agents
+can now execute cognitive, administrative, creative, analytical, and commercial
+tasks, while robots increasingly perform physical activities previously requiring
+human workers.
+
+The economic output of a future firm or city service may therefore arise from a
+joint production process involving humans, AI agents, robots, training data,
+cloud infrastructure, intellectual property, and conventional capital. If
+labour's share of production falls, governments may face a structural mismatch:
+the tax base remains strongly linked to wages and payroll while economic value
+increasingly accrues to owners of automated productive capital.
+
+The policy question is not simply whether a robot should ``pay tax.'' A robot or
+AI agent does not currently possess tax residence, citizenship, consumption
+needs, pension rights, or legal responsibility analogous to a human worker.
+Current legal analysis generally treats AI and robots as assets, tools, services,
+or components of businesses rather than independent taxable persons
+\cite{DimitropoulouAIIncome}. The more important problem is how to attribute
+economic value produced through autonomous systems and how to distribute a
+reasonable share of the resulting surplus without destroying socially valuable
+innovation.
+
+This paper proposes CivicDividendOS, a computational framework that combines
+factor-origin accounting, adaptive automation contributions, public capital
+ownership, citizen dividends, worker transition support, and labour-tax relief.
+
+\section{Literature Review}
+
+\subsection{Automation, Tasks, Wages, and Income Distribution}
+
+A central insight in the economics of automation is that technology changes the
+allocation of tasks between labour and capital. Acemoglu and Restrepo show that
+automation produces a displacement effect by allowing capital to perform tasks
+previously undertaken by labour, while the creation of new tasks can reinstate
+labour demand \cite{AcemogluRestrepo2019}. Their task-based perspective provides
+an important foundation for analysing fiscal policy because automation affects
+not only aggregate productivity but also who receives the associated income.
+
+Empirical research further shows that the labour-market effects of robot
+adoption are uneven. Acemoglu and Restrepo document adverse employment and wage
+effects in U.S. local labour markets exposed to industrial robots
+\cite{AcemogluRestrepo2020}. By contrast, Dauth et al. find that manufacturing
+job displacement in Germany was offset by service-sector employment, although
+the burden fell disproportionately on younger workers entering the labour market
+\cite{Dauth2021}. These findings suggest that automation can generate both gains
+and adjustment costs, and that distributional consequences differ across time,
+workers, and institutional environments.
+
+Recent AI research broadens these concerns because AI can affect non-routine
+cognitive tasks in addition to routine physical or clerical work. The IMF has
+emphasized that AI may increase productivity while also widening income and
+wealth inequality if gains disproportionately accrue to high-income workers and
+capital owners \cite{IMF2024AI}. OECD evidence similarly indicates heterogeneous
+effects across occupations and skill groups \cite{OECD2025Korea}.
+
+\subsection{Robot Taxes and Optimal Taxation}
+
+The idea of taxing robots has generated substantial economic and legal debate.
+Guerreiro, Rebelo, and Teles develop a quantitative model in which falling
+automation costs can sharply increase inequality. They find that robot taxation
+can be optimal during the transition while workers exposed to automation remain
+in the labour force, but that the optimal tax can disappear after adjustment
+\cite{Guerreiro2022}.
+
+Thuemmel studies the joint taxation of robots, other capital, and labour
+income. The analysis shows that the optimal treatment of robots depends on
+their cost and general-equilibrium effects: subsidies may be desirable when
+robots are expensive, while a positive robot tax can emerge as robots become
+cheaper and inequality increases \cite{Thuemmel2023}. This demonstrates that
+the optimal policy is dynamic rather than a permanent fixed levy.
+
+Acemoglu et al. analyse optimal policy in a task framework and show that reducing
+labour taxes while combining capital-tax reductions with targeted automation
+taxes can improve employment outcomes relative to uniform capital taxation
+\cite{AcemogluOptimalPolicy}. Related work on inefficient automation finds that
+firms may automate too rapidly because they do not internalize transition costs
+borne by workers, creating an efficiency rationale for slowing automation even
+without an explicit redistributive objective \cite{InefficientAutomation}.
+
+Merola reviews taxation as a mechanism for sharing gains from automation and AI,
+discussing robot taxes, capital taxation, and redistribution toward workers
+\cite{Merola2022}. Zhang similarly analyses automation, wage inequality, and
+robot taxation \cite{Zhang2019}.
+
+The literature therefore establishes that some form of differentiated taxation
+of automation may be justified under particular conditions. However, a persistent
+implementation challenge remains: what exactly constitutes a robot, how should
+its contribution be measured, and how can the tax avoid discouraging beneficial
+capital deepening?
+
+\subsection{Automation and the Tax Base}
+
+Automation can alter not only employment but also the structure of government
+revenue. H{\"o}tte, Theodorakopoulos, and Koutroumpis examine nineteen European
+countries and find that the relationship between automation and tax receipts
+varies across technologies and phases of diffusion \cite{Hotte2024}. Their
+results caution against the simplistic assumption that automation necessarily
+causes a permanent decline in total revenue, but they also demonstrate that
+automation can change the balance between labour, capital, and consumption tax
+bases.
+
+The IMF argues that fiscal policy will need to adapt if AI shifts income toward
+capital and away from labour, including stronger social protection and careful
+consideration of capital-income taxation \cite{IMF2024Fiscal}. The IMF's 2026
+work on the global economic implications of AI similarly emphasizes protecting
+tax capacity and fairness if labour income becomes less central
+\cite{IMF2026GlobalAI}.
+
+Korinek and co-authors develop a broader public-finance framework for advanced
+AI economies, analyzing optimal taxation under scenarios in which capital can
+become increasingly dominant \cite{Korinek2026}. This line of work is especially
+important because it moves beyond a narrow robot levy toward the redesign of
+the fiscal system itself.
+
+\subsection{Taxing AI Rather than Only Robots}
+
+The expansion of generative and agentic AI has renewed interest in taxation
+instruments that are not tied to physical robots. Faivre and Cen survey the
+viability of AI taxation and distinguish multiple objectives, including
+correcting externalities, redistributing uneven gains and costs, and financing
+regulatory capacity \cite{FaivreCen2026}. They discuss corporate income and
+rent-based taxation, consumption taxes on AI services, and excise-style
+instruments tied to particular AI activities.
+
+This work highlights an important design principle: there is unlikely to be one
+universal ``AI tax.'' Different harms and policy objectives require different
+tax bases. Measurement, tax incidence, international leakage, and innovation
+effects are major constraints.
+
+Legal scholarship similarly identifies substantial difficulties in treating
+robots or AI systems as independent taxpayers. Current income-tax systems
+generally attribute income to owners, firms, or service providers rather than
+to the autonomous system itself \cite{DimitropoulouAIIncome}. This creates a
+strong case for separating \textit{machine-level economic measurement} from
+\textit{legal tax liability}.
+
+\subsection{Universal Basic Income, Social Protection, and Transfers}
+
+One proposed response to automation is redistribution through universal basic
+income (UBI) or targeted transfers. Merola notes that revenues from automation
+taxes could be used for universal or worker-focused transfers
+\cite{Merola2022}. The ILO has examined UBI proposals in relation to social
+protection standards and has highlighted financing, adequacy, labour-market,
+and institutional questions \cite{ILOUBI}.
+
+Transfers can stabilize household income, but they do not necessarily change
+the underlying ownership of productive capital. If AI-driven production becomes
+capital intensive, a purely transfer-based model may require governments to
+continually tax a concentrated ownership base.
+
+\subsection{Universal Basic Capital and Public Wealth Funds}
+
+An alternative is broader ownership of productive assets. Universal Basic
+Capital (UBC) proposes granting citizens financial assets or capital rather than
+only periodic income transfers \cite{LeGrand2020}. Progressive sovereign wealth
+fund proposals similarly argue that public ownership of capital can generate a
+more egalitarian distribution of investment income \cite{Corneo2022}.
+
+The Alaska Permanent Fund provides a long-running real-world example of
+converting natural-resource rents into a permanent investment fund whose
+earnings support resident dividends \cite{APF}. Although AI is not a natural
+resource, the institutional analogy is relevant: temporary or concentrated
+economic rents can be partially transformed into broadly owned financial
+capital.
+
+Recent public-finance discussions increasingly consider sovereign wealth funds
+or citizen-share funds as complements to AI-era tax reform. Brookings argues
+that equity-based mechanisms can capture returns that scale with AI's economic
+importance \cite{BrookingsTax2026,BrookingsFairness2026}.
+
+\subsection{Data Dividends}
+
+Another literature considers whether individuals should receive dividends from
+data used to create AI value. Vincent et al. map design choices for data
+dividends and show that apparently reasonable allocation rules can generate
+concentrated or demographically unequal outcomes \cite{Vincent2019}. Bax
+investigates Shapley-value and Owen-value approaches for estimating the
+contribution of individual data samples \cite{Bax2019}.
+
+This literature is useful for value attribution, but data dividends address only
+one input into AI production. They do not provide a comprehensive fiscal system
+for joint human--AI--robot production.
+
+\subsection{Adaptive and Agent-Based Fiscal Policy}
+
+AI itself is also being investigated as an instrument for fiscal design.
+TaxAgent integrates large language models with agent-based economic simulation
+to adapt tax policies under heterogeneous household behaviour
+\cite{TaxAgent2025}. Other research explores AI-supported detection of tax
+loopholes and policy inconsistencies \cite{Fratric2025}. These developments
+suggest that future fiscal systems may be increasingly adaptive and
+simulation-driven.
+
+However, these systems typically optimize conventional tax structures. They do
+not establish an accounting layer that identifies the factor origin of value in
+mixed human--agent--robot production.
+
+\section{Synthesis of the Literature}
+
+The literature provides five strong foundations:
+
+\begin{enumerate}
+\item automation changes the task allocation between capital and labour;
+\item automation can affect wages, employment, inequality, and tax bases;
+\item targeted taxation of automation may be optimal under some conditions;
+\item social transfers and public capital ownership can distribute automation
+gains; and
+\item adaptive computational methods can support tax-policy design.
+\end{enumerate}
+
+Nevertheless, these literatures are generally connected only at a macroeconomic
+or conceptual level. A practical fiscal architecture for an agentic economy
+requires a missing intermediate layer: \textit{auditable attribution of
+economic value to the productive factors that actually performed a task}.
+
+\section{Research Gap}
+
+Three unresolved gaps motivate CivicDividendOS.
+
+\subsection{The Attribution Gap}
+
+Existing robot-tax proposals frequently rely on robot counts, robot investment,
+imputed wages, capital expenditure, or firm-level profits. These measures become
+increasingly problematic in an agentic economy. One AI agent may execute the
+work of many humans at negligible marginal software cost, while another AI
+system may simply augment employees. A robot may perform a hazardous task that
+should be encouraged rather than taxed. A cloud-based agent may serve multiple
+jurisdictions simultaneously.
+
+Therefore, neither ``one robot = one taxable worker'' nor a simple tax on
+automation investment provides a reliable measure of the economic value created
+by autonomous systems.
+
+\subsection{The Liability Gap}
+
+Giving AI agents or robots fictional salaries and asking them to pay income tax
+creates legal and administrative difficulties. Machines do not independently
+own their output under current systems. The economically relevant beneficiary
+is generally an owner, firm, platform, or operator.
+
+A new framework must therefore identify machine-originated economic activity
+without making the machine itself the legal taxpayer.
+
+\subsection{The Distribution Gap}
+
+Current proposals usually choose one redistribution mechanism: a robot tax,
+higher capital taxation, UBI, retraining, or public ownership. Yet an AI economy
+can require several simultaneously. Displaced workers have immediate transition
+needs; future workers need education; citizens may need a new non-wage source of
+income; governments need stable revenue; and innovation still requires private
+returns.
+
+The literature does not yet provide an integrated, task-origin fiscal mechanism
+that determines both \textit{how automation surplus enters the public system}
+and \textit{how that surplus is divided among current citizens, affected
+workers, future human capability, and public capital}.
+
+\section{Problem Statement}
+
+Let economic output $Y$ be jointly produced by human labour $H$, AI-agent
+services $A$, robotic services $R$, data $D$, and conventional capital $K$:
+
+\begin{equation}
+Y = F(H,A,R,D,K).
+\end{equation}
+
+Under a traditional fiscal system, a substantial share of public revenue is
+generated from:
+
+\begin{equation}
+Tax^{traditional}
+=
+\tau_L W_H + \tau_K \Pi + \tau_C C,
+\end{equation}
+
+where $W_H$ is human wage income, $\Pi$ represents taxable capital or corporate
+income, and $C$ consumption.
+
+As autonomous productive factors replace or augment human tasks, the wage share
+may decline while output remains constant or increases:
+
+\begin{equation}
+\frac{W_H}{Y} \downarrow,
+\qquad
+\frac{Y_A+Y_R}{Y} \uparrow.
+\end{equation}
+
+If ownership of $A$ and $R$ is concentrated, household purchasing power,
+payroll-financed social protection, and government revenue can weaken even when
+aggregate productivity rises.
+
+The fundamental research problem is therefore:
+
+\begin{quote}
+\textit{How can a tax-and-distribution system identify the economic value
+created by humans, AI agents, robots, data, and conventional capital; assign
+legal fiscal responsibility to the appropriate human or corporate
+beneficiaries; and distribute part of automation-generated surplus in a way
+that preserves innovation, public revenue, household income, workforce
+transition, and broad participation in future capital returns?}
+\end{quote}
+
+The problem becomes more difficult when AI agents are cloud-based, operate
+across borders, change tasks rapidly, and act primarily as complements rather
+than substitutes for humans.
+
+\section{Proposed Framework: CivicDividendOS}
+
+CivicDividendOS contains seven interconnected components.
+
+\subsection{1. Autonomous Economic Activity Passport}
+
+Every economically significant autonomous deployment is assigned an
+\textit{Autonomous Economic Activity Passport} (AEAP).
+
+The passport is not legal personhood. It is a fiscal measurement record:
+
+\begin{equation}
+AEAP_j =
+\{ID_j,O_j,J_j,T_j,E_j,Q_j,R_j,M_j\},
+\end{equation}
+
+where:
+$O_j$ is the legally responsible owner/operator,
+$J_j$ deployment jurisdiction,
+$T_j$ task category,
+$E_j$ energy/resource consumption,
+$Q_j$ measured output,
+$R_j$ risk classification, and
+$M_j$ model/robot class.
+
+The AEAP allows economic activity generated by an AI agent or robot to be
+audited without pretending that the system itself is a taxpayer.
+
+\subsection{2. Factor-Origin Ledger}
+
+For every production episode $p$, CivicDividendOS estimates the marginal or
+causal contribution of five productive factors:
+
+\begin{equation}
+\boldsymbol{\phi}_p =
+\{\phi_H,\phi_A,\phi_R,\phi_D,\phi_K\},
+\end{equation}
+
+subject to
+
+\begin{equation}
+\sum_f \phi_f = 1.
+\end{equation}
+
+The attributable value generated by factor $f$ is:
+
+\begin{equation}
+V_{p,f}=\phi_{p,f} V_p.
+\end{equation}
+
+Contribution estimates may be obtained through controlled counterfactuals,
+production-function estimation, Shapley-style contribution methods, matched
+historical baselines, or digital-twin simulation.
+
+This is a central departure from traditional robot taxation: the system taxes
+neither the physical count of robots nor a fictional machine wage. It estimates
+the economic origin of value.
+
+\subsection{3. Substitution--Augmentation Classifier}
+
+Automation should not be treated equally when it replaces a worker and when it
+makes a worker more productive.
+
+Define the automation mode:
+
+\begin{equation}
+Z_p \in
+\{\text{Substitution},\text{Augmentation},
+\text{NewTask},\text{SafetyReplacement}\}.
+\end{equation}
+
+A substitution score can be estimated as:
+
+\begin{equation}
+S_p =
+\Pr(\Delta H_p < 0 \mid A_p,R_p,\mathbf{X}_p),
+\end{equation}
+
+while an augmentation score measures gains to human productivity or wages.
+
+This classification feeds directly into the fiscal rate.
+
+\subsection{4. Automation Contribution Base}
+
+The proposed \textit{Automation Contribution Base} (ACB) is:
+
+\begin{equation}
+ACB_i =
+VA^{A,R}_i - C^{allowable}_{A,R,i},
+\end{equation}
+
+where $VA^{A,R}_i$ is value added attributable to AI-agent and robotic factors
+and $C^{allowable}$ represents verified operating, compute, energy,
+depreciation, and acquisition costs according to policy.
+
+The legal taxpayer is:
+
+\begin{equation}
+Taxpayer_i = Owner/Operator/Beneficiary(AEAP_i),
+\end{equation}
+
+not the AI agent or robot.
+
+\subsection{5. Dynamic Social Automation Contribution}
+
+The \textit{Social Automation Contribution} (SAC) is:
+
+\begin{equation}
+SAC_i = r_i \cdot ACB_i,
+\end{equation}
+
+where the adaptive rate $r_i$ is:
+
+\begin{align}
+r_i = r_0
+&+\alpha S_i
++\beta C_i^{rent}
++\gamma E_i^{disp}
++\delta X_i^{ext}
++\eta R_i^{revenue} \nonumber\\
+&-\theta A_i^{aug}
+-\lambda T_i^{train}
+-\mu B_i^{broad}
+-\nu N_i^{newtask}.
+\end{align}
+
+Here:
+
+\begin{itemize}
+\item $S_i$ = labour substitution intensity;
+\item $C_i^{rent}$ = economic-rent/concentration score;
+\item $E_i^{disp}$ = measurable worker-displacement burden;
+\item $X_i^{ext}$ = environmental or social externalities;
+\item $R_i^{revenue}$ = erosion of payroll/social-contribution base;
+\item $A_i^{aug}$ = human augmentation benefit;
+\item $T_i^{train}$ = verified worker training and transition investment;
+\item $B_i^{broad}$ = broad-based ownership/benefit score; and
+\item $N_i^{newtask}$ = creation of new human tasks.
+\end{itemize}
+
+Thus automation that complements labour can face a low or even zero incremental
+contribution, while high-rent labour-replacing automation can face a higher
+rate.
+
+\subsection{6. Human Earned-Income Shield}
+
+A core innovation is to use automation revenue partly to reduce the tax wedge on
+human work.
+
+Let the labour-income tax relief rate be:
+
+\begin{equation}
+\Delta \tau_L(t) =
+-\kappa
+\frac{Rev_{SAC}(t)}{TaxBase_L(t)}.
+\end{equation}
+
+As autonomous production contributes more to public revenue, qualifying
+low- and middle-income human workers receive lower payroll or earned-income
+tax burdens.
+
+This avoids a system in which society simultaneously taxes humans heavily for
+working while giving machines a zero marginal social-contribution burden.
+
+\subsection{7. Public Automation Wealth Fund}
+
+A fixed fraction of SAC revenue and selected equity-based contributions enter a
+professionally managed \textit{Public Automation Wealth Fund} (PAWF):
+
+\begin{equation}
+PAWF_{t+1}
+=
+PAWF_t(1+r_t^{fund})
++\omega Rev_{SAC,t}
++Equity_t
+-Dist_t.
+\end{equation}
+
+The fund converts a portion of temporary AI and automation rents into long-lived
+public capital.
+
+Annual distributable returns are divided among four accounts:
+
+\begin{equation}
+Dist_t =
+D^{citizen}_t+
+D^{transition}_t+
+D^{capability}_t+
+D^{public}_t.
+\end{equation}
+
+\subsubsection{A. Civic Automation Dividend}
+
+Every eligible resident receives a base dividend from investment returns rather
+than directly consuming all annual tax receipts:
+
+\begin{equation}
+CADiv_t =
+\frac{\rho D^{citizen}_t}{N_t}.
+\end{equation}
+
+This creates a non-wage household income stream linked to the productivity of
+the automated economy.
+
+\subsubsection{B. Worker Transition Insurance}
+
+Workers experiencing verified displacement receive temporary wage insurance,
+mobility support, or reskilling finance:
+
+\begin{equation}
+WTI_i =
+g(WageLoss_i,Tenure_i,Exposure_i,Training_i).
+\end{equation}
+
+\subsubsection{C. Human Capability Endowment}
+
+Part of the return finances education, apprenticeships, advanced technical
+skills, public-service expertise, and human capabilities likely to complement
+future AI.
+
+\subsubsection{D. Public-Service Account}
+
+A final portion supports social insurance and public services whose funding
+previously depended heavily on payroll contributions.
+
+\section{Automation Ownership Units}
+
+CivicDividendOS adds a predistribution mechanism rather than relying exclusively
+on ex-post tax transfers.
+
+When a qualifying firm receives major public AI subsidies, public compute,
+exclusive public data access, or government procurement support, a policy may
+require a small \textit{Automation Ownership Unit} contribution:
+
+\begin{equation}
+AOU_i = \xi_i \cdot Equity_i.
+\end{equation}
+
+These units enter the PAWF rather than individual government departments.
+
+This mechanism resembles the logic of a resource fund: the public contributes
+infrastructure, research, data, procurement demand, education, and legal
+institutions that help create private automation value, and therefore may hold
+a modest diversified claim on future returns.
+
+\section{Distribution Waterfall}
+
+The complete income-distribution mechanism can be represented as:
+
+\begin{equation}
+Y = Y_H + Y_A + Y_R + Y_D + Y_K.
+\end{equation}
+
+Private primary distribution remains:
+
+\begin{equation}
+Y^{private} =
+W_H + \Pi_{owners} + R_D + R_K.
+\end{equation}
+
+CivicDividendOS then introduces a secondary and ownership-based distribution:
+
+\begin{align}
+Y_H^{final} =&\;
+W_H - Tax_H + Shield_H + Dividend_H \nonumber\\
+&+Transition_H + Services_H,
+\end{align}
+
+while owners receive:
+
+\begin{equation}
+Y_O^{final}
+=
+\Pi_O - CIT_O - SAC_O + PrivateReturn_O.
+\end{equation}
+
+The state/public receives:
+
+\begin{equation}
+Y_P =
+CIT + SAC + PAWFReturns,
+\end{equation}
+
+which is split among services, human-capability investment, transition support,
+and citizen dividends.
+
+The design therefore preserves private profit incentives while creating a
+parallel public claim on part of the automation surplus.
+
+\section{Fiscal Digital Twin}
+
+Before changing SAC rates or distribution shares, policy is tested in a fiscal
+digital twin containing heterogeneous households, firms, AI agents, robots,
+sectors, and jurisdictions.
+
+The policy vector is:
+
+\begin{equation}
+\Theta =
+\{r_0,\alpha,\beta,\gamma,\omega,\rho,
+\tau_L,\xi,\text{credits}\}.
+\end{equation}
+
+The policy engine seeks:
+
+\begin{equation}
+\Theta^{*}
+=
+\arg\max_{\Theta}
+\left[
+Growth + Revenue + Welfare + Employment
++ Innovation - Inequality - Leakage
+\right]
+\end{equation}
+
+subject to fiscal-sustainability and minimum-innovation constraints.
+
+The digital twin must report tax incidence explicitly. A nominal tax on an AI
+operator may ultimately fall on shareholders, workers, suppliers, or consumers;
+therefore the policy is not adjusted from statutory rates alone.
+
+\section{Cross-Border Deployment Nexus}
+
+Cloud AI complicates conventional tax residence because an agent can be trained
+in one jurisdiction, owned in another, hosted in a third, and economically
+deployed in a fourth.
+
+CivicDividendOS therefore proposes a \textit{Deployment Nexus}:
+
+\begin{equation}
+Nexus_{ij}
+=
+w_1 Usage_{ij}
++w_2 Revenue_{ij}
++w_3 Users_{ij}
++w_4 PhysicalOps_{ij}.
+\end{equation}
+
+Automation contribution revenue can then be apportioned across jurisdictions
+according to verified economic deployment rather than only server location.
+
+This concept would require coordination with existing international corporate
+tax rules and is proposed as a research mechanism rather than a claim of current
+law.
+
+\section{Illustrative Example}
+
+Assume an urban logistics company previously employs 100 human dispatchers and
+drivers. It introduces AI dispatch agents and autonomous delivery robots.
+
+A conventional tax system observes:
+
+\begin{itemize}
+\item lower payroll;
+\item fewer payroll contributions;
+\item higher firm profit;
+\item larger investment in automated capital.
+\end{itemize}
+
+A simple robot tax may charge each robot a fixed annual amount. This ignores
+whether a robot replaced a worker, increased safety, or created new demand.
+
+CivicDividendOS instead records task-origin activity.
+
+Suppose the Factor-Origin Ledger estimates:
+
+\[
+\phi_H=0.30,\quad
+\phi_A=0.25,\quad
+\phi_R=0.30,\quad
+\phi_D=0.05,\quad
+\phi_K=0.10.
+\]
+
+The AI and robot share of attributable value is therefore:
+
+\begin{equation}
+VA^{A,R}=0.55V.
+\end{equation}
+
+The SAC rate is then reduced for verified safety improvements, creation of new
+maintenance jobs, and retraining, but increased if labour displacement and
+economic-rent concentration are high.
+
+Revenue is not paid by the robots. It is paid by the firm that owns or
+beneficially uses the automation.
+
+Part of the revenue immediately funds transition insurance. Another portion
+enters the PAWF. Investment returns then provide dividends to citizens and
+finance future human skills.
+
+The long-term allocation therefore becomes:
+
+\[
+\text{Human} \rightarrow
+\text{Wages + Lower Labour Tax + Dividend},
+\]
+
+\[
+\text{Owner} \rightarrow
+\text{Profit - Corporate Tax - SAC + Investment Return},
+\]
+
+\[
+\text{Public} \rightarrow
+\text{SAC + Public Equity Returns},
+\]
+
+\[
+\text{Future Workers} \rightarrow
+\text{Human Capability Endowment}.
+\]
+
+\section{Research Questions}
+
+\begin{itemize}
+
+\item[\textbf{RQ1}] Can task-level factor-origin accounting estimate the value
+attributable to humans, AI agents, robots, data, and conventional capital more
+accurately than robot counts, imputed robot wages, or capital expenditure?
+
+\item[\textbf{RQ2}] Can a substitution--augmentation classifier distinguish
+automation that displaces taxable labour from automation that primarily
+complements human workers?
+
+\item[\textbf{RQ3}] Does a dynamic Social Automation Contribution preserve
+government revenue with less distortion to innovation than a fixed robot tax?
+
+\item[\textbf{RQ4}] Can combining automation contributions with a Human
+Earned-Income Shield improve employment and after-tax wage outcomes relative to
+raising labour or consumption taxes?
+
+\item[\textbf{RQ5}] Does a Public Automation Wealth Fund create a more durable
+and equitable distribution of AI-era wealth than transfers financed entirely
+from annual tax revenue?
+
+\item[\textbf{RQ6}] What allocation among citizen dividends, worker transition,
+human-capability investment, and public services maximizes long-run social
+welfare?
+
+\item[\textbf{RQ7}] How should cross-border AI-agent activity be apportioned
+when ownership, compute infrastructure, users, and economic deployment occur in
+different jurisdictions?
+
+\item[\textbf{RQ8}] How robust is CivicDividendOS to tax avoidance, model
+misclassification, strategic task decomposition, automation offshoring, and
+rapid changes in AI capability?
+
+\end{itemize}
+
+\section{Expected Contributions}
+
+The proposed research aims to make the following contributions:
+
+\begin{enumerate}
+
+\item A \textit{Factor-Origin Ledger} for attributing value creation in mixed
+human--AI--robot production.
+
+\item An \textit{Autonomous Economic Activity Passport} that identifies machine
+economic activity without granting machines fictional legal taxpayer status.
+
+\item A \textit{Substitution--Augmentation Classifier} linking the fiscal
+treatment of automation to its actual effect on human work.
+
+\item An \textit{Automation Contribution Base} derived from attributable value
+added rather than robot counts or fictional machine salaries.
+
+\item A dynamic \textit{Social Automation Contribution} with explicit credits
+for augmentation, training, new-task creation, and broad social benefit.
+
+\item A \textit{Human Earned-Income Shield} that recycles part of automation
+revenue into lower fiscal burdens on human work.
+
+\item A \textit{Public Automation Wealth Fund} combining redistribution with
+predistribution by building public ownership of productive AI-era capital.
+
+\item A four-channel distribution waterfall comprising citizen dividends,
+worker-transition insurance, human-capability investment, and public services.
+
+\item A \textit{Deployment Nexus} for research into jurisdictional allocation of
+cloud-based autonomous economic activity.
+
+\item A fiscal digital twin for testing incidence, innovation, inequality,
+employment, public revenue, and international leakage before policy deployment.
+
+\end{enumerate}
+
+\section{Evaluation Methodology}
+
+The framework can be evaluated through a heterogeneous-agent macroeconomic and
+urban-production simulation.
+
+The simulated economy should contain:
+
+\begin{itemize}
+\item households with different income, skills, wealth, and automation exposure;
+\item firms with heterogeneous productivity and market power;
+\item conventional capital;
+\item AI-agent capital;
+\item robotic capital;
+\item government tax and transfer accounts;
+\item a public automation wealth fund; and
+\item multiple domestic and cross-border sectors.
+\end{itemize}
+
+CivicDividendOS should be compared with:
+
+\begin{enumerate}
+\item existing labour/capital tax system;
+\item fixed robot tax;
+\item broad capital-income tax increase;
+\item UBI funded through general taxation;
+\item automation tax plus targeted retraining;
+\item sovereign/public wealth fund without factor-origin taxation; and
+\item proposed integrated CivicDividendOS.
+\end{enumerate}
+
+Evaluation metrics should include:
+
+\begin{itemize}
+\item GDP and productivity;
+\item AI/robot adoption;
+\item employment and hours;
+\item wage share and capital share;
+\item household disposable income;
+\item Gini coefficients for income and wealth;
+\item poverty rate;
+\item government revenue volatility;
+\item payroll/social-insurance funding;
+\item investment and innovation;
+\item firm entry and exit;
+\item public-fund value;
+\item citizen dividend per capita;
+\item worker-transition duration;
+\item human-capability investment;
+\item tax avoidance/leakage; and
+\item intergenerational wealth distribution.
+\end{itemize}
+
+Sensitivity analysis should vary AI costs, robot costs, substitution elasticities,
+market concentration, international mobility of capital, tax compliance, and
+the speed of technological progress.
+
+\section{Policy Interpretation}
+
+CivicDividendOS does not assume that robots or AI should always face additional
+tax. It instead adopts four principles.
+
+First, \textit{machines are measured but owners are taxed}. Second,
+\textit{substitution and augmentation receive different fiscal treatment}.
+Third, \textit{part of automation revenue is converted into broadly owned
+capital rather than immediately spent}. Fourth, \textit{human work should not
+remain the easiest tax base simply because it is administratively familiar}.
+
+This produces a fiscal architecture that can evolve as the economy moves from
+human-dominant production toward increasingly mixed or capital-dominant
+production.
+
+\section{Conclusion}
+
+The AI and robotics era creates a distribution problem before it creates a
+purely technical tax problem. If increasingly autonomous productive systems
+generate a rising share of economic value while wages remain the principal
+source of household income and payroll taxation remains central to public
+finance, productivity can increase while purchasing power, social-insurance
+finance, and wealth distribution become more fragile.
+
+The proposed CivicDividendOS framework addresses this mismatch by separating
+three questions that are frequently conflated: who created economic value, who
+is legally responsible for tax, and who should ultimately share in the returns.
+
+The Factor-Origin Ledger answers the first question. The Autonomous Economic
+Activity Passport links the second to the legally responsible owner or operator.
+The Social Automation Contribution, Human Earned-Income Shield, Public
+Automation Wealth Fund, and four-channel distribution waterfall address the
+third.
+
+The proposed system therefore does not seek to make robots ``tax citizens.''
+Instead, it creates a measurable and adaptive fiscal bridge between an economy
+in which humans earn most productive income and one in which a larger share of
+value may be generated by autonomous capital. Its long-term objective is to
+ensure that technological productivity can remain privately innovative while
+also becoming broadly investable, taxable, and socially shareable.
+
+\begin{thebibliography}{99}
+
+\bibitem{AcemogluRestrepo2019}
+D. Acemoglu and P. Restrepo,
+``Automation and new tasks: How technology displaces and reinstates labor,''
+\textit{Journal of Economic Perspectives}, vol. 33, no. 2, pp. 3--30, 2019.
+
+\bibitem{AcemogluRestrepo2020}
+D. Acemoglu and P. Restrepo,
+``Robots and jobs: Evidence from U.S. labor markets,''
+\textit{Journal of Political Economy}, vol. 128, no. 6, pp. 2188--2244, 2020.
+
+\bibitem{Dauth2021}
+W. Dauth, S. Findeisen, J. S{\"u}dekum, and N. Woessner,
+``The adjustment of labor markets to robots,''
+\textit{Journal of the European Economic Association},
+vol. 19, no. 6, pp. 3104--3153, 2021.
+
+\bibitem{Zhang2019}
+P. Zhang,
+``Automation, wage inequality and implications of a robot tax,''
+\textit{International Review of Economics \& Finance}, 2019.
+
+\bibitem{Guerreiro2022}
+J. Guerreiro, S. Rebelo, and P. Teles,
+``Should robots be taxed?''
+\textit{The Review of Economic Studies}, vol. 89, no. 1,
+pp. 279--311, 2022.
+
+\bibitem{Thuemmel2023}
+U. Thuemmel,
+``Optimal taxation of robots,''
+\textit{Journal of the European Economic Association},
+vol. 21, no. 3, pp. 1154--1190, 2023.
+
+\bibitem{AcemogluOptimalPolicy}
+D. Acemoglu, A. Manera, and P. Restrepo,
+``Does the U.S. tax code favor automation?''
+NBER Working Paper / related optimal-policy task-framework research, 2020.
+
+\bibitem{InefficientAutomation}
+``Inefficient automation,''
+\textit{The Review of Economic Studies}, advance article,
+doi: 10.1093/restud/rdae019.
+
+\bibitem{Hotte2024}
+K. H{\"o}tte, A. Theodorakopoulos, and P. Koutroumpis,
+``Automation and taxation,''
+\textit{Oxford Economic Papers}, vol. 76, no. 4,
+pp. 945--973, 2024.
+
+\bibitem{Merola2022}
+R. Merola,
+``Inclusive growth in the era of automation and AI:
+How can taxation help?''
+\textit{Frontiers in Artificial Intelligence}, vol. 5, 2022.
+
+\bibitem{IMF2024AI}
+International Monetary Fund,
+``AI will transform the global economy. Let's make sure it benefits humanity,''
+Jan. 2024.
+
+\bibitem{IMF2024Fiscal}
+International Monetary Fund,
+``Fiscal policy can help broaden the gains of AI to humanity,''
+June 2024.
+
+\bibitem{IMF2026GlobalAI}
+International Monetary Fund,
+``Global economic and financial implications of artificial intelligence,''
+2026.
+
+\bibitem{OECD2025Korea}
+OECD,
+\textit{Artificial Intelligence and the Labour Market in Korea},
+OECD Publishing, 2025.
+
+\bibitem{Korinek2026}
+A. Korinek et al.,
+``Public finance in the age of AI: A primer,''
+NBER Working Paper No. 34873, 2026.
+
+\bibitem{FaivreCen2026}
+J. Faivre and S. H. Cen,
+``Taxing artificial intelligence,''
+arXiv:2607.02144, 2026.
+
+\bibitem{DimitropoulouAIIncome}
+C. Dimitropoulou,
+``Current income (profit) taxation of artificial intelligence,''
+in research on robot and AI taxation, Edward Elgar Publishing.
+
+\bibitem{ILOUBI}
+International Labour Organization,
+``Universal basic income proposals in light of ILO standards,''
+ILO, Geneva.
+
+\bibitem{LeGrand2020}
+J. Le Grand,
+``A springboard for new citizens: Universal basic capital,''
+\textit{LSE Public Policy Review}, 2020.
+
+\bibitem{Corneo2022}
+G. Corneo,
+``Progressive sovereign wealth funds,''
+2022.
+
+\bibitem{APF}
+International Forum of Sovereign Wealth Funds,
+``Alaska Permanent Fund,'' institutional profile.
+
+\bibitem{BrookingsTax2026}
+Brookings Institution,
+``The future of tax policy: A public finance framework for the age of AI,''
+Jan. 2026.
+
+\bibitem{BrookingsFairness2026}
+Brookings Institution,
+``AI growth acceleration versus distributional fairness,''
+May 2026.
+
+\bibitem{Vincent2019}
+N. Vincent, Y. Li, R. Zha, and B. Hecht,
+``Mapping the potential and pitfalls of data dividends as a means of
+sharing the profits of artificial intelligence,''
+arXiv:1912.00757, 2019.
+
+\bibitem{Bax2019}
+E. Bax,
+``Computing a data dividend,''
+arXiv:1905.01805, 2019.
+
+\bibitem{TaxAgent2025}
+J. Wang, X. Fang, L. Huang, and Y. Huang,
+``TaxAgent: How large language model designs fiscal policy,''
+arXiv:2506.02838, 2025.
+
+\bibitem{Fratric2025}
+P. Fratri{\v c}, N. Holzenberger, and D. Restrepo Amariles,
+``Can AI expose tax loopholes? Towards a new generation of legal policy
+assistants,''
+arXiv:2503.17339, 2025.
+
+\end{thebibliography}
+
+\end{document}
