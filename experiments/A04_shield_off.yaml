@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A04
+name: earned-income shield off
+description: >
+  The shield is the mechanism the paper names for the lower labour tax. Turning it off separates the earmarked shield from the general-revenue residual.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  fund.kappa: [0.25, 0.0]

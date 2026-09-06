@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: E15
+name: Monte-Carlo seed adequacy
+description: >
+  How many seeds the paired contrasts actually need. Under common random numbers
+  the replication intervals are very tight, which is a statement about
+  reproducibility and not about policy certainty.
+arms: [B0, B6c]
+seeds: 100

@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A10
+name: displacement channel off
+description: >
+  Without displacement, automation has no effect on worker efficiency and the case for the instrument rests on distribution alone.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  displacement.enabled: [True, False]

@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A03
+name: wealth fund off
+description: >
+  How much of the distributional result comes from the fund rather than from the contribution itself.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  fund.omega: [0.4, 0.0]

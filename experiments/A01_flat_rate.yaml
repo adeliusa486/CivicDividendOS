@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A01
+name: adaptive rate to flat rate
+description: >
+  Does the adaptive rate function do any work, or would a flat rate at r0 achieve the same outcome? This is the ablation that tests the framework's central design claim.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  rate.flat_rate: [False, True]

@@ -1,0 +1,14 @@
+extends: ../configs/base.yaml
+experiment_id: E03
+name: fund stability
+description: >
+  Audit finding F2. Sweeps the payout share and the fund return so that the
+  Proposition 6 margin g - (1-rho) r_f crosses zero, and compares the simulated
+  fund path against the analytic recursion at each setting.
+arms: [B0, B6c]
+seeds: 20
+fund:
+  stability_mode: stress
+sweep:
+  fund.rho_payout: [0.40, 0.60, 0.75, 0.90]
+  fund.r_fund_annual: [0.03, 0.04, 0.05, 0.06]

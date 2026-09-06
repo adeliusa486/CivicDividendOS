@@ -1,0 +1,14 @@
+name: cdos
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.9
+  - numpy=1.26.4
+  - pyyaml=6.0.1
+  - matplotlib=3.8.4
+  - pandas=2.2.2
+  - pytest=8.2.2
+  - pip
+  - pip:
+      - pytest-cov==5.0.0
+      - ruff==0.5.5

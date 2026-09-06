@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E12
+name: five-factor versus composite attribution
+description: >
+  The framework distinguishes five factors; the testbed has one composite
+  machine factor. Runs the exact five-factor Shapley game over all 31 coalitions
+  against the two-factor game to measure what the composite costs.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  attribution.mode: [two_factor, five_factor]

@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A06
+name: retraining off
+description: >
+  Retraining recovers worker efficiency after displacement. Without it the displacement channel is one-way.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  displacement.retrain_eff: [0.5, 0.0]

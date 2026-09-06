@@ -1,0 +1,10 @@
+extends: ../configs/base.yaml
+experiment_id: E13
+name: calibration validity
+description: >
+  Compares model moments against the calibration targets in
+  configs/calibration.yaml. Most targets are NOT_FETCHED because the underlying
+  series are licensed and cannot be redistributed, so this experiment reports
+  which targets could be checked and which could not. It does not invent data.
+arms: [B0, B6c]
+seeds: 20

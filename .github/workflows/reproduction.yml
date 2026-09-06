@@ -1,0 +1,61 @@
+name: Reproduction
+
+# The heavy experiment matrix. Not run on every push: it takes hours.
+on:
+  workflow_dispatch:
+    inputs:
+      seeds:
+        description: "seeds per arm"
+        default: "20"
+      pattern:
+        description: "experiment glob, e.g. E0* or A*"
+        default: "E*"
+  schedule:
+    - cron: "0 3 1 * *"
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.9"
+
+      - name: Install
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e . --no-deps
+
+      - name: Verify the audited baseline still reproduces bit-exactly
+        run: python -m pytest tests/regression -q
+
+      - name: Headline campaign
+        run: python scripts/run_campaign.py --seeds ${{ github.event.inputs.seeds || 20 }}
+
+      - name: Experiment matrix
+        run: |
+          python scripts/run_all_experiments.py \
+            --pattern '${{ github.event.inputs.pattern || 'E*' }}' \
+            --seeds ${{ github.event.inputs.seeds || 20 }}
+
+      - name: Regenerate tables and figures
+        run: |
+          python scripts/make_tables.py
+          python scripts/make_figures.py
+
+      - name: Report numerical drift against the committed tables
+        run: python scripts/verify_generated.py --report-only
+
+      - name: Upload everything
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reproduction
+          path: |
+            results/
+            figures/
+            tables/
+            paper/generated/

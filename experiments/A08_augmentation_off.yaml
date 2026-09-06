@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A08
+name: augmentation credit off
+description: >
+  The augmentation credit is what makes the instrument discriminate between substituting and complementing automation. Removing it should collapse that discrimination.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  rate.w_theta: [0.09, 0.0]

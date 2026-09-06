@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E06
+name: classifier error
+description: >
+  Proposition 4. Injects classification error at 0, 5, 10 and 20 per cent and
+  measures the induced rate and revenue error against the analytic bound
+  epsilon times (alpha + theta).
+arms: [B0, B6, B6c]
+seeds: 20
+sweep:
+  classifier.error_rate: [0.0, 0.05, 0.10, 0.20]

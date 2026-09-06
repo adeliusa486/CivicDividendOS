@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A07
+name: rent term off
+description: >
+  Whether taxing measured economic rent through the C_rent term contributes anything beyond the substitution term.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  rate.w_beta: [0.06, 0.0]

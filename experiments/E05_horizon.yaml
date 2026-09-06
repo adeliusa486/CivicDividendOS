@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E05
+name: horizon sensitivity
+description: >
+  Whether the ranking of arms depends on the 200-quarter reporting window. A
+  fund still accumulating at the horizon can flatter an arm that would look
+  different over a longer or a shorter run.
+arms: [B0, B1, B6, B6c]
+seeds: 20
+sweep:
+  run.t_run: [80, 120, 200, 320, 400]

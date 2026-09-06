@@ -1,0 +1,13 @@
+extends: ../configs/base.yaml
+experiment_id: E11
+name: avoidance
+description: >
+  Cost inflation in the admitted cost base directly reduces the contribution
+  base. Sweeps the deduction share upward as a proxy for inflated admitted
+  costs, crossed with relabelling of substitution as augmentation through the
+  classifier error channel.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  attribution.phi_deduct: [0.5, 0.7, 0.9]
+  classifier.error_rate: [0.0, 0.2]

@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E17
+name: scalability
+description: >
+  Runtime and result stability as the agent population grows. Establishes
+  whether the reported magnitudes are converged in population size or are an
+  artefact of 10,000 households and 500 firms.
+arms: [B0, B6c]
+seeds: 10
+sweep:
+  population.n_households: [2500, 5000, 10000, 20000]

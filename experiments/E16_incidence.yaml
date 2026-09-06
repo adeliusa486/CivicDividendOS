@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: E16
+name: incidence
+description: >
+  The manuscript makes explicit incidence reporting a governance requirement,
+  because a contribution levied on an operator may land on shareholders,
+  workers, suppliers or consumers. Reports the factor split of the burden.
+arms: [B0, B1, B4, B6, B6c, B12]
+seeds: 50

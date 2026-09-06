@@ -1,0 +1,7 @@
+# Runtime dependencies. Python 3.11.9.
+#
+# This exact pair -- Python 3.11.9 with NumPy 1.26.4 -- is the combination under
+# which the campaign reproduces bit-exactly. Other versions may reproduce; this
+# pair is verified.
+numpy==1.26.4
+PyYAML==6.0.1

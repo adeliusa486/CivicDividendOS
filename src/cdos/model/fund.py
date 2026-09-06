@@ -137,6 +137,12 @@ def simulate_fund_ratio(s: float, g: float, rho: float, r_f: float,
                         periods: int, f0: float = 0.0) -> np.ndarray:
     """Analytic path of ``f_t = F_t / Y_t`` under constant inflow share ``s``.
 
+    The recursion is ``f_{t+1} = a f_t + s`` with
+    ``a = (1 + (1-rho) r_f) / (1 + g)``, whose fixed point is
+    ``s / (1 - a) = s (1 + g) / (g - (1-rho) r_f)`` -- the manuscript's
+    :func:`steady_state_ratio`. The inflow share is therefore measured against
+    contemporaneous output ``Y_{t+1}``, which is the convention Table VI uses.
+
     Used by E3 to compare the simulated fund against the closed-form dynamics
     the manuscript asserts. Deliberately does *not* require stability, so a
     divergent calibration produces a divergent path rather than an exception.
@@ -145,5 +151,5 @@ def simulate_fund_ratio(s: float, g: float, rho: float, r_f: float,
     out = np.empty(periods + 1, dtype=float)
     out[0] = f0
     for t in range(periods):
-        out[t + 1] = a * out[t] + s / (1.0 + g)
+        out[t + 1] = a * out[t] + s
     return out

@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software or its results, please cite it. Author details are
+  incomplete and REQUIRE AUTHOR INPUT before publication; the placeholder below
+  must not be treated as an attribution.
+title: "CivicDividendOS: attribution-based taxation of autonomous economic activity"
+abstract: >-
+  A framework and computational testbed for taxing the attributed economic
+  origin of value produced by AI agents and robots, using the Shapley value of a
+  factor of production as a contribution base. Includes the corrected testbed
+  following the independent audit of 2026-09-06.
+type: software
+version: "1.0.0"
+date-released: "2026-09-06"
+license: MIT
+keywords:
+  - automation taxation
+  - Shapley value
+  - public finance
+  - heterogeneous agent model
+  - reproducible research
+authors:
+  - family-names: "REQUIRES AUTHOR INPUT"
+    given-names: "REQUIRES AUTHOR INPUT"
+    affiliation: "REQUIRES AUTHOR INPUT"
+references:
+  - type: report
+    title: "Independent audit of the CivicDividendOS manuscript and testbed"
+    year: 2026
+    notes: "audit/AUDIT_REPORT.html; the P0 findings F1-F3 are addressed in v1.0.0"

@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: E04
+name: revenue-normalised policy ranking
+description: >
+  Audit finding F5. Ranking instruments by output effect alone is not valid when
+  they raise materially different revenue. Runs the full arm set and reports
+  revenue per unit of deadweight loss alongside the output effect.
+arms: [B0, B1, B2, B3, B4, B5, B6, B6c, B7, B8, B9, B10, B11, B12]
+seeds: 50

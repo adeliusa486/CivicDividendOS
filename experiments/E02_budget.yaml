@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E02
+name: corrected budget accounting
+description: >
+  Audit finding F3. Runs every arm with strict per-period resource closure
+  enforced, so that any failure to close raises rather than passing silently.
+  The audited comparison is produced by the regression suite, not by this file.
+arms: [B0, B1, B4, B6, B6c, B11]
+seeds: 50
+numerics:
+  strict_accounting: true

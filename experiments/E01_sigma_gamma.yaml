@@ -1,0 +1,14 @@
+extends: ../configs/base.yaml
+experiment_id: E01
+name: sigma-gamma robustness
+description: >
+  Audit finding F1. The headline claim that B6c dominates was made at a single
+  point, sigma=1.5 and gamma=0.85, with no sensitivity analysis, and the audit
+  showed the output effect reverses sign by sigma of about 2. This maps the
+  region of the parameter space in which the claim actually holds, and reports
+  the Proposition 2 condition gamma > 1 - 1/sigma at every cell.
+arms: [B0, B6, B6c, B1]
+seeds: 20
+sweep:
+  technology.sigma: [1.2, 1.5, 2.0, 3.0, 5.0, 8.0]
+  technology.gamma: [0.75, 0.85, 0.95]

@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.9"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          pip install -e . --no-deps
+
+      - name: Record the environment
+        run: |
+          python -c "import sys, numpy; print(sys.version); print('numpy', numpy.__version__)"
+
+      - name: Lint
+        run: python -m ruff check src tests scripts
+
+      - name: Unit tests
+        run: python -m pytest tests/unit -q
+
+      - name: Numerical tests
+        run: python -m pytest tests/numerical -q
+
+      - name: Integration tests
+        run: python -m pytest tests/integration -q
+
+      - name: Regression tests against the audited baseline
+        run: python -m pytest tests/regression -q
+
+      - name: Two-seed smoke campaign
+        run: |
+          python scripts/run_campaign.py --seeds 2 \
+            --arms B0 B1 B4 B6 B6c --out results/raw/ci_smoke.json \
+            --experiment-id ci_smoke
+
+      - name: Validate the artefacts the smoke run produced
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          agg = json.load(open("results/raw/ci_smoke.json"))
+          manifest = json.load(open("results/manifests/ci_smoke.json"))
+          assert manifest["git"]["sha"], "manifest recorded no git SHA"
+          assert manifest["environment"]["packages"]["numpy"] == "1.26.4"
+          for arm in ("B0", "B1", "B4", "B6", "B6c"):
+              assert arm in agg, f"arm {arm} missing from the aggregate"
+              assert agg[arm]["Y"]["mean"] > 0
+          print("artefacts valid")
+          PY
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-results
+          path: |
+            results/raw/ci_smoke*.json
+            results/manifests/ci_smoke.json
+
+  paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.9"
+
+      - name: Install
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e . --no-deps
+
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-science texlive-pictures latexmk
+
+      - name: Check the generated tables have not drifted
+        run: python scripts/verify_generated.py --allow-missing
+
+      - name: Compile the manuscript
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error CivicDividendOS_v2.tex
+
+      - name: Upload the PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuscript
+          path: CivicDividendOS_v2.pdf

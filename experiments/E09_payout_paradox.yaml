@@ -1,0 +1,13 @@
+extends: ../configs/base.yaml
+experiment_id: E09
+name: payout paradox
+description: >
+  Proposition 7. A higher payout share raises the dividend today but lowers the
+  steady-state fund, so beyond some point raising rho reduces the long-run
+  dividend. Sweeps rho to locate the turning point, if there is one.
+arms: [B0, B6c]
+seeds: 20
+fund:
+  stability_mode: stress
+sweep:
+  fund.rho_payout: [0.20, 0.40, 0.60, 0.80, 0.95]

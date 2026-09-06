@@ -1,0 +1,11 @@
+extends: ../configs/base.yaml
+experiment_id: E07
+name: cost-deduction share
+description: >
+  Proposition 2. Sweeps the deduction share phi across the unit interval. The
+  proposition predicts marginal incidence turns non-negative at phi of one half
+  or below, so the instrument should stop subsidising automation in that range.
+arms: [B0, B6]
+seeds: 20
+sweep:
+  attribution.phi_deduct: [0.0, 0.25, 0.50, 0.75, 1.0]

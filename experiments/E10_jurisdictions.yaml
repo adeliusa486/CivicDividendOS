@@ -1,0 +1,16 @@
+extends: ../configs/base.yaml
+experiment_id: E10
+name: multi-jurisdiction leakage
+description: >
+  The testbed had one jurisdiction and so, as the manuscript concedes, could say
+  nothing about leakage. Enables the three-jurisdiction nexus and sweeps the
+  shifting elasticity. Apportionment must stay exhaustive throughout.
+arms: [B0, B6c]
+seeds: 20
+nexus:
+  enabled: true
+  jurisdictions: [J1, J2, J3]
+  shares: [0.60, 0.25, 0.15]
+  rate_multipliers: [1.0, 0.5, 1.5]
+sweep:
+  nexus.shifting_elasticity: [0.0, 0.2, 0.4, 0.8]

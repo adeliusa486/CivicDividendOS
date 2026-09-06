@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A05
+name: transition transfers off
+description: >
+  How much of the poverty and inequality effect is the immediate transition transfer rather than the fund.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  fund.sigma_t: [0.15, 0.0]

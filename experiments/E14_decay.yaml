@@ -1,0 +1,10 @@
+extends: ../configs/base.yaml
+experiment_id: E14
+name: machine-price decay sensitivity
+description: >
+  The machine price decline is assumed rather than calibrated, and it drives the
+  entire automation transition, so the results should be read against it.
+arms: [B0, B1, B6c]
+seeds: 20
+sweep:
+  technology.decay: [0.002, 0.004, 0.006, 0.010, 0.015]

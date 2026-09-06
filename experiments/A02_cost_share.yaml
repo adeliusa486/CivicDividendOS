@@ -1,0 +1,9 @@
+extends: ../configs/base.yaml
+experiment_id: A02
+name: Shapley to cost-share attribution
+description: >
+  The manuscript argues that attribution by Shapley value is not the same as attribution by factor cost share. This measures the difference the choice makes.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  attribution.method: [shapley, cost_share]

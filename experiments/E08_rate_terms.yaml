@@ -1,0 +1,13 @@
+extends: ../configs/base.yaml
+experiment_id: E08
+name: rate-function terms
+description: >
+  What the three restored rate terms do. The audited code implemented seven of
+  the ten terms of Eq. (11); this varies the weights on the displacement,
+  externality and broad-ownership terms that were missing from it.
+arms: [B0, B6c]
+seeds: 20
+sweep:
+  rate.w_gamma_e: [0.0, 0.05, 0.10]
+  rate.w_delta: [0.0, 0.04]
+  rate.w_mu: [0.0, 0.05]
