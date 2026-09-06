@@ -1,0 +1,25 @@
+# Bit-exact reproduction of simulation/cdos_sim.py as audited on 2026-09-06.
+#
+# This configuration reproduces the audited baseline EXACTLY, including all
+# three P0 defects. It exists so that tests/regression can prove the corrected
+# model differs from it only where a correction was intended. Do not use it to
+# produce results: F3 means its budget does not close.
+
+extends: ../base.yaml
+name: audited_baseline
+description: The audited baseline, defects included, for regression only
+
+legacy_mode: true
+
+fund:
+  kappa: 0.0
+
+rate:
+  w_gamma_e: 0.0
+  w_delta: 0.0
+  w_mu: 0.0
+  legacy_rrev_uses_S: true
+
+numerics:
+  strict_accounting: false
+  verify_bracket: false

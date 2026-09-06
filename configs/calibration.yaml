@@ -1,0 +1,32 @@
+# Calibration targets and their provenance.
+#
+# NOTE: no external data is bundled. Every series below is fetched by
+# scripts/fetch_data.py at run time and checksummed; several are licensed and
+# may not be redistributed. The pipeline is implemented; running it requires
+# the operator to accept each source's terms. Results in this repository are
+# therefore SYNTHETIC and are labelled as such wherever they are reported.
+
+name: calibration
+description: Calibration targets, sources and status
+
+targets:
+  labour_share:
+    value: 0.58
+    source: "OECD national accounts, business-sector labour share"
+    status: NOT_FETCHED
+  elasticity_substitution:
+    value: 1.5
+    source: "Assumed; the literature range spans roughly 0.5 to 2.5"
+    status: ASSUMPTION
+  robot_density_growth:
+    value: null
+    source: "IFR World Robotics (licensed; redistribution prohibited)"
+    status: NOT_FETCHED
+  machine_price_decline:
+    value: 0.006
+    source: "Assumed quarterly decline; not calibrated"
+    status: ASSUMPTION
+  automation_exposure:
+    value: null
+    source: "Published occupational exposure measures"
+    status: NOT_FETCHED

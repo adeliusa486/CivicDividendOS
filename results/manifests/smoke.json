@@ -1,0 +1,238 @@
+{
+ "arms": [
+  "B0",
+  "B1",
+  "B6",
+  "B6c"
+ ],
+ "config": {
+  "attribution": {
+   "five_factor_shares": {
+    "A": 0.15,
+    "D": 0.1,
+    "H": 0.55,
+    "K": 0.1,
+    "R": 0.1
+   },
+   "machine_factors": [
+    "A",
+    "R"
+   ],
+   "method": "shapley",
+   "mode": "two_factor",
+   "phi_deduct": 1.0
+  },
+  "classifier": {
+   "enabled": true,
+   "error_rate": 0.0,
+   "kind": "rule_based"
+  },
+  "displacement": {
+   "eff_floor": 0.25,
+   "enabled": true,
+   "lam_disp": 0.35,
+   "retrain_eff": 0.5
+  },
+  "fiscal": {
+   "spend_ratio": 0.35,
+   "spending_mode": "baseline_spending",
+   "spending_reference_arm": "B0",
+   "tau_c": 0.18,
+   "tau_c_base": 0.6,
+   "tau_k": 0.25,
+   "tau_l0": 0.3,
+   "taul_hi": 0.6,
+   "taul_lo": 0.05
+  },
+  "fund": {
+   "kappa": 0.25,
+   "omega": 0.4,
+   "r_fund_annual": 0.05,
+   "rho_payout": 0.6,
+   "sigma_t": 0.15,
+   "stability_g_assumed": 0.03,
+   "stability_mode": "warn"
+  },
+  "legacy_mode": false,
+  "nexus": {
+   "enabled": false,
+   "jurisdictions": [
+    "J1",
+    "J2",
+    "J3"
+   ],
+   "rate_multipliers": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "shares": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "shifting_elasticity": 0.0
+  },
+  "numerics": {
+   "accounting_tol": 1e-08,
+   "bisect_iters": 28,
+   "strict_accounting": true,
+   "verify_bracket": true,
+   "wage_hi": 1000.0,
+   "wage_lo": 0.001
+  },
+  "policy": {
+   "aou_xi": 0.01,
+   "auto_tax": 0.06,
+   "b10_target_quantile": 0.4,
+   "b10_wage_subsidy": 0.02,
+   "b12_robot_tax": 0.03,
+   "b7_tau_k_extra": 0.05,
+   "b8_tau_c_extra": 0.03,
+   "b9_lumpsum_ratio": 0.01,
+   "dtau_k": 0.1,
+   "retrain_share": 0.6,
+   "robot_tax": 0.08,
+   "ubi_ratio": 0.02
+  },
+  "population": {
+   "alpha_beta_a": 6.0,
+   "alpha_beta_b": 4.0,
+   "alpha_hi": 0.9,
+   "alpha_lo": 0.25,
+   "exposure_hi": 0.98,
+   "exposure_intercept": 0.85,
+   "exposure_lo": 0.02,
+   "exposure_noise": 0.1,
+   "exposure_slope": 0.45,
+   "markup_hi": 0.6,
+   "markup_lo": 0.02,
+   "markup_mean": 0.22,
+   "markup_sd": 0.08,
+   "n_firms": 500,
+   "n_households": 10000,
+   "productivity_sd": 0.35,
+   "save_hi": 0.35,
+   "save_lo": 0.02,
+   "skill_sd": 0.6,
+   "wealth_mean": 4.0,
+   "wealth_sd": 1.3
+  },
+  "rate": {
+   "augmentation_wage_scale": 0.5,
+   "enabled_terms": [
+    "S",
+    "C_rent",
+    "E_disp",
+    "X_ext",
+    "R_rev",
+    "A_aug",
+    "T_train",
+    "B_broad",
+    "N_new"
+   ],
+   "fixed_A_aug": 0.0,
+   "fixed_B_broad": 0.2,
+   "fixed_C_rent": 0.0,
+   "fixed_E_disp": 0.0,
+   "fixed_N_new": 0.3,
+   "fixed_R_rev": 0.0,
+   "fixed_S": 0.0,
+   "fixed_T_train": 0.55,
+   "fixed_X_ext": 0.1,
+   "flat_rate": false,
+   "legacy_rrev_uses_S": false,
+   "map_kind": "clip",
+   "r0": 0.08,
+   "rmax": 0.25,
+   "rmin": 0.0,
+   "source_A_aug": "endogenous",
+   "source_B_broad": "fixed",
+   "source_C_rent": "endogenous",
+   "source_E_disp": "endogenous",
+   "source_N_new": "fixed",
+   "source_R_rev": "endogenous",
+   "source_S": "endogenous",
+   "source_T_train": "fixed",
+   "source_X_ext": "fixed",
+   "w_alpha": 0.1,
+   "w_beta": 0.06,
+   "w_delta": 0.04,
+   "w_eta": 0.05,
+   "w_gamma_e": 0.05,
+   "w_lambda": 0.07,
+   "w_mu": 0.05,
+   "w_nu": 0.06,
+   "w_theta": 0.09
+  },
+  "run": {
+   "arm": "B0",
+   "collect_accounting": false,
+   "collect_path": false,
+   "seed": 0,
+   "t_burn": 40,
+   "t_run": 200
+  },
+  "technology": {
+   "cobb_douglas_tol": 1e-08,
+   "decay": 0.006,
+   "eps_l": 0.3,
+   "gamma": 0.85,
+   "pm0": 1.0,
+   "sigma": 1.5
+  }
+ },
+ "config_hash": "f78d37f380de8620",
+ "description": "campaign over 4 arms",
+ "environment": {
+  "cpu_count": 20,
+  "implementation": "CPython",
+  "machine": "AMD64",
+  "packages": {
+   "matplotlib": "3.10.9",
+   "numpy": "1.26.4",
+   "pandas": "2.3.3",
+   "pytest": "8.4.2",
+   "pyyaml": "6.0.3",
+   "scipy": "1.17.1"
+  },
+  "platform": "Windows-10-10.0.26120-SP0",
+  "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "python": "3.11.9",
+  "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+ },
+ "experiment_id": "smoke",
+ "finished_at": "2026-09-06T19:33:24+0300",
+ "git": {
+  "branch": "master",
+  "describe": "v0-audit",
+  "dirty": true,
+  "dirty_files": [
+   "?? .editorconfig",
+   "?? .gitattributes",
+   "?? .python-version",
+   "?? configs/",
+   "?? scripts/",
+   "?? src/"
+  ],
+  "sha": "6f8576356c3b7e1fe6c56b7b9b8437d08ad50983",
+  "short_sha": "6f85763"
+ },
+ "inputs": {
+  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/configs/base.yaml": "3a99813d0900ed43d2b4059944e27b06d6280aaf4be347d6f5b071ffeb81618a"
+ },
+ "notes": {},
+ "outputs": {
+  "results/raw/smoke.json": "264fe51f14fa5e717b4ceb670de21a86b0a979a661e590a86dc36d339c8b5394",
+  "results/raw/smoke_runs.json": "24c966fbc1692d8f6fef0b3c8fea4760b44f2e51a287dbfb8d0686a0c60f3532"
+ },
+ "runtime_seconds": 20.968,
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "started_at": "2026-09-06T19:33:03+0300"
+}

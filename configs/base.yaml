@@ -1,0 +1,72 @@
+# Main specification of the CivicDividendOS testbed.
+#
+# This is the corrected model. It differs from the audited baseline
+# (configs/policies/audited_baseline.yaml) in exactly four ways, each of which
+# is a remediation of a finding in audit/AUDIT_REPORT.html:
+#
+#   F3  the full SAC liability is debited from firm profit, so the government
+#       budget closes; per-period resource accounting is enforced
+#   F2  fund stability is diagnosed on every run and reported, not assumed
+#   F4  spending_mode is explicit
+#   Rate the rate function implements all ten terms of Eq. (11) at the
+#       manuscript's own Table VII weights, rather than seven of them
+#
+# Nothing here is tuned to produce a favourable result. Where the manuscript
+# gives a number, that number is used.
+
+name: base
+description: Corrected main specification
+
+technology:
+  sigma: 1.5
+  gamma: 0.85
+  pm0: 1.0
+  decay: 0.006
+  eps_l: 0.30
+
+fiscal:
+  spend_ratio: 0.35
+  tau_l0: 0.30
+  tau_k: 0.25
+  tau_c: 0.18
+  spending_mode: baseline_spending
+
+fund:
+  r_fund_annual: 0.05
+  rho_payout: 0.60
+  omega: 0.40
+  kappa: 0.25
+  sigma_t: 0.15
+  stability_mode: warn
+  stability_g_assumed: 0.03
+
+rate:
+  r0: 0.08
+  rmin: 0.0
+  rmax: 0.25
+  w_alpha: 0.10
+  w_beta: 0.06
+  w_gamma_e: 0.05
+  w_delta: 0.04
+  w_eta: 0.05
+  w_theta: 0.09
+  w_lambda: 0.07
+  w_mu: 0.05
+  w_nu: 0.06
+  fixed_X_ext: 0.10
+  fixed_B_broad: 0.20
+  fixed_T_train: 0.55
+  fixed_N_new: 0.30
+
+attribution:
+  mode: two_factor
+  method: shapley
+  phi_deduct: 1.0
+
+numerics:
+  strict_accounting: true
+  accounting_tol: 1.0e-8
+
+run:
+  t_burn: 40
+  t_run: 200
