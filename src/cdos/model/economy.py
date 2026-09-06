@@ -73,7 +73,7 @@ ARM_LABEL = {
     "B8": "Consumption-tax shift",
     "B9": "Lump-sum-financed CivicDividendOS",
     "B10": "EITC-style wage subsidy",
-    "B11": "CivicDividendOS with full deduction (phi = 0)",
+    "B11": "CivicDividendOS, no cost deduction (phi = 0)",
     "B12": "Thuemmel-style optimal robot tax",
 }
 
@@ -200,9 +200,10 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
 
     # Waterfall shares. The shield is explicit for the SAC arms only; other
     # arms have no SAC revenue to apportion.
-    omega = fnd.omega if arm in SAC_ARMS + ("B9",) else 0.0
-    kappa = 0.0 if legacy else (fnd.kappa if arm in SAC_ARMS + ("B9",) else 0.0)
-    sigma_t = fnd.sigma_t if arm in SAC_ARMS + ("B9",) else 0.0
+    waterfall_arms = SAC_ARMS + ("B9", "B11")
+    omega = fnd.omega if arm in waterfall_arms else 0.0
+    kappa = 0.0 if legacy else (fnd.kappa if arm in waterfall_arms else 0.0)
+    sigma_t = fnd.sigma_t if arm in waterfall_arms else 0.0
 
     fund = 0.0
     lab_share0: Optional[np.ndarray] = None

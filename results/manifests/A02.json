@@ -1,19 +1,7 @@
 {
  "arms": [
   "B0",
-  "B1",
-  "B2",
-  "B3",
-  "B4",
-  "B5",
-  "B6",
-  "B6c",
-  "B7",
-  "B8",
-  "B9",
-  "B10",
-  "B11",
-  "B12"
+  "B6c"
  ],
  "config": {
   "attribution": {
@@ -193,7 +181,7 @@
   }
  },
  "config_hash": "f78d37f380de8620",
- "description": "campaign over 14 arms",
+ "description": "The manuscript argues that attribution by Shapley value is not the same as attribution by factor cost share. This measures the difference the choice makes.\n",
  "environment": {
   "cpu_count": 20,
   "implementation": "CPython",
@@ -211,28 +199,40 @@
   "python": "3.11.9",
   "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
  },
- "experiment_id": "main",
- "finished_at": "2026-09-06T23:18:07+0300",
+ "experiment_id": "A02",
+ "finished_at": "2026-09-06T23:18:32+0300",
  "git": {
   "branch": "master",
-  "describe": "v0-audit-2-g8f6da5f",
+  "describe": "v0-audit-3-g08de3bc",
   "dirty": true,
   "dirty_files": [
-   "?? MEMORY.md",
-   "?? docs/"
+   "M CivicDividendOS_v2.tex",
+   " M src/cdos/model/economy.py",
+   "?? results/manifests/A01.json",
+   "?? results/manifests/E02.json",
+   "?? results/raw/A01.json",
+   "?? results/raw/E02.json",
+   "?? scripts/revise_manuscript.py"
   ],
-  "sha": "8f6da5f95dc498914df4a0e48a45923b0a3341f9",
-  "short_sha": "8f6da5f"
+  "sha": "08de3bccc8b0262f94232ad2e8f92febc447e6ed",
+  "short_sha": "08de3bc"
  },
  "inputs": {
-  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/configs/base.yaml": "3a99813d0900ed43d2b4059944e27b06d6280aaf4be347d6f5b071ffeb81618a"
+  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/experiments/A02_cost_share.yaml": "974e9caf622c05b57e57b632c3bcacc709daf6245cf8a43a7e9e4b882fc1a67a"
  },
- "notes": {},
+ "notes": {
+  "source": "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/experiments/A02_cost_share.yaml",
+  "sweep": {
+   "attribution.method": [
+    "shapley",
+    "cost_share"
+   ]
+  }
+ },
  "outputs": {
-  "results/raw/main.json": "88f9ce25efde40557dc62335830fe6ec7107a300c8f3f1576e63cb0ffd154545",
-  "results/raw/main_runs.json": "d039e822ab55cb8ac3e7eb4447a8e1cedf280a9948fd3bc208a2eef2ead2b94a"
+  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/A02.json": "3496e21e13008558c39b1b4673792b3bb1c842edbab2674af3a32c9d6c3efedb"
  },
- "runtime_seconds": 882.686,
+ "runtime_seconds": 96.726,
  "seeds": [
   0,
   1,
@@ -243,47 +243,7 @@
   6,
   7,
   8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24,
-  25,
-  26,
-  27,
-  28,
-  29,
-  30,
-  31,
-  32,
-  33,
-  34,
-  35,
-  36,
-  37,
-  38,
-  39,
-  40,
-  41,
-  42,
-  43,
-  44,
-  45,
-  46,
-  47,
-  48,
-  49
+  9
  ],
- "started_at": "2026-09-06T23:03:25+0300"
+ "started_at": "2026-09-06T23:16:56+0300"
 }

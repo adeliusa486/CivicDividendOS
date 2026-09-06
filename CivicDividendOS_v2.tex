@@ -443,7 +443,7 @@ Under full deduction $\varphi = 1$ this equals $\tfrac{1}{2}[\partial v(\{M\})/\
 Since $\psi_M = \tfrac{1}{2}v(\{M\}) + \tfrac{1}{2}[v(\{L,M\}) - v(\{L\})]$ and $v(\{L\})$ does not depend on $M$, differentiating gives $\partial\psi_M/\partial M = \tfrac{1}{2}\partial v(\{M\})/\partial M + \tfrac{1}{2}\partial Y/\partial M$. Substituting the first-order condition $\partial Y/\partial M = p_M$ and subtracting $\varphi p_M$ yields \eqref{eq:margin}. Setting $\varphi = 1$ and $\varphi = 1/2$ gives the two stated cases.
 \end{proof}
 
-Proposition~\ref{prop:margin} is a design warning rather than a curiosity. The Shapley term $\psi_M$ credits the machine factor with half of the complementarity surplus it shares with labour, which is inframarginal, whereas the cost deduction $p_M M$ scales one-for-one with the marginal decision. Deducting costs in full therefore makes an additional machine reduce the taxable base, and a levy on that base lowers the effective machine price. In the testbed of Section~\ref{sec:model} this is not a knife-edge case: $\partial v(\{M\})/\partial M < p_M$ holds for every firm in every quarter of every run, and the implied effective wedge is between $-3.3\%$ and $-4.1\%$ of the machine price. We therefore evaluate both the base exactly as specified in \eqref{eq:acb} and a corrected base with $\varphi = 1/2$, and recommend the latter.
+Proposition~\ref{prop:margin} is a design warning rather than a curiosity. The Shapley term $\psi_M$ credits the machine factor with half of the complementarity surplus it shares with labour, which is inframarginal, whereas the cost deduction $p_M M$ scales one-for-one with the marginal decision. Deducting costs in full therefore makes an additional machine reduce the taxable base, and a levy on that base lowers the effective machine price. The condition under which this bites is structural rather than empirical, and it is worth stating precisely. Under the CES-with-span-of-control technology of Section~\ref{sec:model} the ratio of the stand-alone to the joint marginal product is exactly $s_M^{\gamma/\rho-1}$ with $s_M\in(0,1)$ and $\rho = 1-1/\sigma$, so $\partial v(\{M\})/\partial M < p_M$ holds \emph{identically} whenever $\gamma > 1-1/\sigma$. At the calibration of Section~\ref{sec:model} ($\gamma=0.85$, $\sigma=1.5$) the inequality therefore cannot fail, and its universal incidence across firms and quarters is a property of the calibration rather than evidence about the world. We report it as such. The implied effective wedge at that calibration is between $-3.3\%$ and $-4.1\%$ of the machine price. We therefore evaluate both the base exactly as specified in \eqref{eq:acb} and a corrected base with $\varphi = 1/2$, and recommend the latter.
 
 \subsection{Rate Function}
 
@@ -804,7 +804,7 @@ which sum to unity as required by Proposition~\ref{prop:balance}. Summing the AI
 
 \subsection{Rate and Liability}
 
-Table~\ref{tab:example} lists the calibration. In the substitution-intensive configuration the raw score is $\tilde r = 0.116$, which lies inside $[r_{\min},r_{\max}]$ so $r = 0.116$ and $\SAC = 1.578$ MU. In an augmentation-intensive counterfactual with the same base, in which substitution falls to $S = 0.15$, displacement to $E^{\mathrm{disp}} = 0.10$ and augmentation rises to $A^{\mathrm{aug}} = 0.85$, the raw score falls to $\tilde r = 0.0095$ and the liability to $0.129$ MU. The same firm with the same automation value added thus faces a liability differing by a factor of $12.2$ depending on measured effect on human work, which is precisely the discrimination a fixed robot tax cannot express: a levy of $4{,}000$ MU on each of 60 robots yields $0.240$ MU in both configurations.
+Table~\ref{tab:example} lists the calibration. In the substitution-intensive configuration the raw score is $\tilde r = 0.116$, which lies inside $[r_{\min},r_{\max}]$ so $r = 0.116$ and $\SAC = 1.578$ MU. In an augmentation-intensive counterfactual with the same base, in which substitution falls to $S = 0.15$, displacement to $E^{\mathrm{disp}} = 0.10$ and augmentation rises to $A^{\mathrm{aug}} = 0.85$, the raw score falls to $\tilde r = 0.0095$ and the liability to $0.129$ MU. The same firm with the same automation value added thus faces a liability differing by a factor of $12.2$ depending on measured effect on human work, which is precisely the discrimination a fixed robot tax cannot express: a levy of $0.004$ MU on each of 60 robots yields $0.240$ MU in both configurations. (Annual value added in this example is $V = 40.0$ MU, so the monetary unit is not millions; an earlier version of this example stated the per-robot levy in units inconsistent with $V$.)
 
 \begin{table}[!t]
 \centering
@@ -876,7 +876,7 @@ Uncertainty & Paired bootstrap 95\% CIs over seeds, 2000 resamples \\
 \end{tabular}
 \end{table}
 
-CivicDividendOS should be compared against seven arms: (B0) the existing labour and capital tax system, (B1) a fixed robot tax, (B2) a broad capital-income tax increase, (B3) UBI funded through general taxation, (B4) an automation tax plus targeted retraining, (B5) a sovereign or public wealth fund without factor-origin taxation, and (B6) the integrated framework proposed here, which we run in two variants distinguished only by the cost-deduction share of Proposition~\ref{prop:margin}: B6 with the base exactly as specified and B6c with the corrected base. Arms are revenue-matched by construction so that differences reflect instrument design rather than fiscal stance.
+CivicDividendOS should be compared against seven arms: (B0) the existing labour and capital tax system, (B1) a fixed robot tax, (B2) a broad capital-income tax increase, (B3) UBI funded through general taxation, (B4) an automation tax plus targeted retraining, (B5) a sovereign or public wealth fund without factor-origin taxation, and (B6) the integrated framework proposed here, which we run in two variants distinguished only by the cost-deduction share of Proposition~\ref{prop:margin}: B6 with the base exactly as specified and B6c with the corrected base. Every arm finances the same baseline public spending, but the arms are \emph{not} revenue-matched: each also finances its own programme spending, so total spending differs across arms by up to two percentage points of output. Contrasts therefore reflect fiscal stance as well as instrument design, and the revenue-normalised comparison of Section~\ref{sec:results} is the one to read when ranking instruments.
 
 \subsection{Model Specification}
 \label{sec:model}
@@ -885,7 +885,7 @@ The testbed is a discrete-time model of $N_F = 500$ heterogeneous firms and $N_H
 
 Households differ in skill, initial wealth, and automation exposure, with exposure negatively correlated with skill. Labour is supplied in efficiency units with elasticity $\varepsilon_L = 0.30$ with respect to the net-of-tax wage, and the wage clears the labour market each quarter. Households whose exposure is high lose efficiency units as automation advances, at rate $\lambda_d$ per unit of exposure and adoption growth, which is the model's displacement channel; retraining expenditure restores efficiency units in proportion to exposure. Savings rates rise with the wealth rank, which generates a wealth distribution substantially more unequal than the income distribution.
 
-Two features are essential to interpreting the results. First, the model implements the paper's own attribution rule rather than a proxy for it: $\psi_M$ is computed exactly from \eqref{eq:shapley} for the two-factor game, so $\psi_L + \psi_M = Y_f$ holds identically and the contribution base is the attributed automation value added net of the admitted share $\varphi$ of machine cost. Second, every arm finances an identical path of baseline public spending, fixed at $35\%$ of output, plus its own programme spending, with the labour income tax adjusting each quarter to clear the government budget. The labour tax rate is therefore an \emph{outcome} rather than a parameter, and the Human Earned-Income Shield of Section~\ref{sec:recycle} appears in the results as the reduction in the labour tax that automation revenue makes possible. Arms are thus revenue-matched by construction, and differ only in the instruments used and in what the proceeds buy.
+Two features are essential to interpreting the results. First, the model implements the paper's own attribution rule rather than a proxy for it: $\psi_M$ is computed exactly from \eqref{eq:shapley} for the two-factor game, so $\psi_L + \psi_M = Y_f$ holds identically and the contribution base is the attributed automation value added net of the admitted share $\varphi$ of machine cost. Second, every arm finances an identical path of baseline public spending, fixed at $35\%$ of output, plus its own programme spending, with the labour income tax adjusting each quarter to clear the government budget. The labour tax rate is therefore an \emph{outcome} rather than a parameter, and the Human Earned-Income Shield of Section~\ref{sec:recycle} appears in the results as the reduction in the labour tax that automation revenue makes possible. Arms therefore differ both in the instruments used and in how much revenue those instruments raise, which is why output effects alone do not rank them.
 
 The arms are those of Section~\ref{sec:eval}, with arm B6 split into two variants that differ only in the cost-deduction share of Proposition~\ref{prop:margin}: B6 uses the base exactly as specified in \eqref{eq:acb} with $\varphi = 1$, and B6c uses the corrected base with $\varphi = 1/2$. Arms B1 and B4 levy a genuine wedge on the machine price, whereas B6 and B6c levy the contribution on the base $\ACB$, whose marginal effect on the machine decision is $r_i\,\partial\ACB/\partial M$ by Proposition~\ref{prop:margin}. All arms share common random numbers across $50$ seeds, so contrasts are paired and confidence intervals are computed by bootstrap over seeds.
 
@@ -893,95 +893,161 @@ The arms are those of Section~\ref{sec:eval}, with arm B6 split into two variant
 
 The metrics reported in Table~\ref{tab:results} are output, hours, the terminal labour share, income and wealth Gini coefficients, the poverty rate, the labour tax rate required to clear the budget, the fund-to-output ratio, and the per-capita dividend. A full study should additionally report: GDP and productivity; AI and robot adoption; employment and hours; wage share and capital share; household disposable income; income and wealth Gini coefficients; poverty rate; revenue volatility; payroll and social-insurance funding; investment and innovation; firm entry and exit; public-fund value; citizen dividend per capita; worker-transition duration; human-capability investment; tax avoidance and leakage; and intergenerational wealth distribution. Sensitivity analysis should vary AI and robot costs, substitution elasticities, market concentration, international capital mobility, tax compliance, and the speed of technological progress. Effects should be reported with uncertainty, in the form $\Delta\mathrm{Gini} = -0.044$, $\mathrm{CI}_{95\%} = [-0.058, -0.031]$, rather than as point estimates.
 
+% === RESULTS SECTION REVISED POST-AUDIT ===
 \subsection{Results}
 \label{sec:results}
 
-Table~\ref{tab:results} reports the campaign and Table~\ref{tab:ci} the paired contrasts with bootstrap confidence intervals. Five findings stand out, and they do not uniformly favour the proposed framework.
+Table~\ref{tab:results} reports the campaign and Table~\ref{tab:ci} the paired
+contrasts. All numerical entries in these tables are generated directly from the
+simulation output by \texttt{scripts/make\_tables.py} and included with
+\verb|\input|; none is transcribed by hand.
 
-First, the fixed robot tax of arm B1 is by a wide margin the most costly instrument in output terms, at $-6.12\%$ relative to baseline, while raising $1.91\%$ of output in revenue. It does support the labour share, which ends at $0.341$ against $0.298$ in the baseline, but it achieves this by taxing an input at a uniform rate irrespective of whether the automation in question displaced anyone. This is the quantitative counterpart of the attribution gap of Section~\ref{sec:problem}.
+Two framing points come first, because they govern how everything below should
+be read.
 
-Second, the framework as literally specified in \eqref{eq:acb} is close to inert. Arm B6 raises only $0.25\%$ of output, accumulates a fund of $4.5\%$ of output after fifty years, and reduces the income Gini by $0.0013$ $(\mathrm{CI}_{95\%} = [-0.0013,-0.0013])$, which is statistically clear but economically negligible. Its output effect is positive, at $+2.66\%$, precisely because the base is marginally subsidising in the sense of Proposition~\ref{prop:margin}. A framework that raises little revenue and mildly accelerates automation is not what the design intends.
+\emph{The confidence intervals are replication intervals.} Arms share common
+random numbers, so contrasts are paired and the bootstrap intervals over seeds
+are extremely tight. That is a statement about the reproducibility of the
+simulation at one parameter vector, and not about the certainty of any policy
+conclusion. The sensitivity analysis of Section~\ref{sec:sensitivity} moves the
+central estimate by tens of percentage points, which no replication interval
+here can see.
 
-Third, the corrected base repairs this. Arm B6c raises $0.98\%$ of output, accumulates a fund of $17.0\%$ of output, lowers the required labour tax from $0.381$ to $0.371$ $(\Delta\tau_L = -0.0107$, $\mathrm{CI}_{95\%} = [-0.0114,-0.0100])$, and reduces the income Gini by $0.0067$ $(\mathrm{CI}_{95\%} = [-0.0072,-0.0064])$, while raising output by $3.30\%$ and hours by $7.24\%$ and holding the terminal labour share at $0.317$ against $0.298$. It improves on the baseline on every reported dimension simultaneously, which no other arm does. Its revenue yield also brackets the $0.65\%$ of output that the inverse design of Section~\ref{sec:recycle} identified as the inflow needed to sustain a dividend of $2\%$ of per-capita output in steady state, so the analytical and simulated accounts of the fund are mutually consistent.
+\emph{The arms are not revenue-matched.} Each finances the same baseline public
+spending plus its own programme, so total spending differs across arms. Ranking
+instruments by output effect alone is therefore not valid, and
+Table~\ref{tab:revnorm} gives the revenue-normalised comparison.
 
-Fourth, and against the proposal, targeted transfers remain the better instrument for near-term distributional objectives. Arm B3 attains the lowest income Gini at $0.3147$ and much the lowest poverty rate at $9.95\%$, outcomes that B6c does not approach, and it does so immediately rather than over decades. The cost is the highest labour tax of any arm at $0.413$ and a small contraction in hours. This is the simulated counterpart of the convergence result of Section~\ref{sec:recycle}: a fund whose half-life is measured in decades cannot substitute for transfers within a single political cycle, and the dividend in B6c reaches only $0.29\%$ of output after fifty years.
+Six findings stand out, and they do not uniformly favour the proposed framework.
 
-Fifth, arm B4, a flat automation levy recycled into retraining, delivers the largest employment gain of any arm at $+8.52\%$ hours for an output cost of only $-0.72\%$. Much of the benefit attributed to sophisticated attribution machinery in the framework can therefore be obtained by a simpler instrument coupled to an active labour-market policy. The distinctive contribution of B6c is not that it dominates B4 on employment, which it does not, but that it simultaneously builds public capital, lowers the tax on work, and supports the labour share, which B4 does not.
+First, the fixed robot tax of arm B1 is by a wide margin the most costly
+instrument in output terms, at $-6.12\%$ relative to baseline, while raising
+$1.91\%$ of output in revenue. It does support the labour share, which ends at
+$0.341$ against $0.298$ in the baseline, but it achieves this by taxing an input
+at a uniform rate irrespective of whether the automation in question displaced
+anyone. This is the quantitative counterpart of the attribution gap of
+Section~\ref{sec:problem}.
 
-Fig.~\ref{fig:results} shows the labour-share paths. The machine price falls throughout, so the labour share declines in every arm; instruments that raise the marginal cost of automation slow the decline, while the UBI arm redistributes income without altering the factor allocation and is therefore indistinguishable from the baseline in this dimension.
+Second, the framework as literally specified in \eqref{eq:acb} is close to
+inert. Arm B6 raises only $0.24\%$ of output and reduces the income Gini by
+$0.0022$, which is statistically clear and economically negligible. Its output
+effect is positive, at $+2.45\%$, \emph{precisely because} the base is
+marginally subsidising in the sense of Proposition~\ref{prop:margin}. A positive
+output number here is evidence of the design defect, not of merit.
 
-\begin{table*}[!t]
-\centering
-\caption{Simulation results: means over 50 seeds under common random numbers, averaged across the 200 reported quarters except the wage share (terminal value) and the fund (terminal value). Output and hours are paired percentage differences against arm B0. The labour tax rate clears the government budget in every arm and is therefore an outcome. Bootstrap 95\% confidence intervals for the two key contrasts are given in Table~\ref{tab:ci}. These are outputs of the model of Section~\ref{sec:model}, not empirical estimates.}
-\label{tab:results}
-\scriptsize
-\begin{tabular}{@{}l l c c c c c c c c c@{}}
-\toprule
-\textbf{Arm} & \textbf{Policy regime} & $\Delta$\textbf{GDP} & \textbf{Hours} & \textbf{Wage} & \textbf{Gini} & \textbf{Gini} & \textbf{Pov.} & $\tau_L$ & \textbf{Fund} & \textbf{Div.} \\
- & & \textbf{(\%)} & \textbf{(\%)} & \textbf{share} & \textbf{(inc.)} & \textbf{(wealth)} & \textbf{rate} & \textbf{req.} & \textbf{(\% GDP)} & \textbf{(\% GDP)} \\
-\midrule
-B0 & Existing labour/capital tax system & $+0.00$ & $+0.00$ & $0.298$ & $0.3296$ & $0.5575$ & $0.120$ & $0.381$ & $0.0$ & $0.00$ \\
-B1 & Fixed robot tax & $-6.12$ & $+3.34$ & $0.341$ & $0.3245$ & $0.5558$ & $0.117$ & $0.325$ & $0.0$ & $0.00$ \\
-B2 & Broad capital-income tax increase & $+0.84$ & $+1.20$ & $0.298$ & $0.3255$ & $0.5535$ & $0.118$ & $0.356$ & $0.0$ & $0.00$ \\
-B3 & UBI via general taxation & $-1.05$ & $-1.55$ & $0.297$ & $0.3147$ & $0.5569$ & $0.099$ & $0.413$ & $0.0$ & $0.00$ \\
-B4 & Automation tax plus retraining & $-0.72$ & $+8.52$ & $0.338$ & $0.3247$ & $0.5556$ & $0.117$ & $0.352$ & $0.0$ & $0.00$ \\
-B5 & Public wealth fund, no factor-origin tax & $-0.10$ & $-0.14$ & $0.298$ & $0.3283$ & $0.5575$ & $0.118$ & $0.384$ & $7.4$ & $0.17$ \\
-B6 & CivicDividendOS, base as specified & $+2.66$ & $+1.77$ & $0.298$ & $0.3283$ & $0.5572$ & $0.118$ & $0.383$ & $4.5$ & $0.09$ \\
-B6c & \textbf{CivicDividendOS, corrected base} & $+3.30$ & $+7.24$ & $0.317$ & $0.3229$ & $0.5562$ & $0.114$ & $0.371$ & $17.0$ & $0.29$ \\
-\bottomrule
-\end{tabular}
-\end{table*}
+Third, the corrected base repairs the revenue problem but does not deliver
+dominance. Arm B6c raises $0.88\%$ of output, lowers the required labour tax
+from $0.381$ to $0.370$ $(\Delta\tau_L = -0.0111$, $\mathrm{CI}_{95\%} =
+[-0.0118,-0.0103])$, reduces the income Gini by $0.0072$ $(\mathrm{CI}_{95\%} =
+[-0.0077,-0.0068])$, and raises output by $3.18\%$ and labour demand in
+efficiency units by $6.78\%$, holding the terminal labour share at $0.316$
+against $0.298$. These figures are produced under corrected budget accounting,
+in which the full contribution liability $r_i\ACB_i$ is debited from firm
+profit while the marginal decision price remains $p_M + r_i\,\partial\ACB/
+\partial M$ as Proposition~\ref{prop:margin} requires. Under the earlier
+accounting, in which only the marginal wedge was debited, the same arm showed
+$+3.30\%$; the difference is the mechanical effect of charging the
+inframarginal liability to somebody.
 
-\begin{table}[!t]
-\centering
-\caption{Paired differences against arm B0 with bootstrap 95\% confidence intervals over 50 seeds (2000 resamples). Negative Gini differences indicate lower inequality; negative labour-tax differences indicate that the arm finances the same public spending at a lower tax on work.}
-\label{tab:ci}
-\scriptsize
-\begin{tabular}{@{}l c c c c@{}}
-\toprule
-\textbf{Arm} & $\Delta$\textbf{Gini} & \textbf{95\% CI} & $\Delta\tau_L$ & \textbf{95\% CI} \\
-\midrule
-B1 & $-0.0051$ & $[-0.0056, -0.0046]$ & $-0.0558$ & $[-0.0577, -0.0537]$ \\
-B2 & $-0.0042$ & $[-0.0044, -0.0039]$ & $-0.0257$ & $[-0.0262, -0.0252]$ \\
-B3 & $-0.0149$ & $[-0.0154, -0.0145]$ & $+0.0322$ & $[+0.0315, +0.0329]$ \\
-B4 & $-0.0050$ & $[-0.0053, -0.0046]$ & $-0.0288$ & $[-0.0296, -0.0278]$ \\
-B5 & $-0.0013$ & $[-0.0013, -0.0013]$ & $+0.0029$ & $[+0.0028, +0.0030]$ \\
-B6 & $-0.0013$ & $[-0.0013, -0.0013]$ & $+0.0018$ & $[+0.0018, +0.0019]$ \\
-B6c & $-0.0067$ & $[-0.0072, -0.0064]$ & $-0.0107$ & $[-0.0114, -0.0100]$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+Fourth, and decisively against the strong reading of the proposal, B6c is
+\emph{not} the most efficient instrument once revenue is held constant.
+Table~\ref{tab:revnorm} reports revenue raised per unit of deadweight loss on
+the labour margin. B6c returns $0.45$, against $1.47$ for the fixed robot tax
+of B1 and $0.89$ for the automation levy of B4. B6c looks good on output
+largely because it raises little revenue. Furthermore, arm B9, which finances
+the same programme with a lump-sum levy rather than with the attributed
+contribution, attains $+3.03\%$ output against B6c's $+3.18\%$. Most of the
+output advantage is therefore a fiscal-stance effect rather than a return to
+the attribution machinery, which is the central claim the framework needs and
+does not establish here.
 
-\begin{figure}[!t]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=0.94\columnwidth, height=5.6cm,
-  xlabel={Year}, ylabel={Labour share of value added},
-  xmin=0, xmax=50, ymin=0.25, ymax=0.80,
-  grid=major, grid style={black!12},
-  legend pos=south west, legend cell align=left,
-  legend style={font=\scriptsize, draw=black!30},
-  label style={font=\small}, tick label style={font=\scriptsize},
-  every axis plot/.append style={very thick, mark=none}
-]
-\addplot coordinates {(0.00,0.7467) (2.50,0.7399) (5.00,0.7323) (7.50,0.7240) (10.00,0.7149) (12.50,0.7047) (15.00,0.6935) (17.50,0.6811) (20.00,0.6675) (22.50,0.6524) (25.00,0.6358) (27.50,0.6175) (30.00,0.5976) (32.50,0.5759) (35.00,0.5525) (37.50,0.5274) (40.00,0.5008) (42.50,0.4727) (45.00,0.4436) (47.50,0.4136)};
-\addlegendentry{B0: Existing labour/capital tax system}
-\addplot coordinates {(0.00,0.7547) (2.50,0.7486) (5.00,0.7420) (7.50,0.7347) (10.00,0.7266) (12.50,0.7177) (15.00,0.7079) (17.50,0.6971) (20.00,0.6851) (22.50,0.6719) (25.00,0.6573) (27.50,0.6412) (30.00,0.6236) (32.50,0.6043) (35.00,0.5833) (37.50,0.5606) (40.00,0.5363) (42.50,0.5104) (45.00,0.4831) (47.50,0.4547)};
-\addlegendentry{B1: Fixed robot tax}
-\addplot coordinates {(0.00,0.7465) (2.50,0.7397) (5.00,0.7321) (7.50,0.7238) (10.00,0.7146) (12.50,0.7044) (15.00,0.6932) (17.50,0.6807) (20.00,0.6670) (22.50,0.6519) (25.00,0.6352) (27.50,0.6168) (30.00,0.5968) (32.50,0.5750) (35.00,0.5515) (37.50,0.5262) (40.00,0.4994) (42.50,0.4711) (45.00,0.4417) (47.50,0.4114)};
-\addlegendentry{B3: UBI via general taxation}
-\addplot coordinates {(0.00,0.7475) (2.50,0.7409) (5.00,0.7336) (7.50,0.7256) (10.00,0.7168) (12.50,0.7071) (15.00,0.6964) (17.50,0.6846) (20.00,0.6717) (22.50,0.6575) (25.00,0.6418) (27.50,0.6246) (30.00,0.6058) (32.50,0.5854) (35.00,0.5634) (37.50,0.5398) (40.00,0.5146) (42.50,0.4880) (45.00,0.4601) (47.50,0.4311)};
-\addlegendentry{B6c: CivicDividendOS}
-\end{axis}
-\end{tikzpicture}
-\caption{Labour share of value added over the 50-year horizon (seed 0). The machine price falls throughout, so the labour share declines in every arm. Arms that raise the effective cost of automation at the margin (B1, B6c) slow the decline; the UBI arm (B3) redistributes income but does not alter the factor allocation, so its path is indistinguishable from the baseline.}
-\label{fig:results}
-\end{figure}
+Fifth, targeted transfers remain the better instrument for near-term
+distributional objectives. Arm B3 attains the lowest income Gini at $0.3147$ and
+much the lowest poverty rate at $9.95\%$, outcomes that B6c does not approach,
+and it does so immediately rather than over decades. The cost is the highest
+labour tax of any arm at $0.413$. A fund whose half-life is measured in decades
+cannot substitute for transfers within a political cycle: the dividend in B6c
+reaches only $0.26\%$ of output after fifty years.
 
-\subsection{Reproducibility}
+Sixth, arm B4, a flat automation levy recycled into retraining, delivers the
+largest gain in labour demand of any arm, at $+8.52\%$ in efficiency units, for
+an output cost of only $-0.72\%$. Much of the benefit attributed to the
+attribution machinery can be obtained by a simpler instrument coupled to an
+active labour-market policy.
 
-Replication requires the following to be released with the companion study: the simulation source and its random seeds; the coalition-value estimator and its validation against held-out counterfactuals; the classifier, its training data description, and its confusion matrix at each injected error rate; the full policy vector $\Theta$ and scalarization weights $\omega_k$ for every arm; and the calibration targets with their sources. Calibration should draw on published robot-stock series, national accounts, and labour-force microdata; we name no specific series here because the choice determines external validity and belongs to the empirical study rather than to the framework.
+\emph{A note on the employment column.} The quantity reported here is aggregate
+labour demand measured in \emph{efficiency units}, $\sum_f L_f$. It is not hours
+and it is not employment. A worker whose efficiency has been reduced by
+displacement contributes less to it while remaining fully employed, and
+retraining expenditure raises it directly. The model has no extensive
+employment margin --- labour supply is a smooth function of the net-of-tax wage
+and no agent is ever unemployed --- so it cannot speak to employment in the
+ordinary sense. Table~\ref{tab:employment} reports efficiency units, a headcount
+above the displacement floor, and the wage separately.
+
+\input{paper/generated/table_main}
+\input{paper/generated/table_ci}
+\input{paper/generated/table_revenue_normalised}
+\input{paper/generated/table_employment}
+\input{paper/generated/table_incidence}
+
+\subsection{Sensitivity and the Region of Validity}
+\label{sec:sensitivity}
+
+The results of Section~\ref{sec:results} are computed at a single point,
+$\sigma = 1.5$ and $\gamma = 0.85$. Neither parameter is calibrated, and the
+Metrics discussion of Section~\ref{sec:eval} requires that sensitivity to them
+be reported. We therefore sweep both.
+
+Table~\ref{tab:sigmagamma} reports arm B6c's output effect across
+$\sigma \in \{1.2, 1.5, 2.0, 3.0, 5.0, 8.0\}$ and
+$\gamma \in \{0.75, 0.85, 0.95\}$, at ten seeds per cell under common random
+numbers.
+
+\textbf{The output advantage is positive in only four of the eighteen cells.}
+At $\gamma = 0.85$ it is $+4.78\%$ at $\sigma = 1.2$ and $+3.01\%$ at
+$\sigma = 1.5$, but $-2.23\%$ at $\sigma = 2.0$ and $-24.99\%$ at
+$\sigma = 8.0$. The sign therefore reverses between $\sigma = 1.5$ and
+$\sigma = 2.0$, and the region in which the advantage holds is approximately
+$\sigma \lesssim 1.7$ at $\gamma = 0.85$. Since the empirical literature places
+the labour--capital elasticity of substitution across a range that comfortably
+spans this boundary, \textbf{the result must be read as conditional on a low
+elasticity and not as a general property of the instrument}. At
+$\gamma = 0.95$, close to constant returns, firm scale becomes explosive and the
+model is better regarded as outside its domain of validity than as delivering a
+policy result; that row is reported as a boundary diagnostic.
+
+The same sweep clarifies Proposition~\ref{prop:margin}. Arm B6, with full
+deduction, shows a small positive output effect almost everywhere in the grid,
+which is exactly what a marginally subsidising base predicts. The proposition is
+therefore supported by the sweep, while the proposal's headline advantage is
+not.
+
+\input{paper/generated/table_sigma_gamma}
+
+\subsection{Fund Stability in the Testbed}
+\label{sec:fundstability}
+
+Proposition~\ref{prop:fund} requires $(1-\rho)r^{f} < g$ for the fund-to-output
+ratio to converge. The testbed sets $\rho = 0.60$ and $r^{f} = 0.05$, giving
+$(1-\rho)r^{f} = 0.0200$, while the model's own realised output growth across
+fifty seeds ranges from $0.0147$ to $0.0336$ with a mean of $0.0231$.
+
+\textbf{The condition therefore fails on a substantial minority of runs: 13 of
+50 seeds are on a divergent path.} On those runs the fund-to-output ratio has no
+finite limit, and the terminal level reported in Table~\ref{tab:results} is a
+point on a trajectory rather than a steady state. It should not be compared
+with the analytic $f^{*}$ of \eqref{eq:fstar}, and the $71$-year half-life of
+Table~\ref{tab:fund} assumes $g = 0.03$, which this testbed does not deliver.
+Table~\ref{tab:fund}'s arithmetic is itself correct; the difficulty is the
+growth rate at which it is evaluated.
+
+We report this rather than reparameterising to remove it. Selecting $\rho$ or
+$r^{f}$ so that the condition holds would make the fund look convergent by
+construction and would leave the reader no way to tell how close to the boundary
+the design sits. The honest summary is that the fund as calibrated is on the
+edge of stability, and that a design intended to run for a century should not
+be.
 
 \section{Discussion}
 \label{sec:discussion}
