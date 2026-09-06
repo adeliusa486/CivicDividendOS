@@ -1,9 +1,19 @@
 {
  "arms": [
   "B0",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
   "B6",
   "B6c",
-  "B1"
+  "B7",
+  "B8",
+  "B9",
+  "B10",
+  "B11",
+  "B12"
  ],
  "config": {
   "attribution": {
@@ -183,7 +193,7 @@
   }
  },
  "config_hash": "f78d37f380de8620",
- "description": "Audit finding F1. The headline claim that B6c dominates was made at a single point, sigma=1.5 and gamma=0.85, with no sensitivity analysis, and the audit showed the output effect reverses sign by sigma of about 2. This maps the region of the parameter space in which the claim actually holds, and reports the Proposition 2 condition gamma > 1 - 1/sigma at every cell.\n",
+ "description": "campaign over 14 arms",
  "environment": {
   "cpu_count": 20,
   "implementation": "CPython",
@@ -201,59 +211,25 @@
   "python": "3.11.9",
   "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
  },
- "experiment_id": "E01",
- "finished_at": "2026-09-06T23:13:53+0300",
+ "experiment_id": "main",
+ "finished_at": "2026-09-06T23:13:18+0300",
  "git": {
   "branch": "master",
-  "describe": "v0-audit-1-g548ebd9",
-  "dirty": true,
-  "dirty_files": [
-   "M src/cdos/model/fund.py",
-   "?? Dockerfile",
-   "?? Makefile",
-   "?? README.md",
-   "?? environment.yml",
-   "?? experiments/",
-   "?? pyproject.toml",
-   "?? pytest.ini",
-   "?? requirements-dev.txt",
-   "?? requirements.txt",
-   "?? scripts/_write_env.py",
-   "?? scripts/_write_experiments.py",
-   "?? scripts/make_figures.py",
-   "?? scripts/make_tables.py",
-   "?? scripts/run_all_experiments.py",
-   "?? scripts/run_experiment.py",
-   "?? tests/"
-  ],
-  "sha": "548ebd98126303cc2d3e3c776e4515e603ee8a54",
-  "short_sha": "548ebd9"
+  "describe": "v0-audit-2-g8f6da5f",
+  "dirty": false,
+  "dirty_files": [],
+  "sha": "8f6da5f95dc498914df4a0e48a45923b0a3341f9",
+  "short_sha": "8f6da5f"
  },
  "inputs": {
-  "experiments/E01_sigma_gamma.yaml": "cdda6a358721e0545a1f3f030b667e369a5db9829a7487a1c4d7c603ae6196e9"
+  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/configs/base.yaml": "3a99813d0900ed43d2b4059944e27b06d6280aaf4be347d6f5b071ffeb81618a"
  },
- "notes": {
-  "source": "experiments/E01_sigma_gamma.yaml",
-  "sweep": {
-   "technology.gamma": [
-    0.75,
-    0.85,
-    0.95
-   ],
-   "technology.sigma": [
-    1.2,
-    1.5,
-    2.0,
-    3.0,
-    5.0,
-    8.0
-   ]
-  }
- },
+ "notes": {},
  "outputs": {
-  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/E01.json": "93b4654282ded3f266434ef012de5d54899eb13a2e64fdd6345407039d4a987d"
+  "results/raw/main.json": "88f9ce25efde40557dc62335830fe6ec7107a300c8f3f1576e63cb0ffd154545",
+  "results/raw/main_runs.json": "d039e822ab55cb8ac3e7eb4447a8e1cedf280a9948fd3bc208a2eef2ead2b94a"
  },
- "runtime_seconds": 1051.502,
+ "runtime_seconds": 760.533,
  "seeds": [
   0,
   1,
@@ -264,7 +240,47 @@
   6,
   7,
   8,
-  9
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  48,
+  49
  ],
- "started_at": "2026-09-06T22:56:21+0300"
+ "started_at": "2026-09-06T23:00:37+0300"
 }
