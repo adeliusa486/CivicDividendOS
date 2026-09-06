@@ -16,12 +16,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
-from dataclasses import dataclass, field, asdict, is_dataclass
+from dataclasses import asdict, dataclass, field, is_dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import yaml
-
 
 # ---------------------------------------------------------------------------
 # Sections
@@ -153,7 +152,7 @@ class RateConfig:
 
     augmentation_wage_scale: float = 0.50
     # Terms allowed to contribute at all; dropping a name here zeroes it.
-    enabled_terms: List[str] = field(default_factory=lambda: [
+    enabled_terms: list[str] = field(default_factory=lambda: [
         "S", "C_rent", "E_disp", "X_ext", "R_rev",
         "A_aug", "T_train", "B_broad", "N_new"])
     flat_rate: bool = False      # ablation A1: collapse the rate to r0
@@ -171,14 +170,14 @@ class AttributionConfig:
     mode: str = "two_factor"
     method: str = "shapley"      # or "cost_share" (ablation A2)
     phi_deduct: float = 1.00     # share of machine cost deductible from the base
-    five_factor_shares: Dict[str, float] = field(default_factory=lambda: {
+    five_factor_shares: dict[str, float] = field(default_factory=lambda: {
         "H": 0.55,   # human labour
         "A": 0.15,   # AI agents (software)
         "R": 0.10,   # robots (embodied)
         "D": 0.10,   # data
         "K": 0.10,   # traditional capital
     })
-    machine_factors: List[str] = field(default_factory=lambda: ["A", "R"])
+    machine_factors: list[str] = field(default_factory=lambda: ["A", "R"])
 
 
 @dataclass
@@ -192,10 +191,10 @@ class ClassifierConfig:
 @dataclass
 class NexusConfig:
     enabled: bool = False
-    jurisdictions: List[str] = field(default_factory=lambda: ["J1", "J2", "J3"])
-    shares: List[float] = field(default_factory=lambda: [0.60, 0.25, 0.15])
+    jurisdictions: list[str] = field(default_factory=lambda: ["J1", "J2", "J3"])
+    shares: list[float] = field(default_factory=lambda: [0.60, 0.25, 0.15])
     shifting_elasticity: float = 0.0
-    rate_multipliers: List[float] = field(default_factory=lambda: [1.0, 1.0, 1.0])
+    rate_multipliers: list[float] = field(default_factory=lambda: [1.0, 1.0, 1.0])
 
 
 @dataclass
@@ -280,17 +279,17 @@ class Config:
         return self.technology.gamma > self.rho_sigma
 
     # -- serialisation ------------------------------------------------------
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     def hash(self) -> str:
         blob = json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
 
-    def copy(self) -> "Config":
+    def copy(self) -> Config:
         return copy.deepcopy(self)
 
-    def with_overrides(self, overrides: Dict[str, Any]) -> "Config":
+    def with_overrides(self, overrides: dict[str, Any]) -> Config:
         """Return a copy with dotted keys applied, e.g. ``{"technology.sigma": 2.0}``."""
         out = self.copy()
         for key, value in overrides.items():
@@ -321,7 +320,7 @@ def _set_dotted(obj: Any, dotted: str, value: Any) -> None:
     setattr(obj, leaf, value)
 
 
-def _apply_nested(obj: Any, data: Dict[str, Any], prefix: str = "") -> None:
+def _apply_nested(obj: Any, data: dict[str, Any], prefix: str = "") -> None:
     for key, value in data.items():
         if not hasattr(obj, key):
             raise KeyError(f"unknown configuration key {prefix + key!r}")
@@ -335,13 +334,13 @@ def _apply_nested(obj: Any, data: Dict[str, Any], prefix: str = "") -> None:
             setattr(obj, key, value)
 
 
-def _load_yaml_into(cfg: Config, path: Path, _seen: Optional[set] = None) -> Config:
+def _load_yaml_into(cfg: Config, path: Path, _seen: set | None = None) -> Config:
     path = Path(path).resolve()
     _seen = set() if _seen is None else _seen
     if path in _seen:
         raise ValueError(f"circular extends chain at {path}")
     _seen.add(path)
-    with open(path, "r", encoding="utf-8") as fh:
+    with open(path, encoding="utf-8") as fh:
         data = yaml.safe_load(fh) or {}
     data = dict(data)
     parent = data.pop("extends", None)
@@ -353,8 +352,8 @@ def _load_yaml_into(cfg: Config, path: Path, _seen: Optional[set] = None) -> Con
     return cfg
 
 
-def load_config(path: Optional[Path | str] = None,
-                overrides: Optional[Dict[str, Any]] = None) -> Config:
+def load_config(path: Path | str | None = None,
+                overrides: dict[str, Any] | None = None) -> Config:
     """Build a Config from an optional YAML file plus optional dotted overrides.
 
     A YAML file may carry an ``extends:`` key naming another file relative to
@@ -366,10 +365,10 @@ def load_config(path: Optional[Path | str] = None,
     return cfg
 
 
-def load_experiment(path: Path | str) -> Dict[str, Any]:
+def load_experiment(path: Path | str) -> dict[str, Any]:
     """Load an experiment file, returning its metadata alongside its Config."""
     path = Path(path)
-    with open(path, "r", encoding="utf-8") as fh:
+    with open(path, encoding="utf-8") as fh:
         raw = yaml.safe_load(fh) or {}
     meta = {k: raw[k] for k in _META_KEYS if k in raw}
     return {"meta": meta, "config": _load_yaml_into(Config(), path), "path": str(path)}

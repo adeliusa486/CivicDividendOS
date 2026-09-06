@@ -13,15 +13,13 @@ passages that the audit showed to be circular or false are removed.
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
-from typing import List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 TEX = ROOT / "CivicDividendOS_v2.tex"
 
 # (label, old fragment, new fragment). Old must appear exactly once.
-REPLACEMENTS: List[Tuple[str, str, str]] = [
+REPLACEMENTS: list[tuple[str, str, str]] = [
 
 # ---------------------------------------------------------------------------
 # F1a: the circular robustness argument

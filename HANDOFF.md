@@ -3,7 +3,7 @@
 For whoever picks this up next — researcher or agent. Read `MEMORY.md` first;
 this file says where things stand *today* and what to do next.
 
-**Date:** 2026-09-06
+**Date:** 2026-09-07
 **Baseline tag:** `v0-audit`
 **Working branch:** `master`
 
@@ -35,22 +35,22 @@ is not robustly stable. The manuscript must be revised to say both.
 - [x] Five-factor Shapley over all 31 coalitions; AEAP; classifier; nexus; waterfall; twin interface
 - [x] Arms B0–B6c plus B7–B12, each tested and each reducing to B0 when disabled
 - [x] Evaluation layer: welfare, DWL, revenue-normalised metrics, incidence, Holm multiplicity
-- [x] Test suite: 214 unit + integration + regression + numerical, all passing
+- [x] Test suite: 337 tests across unit, integration, regression and numerical, all passing
 - [x] E01 complete and analysed
 - [x] Environment pins, Dockerfile, Makefile, CI, reproduction workflow
 - [x] README, MEMORY.md, CONTRIBUTING, SECURITY, LICENSE, CITATION, traceability matrix
 
 ## 3. What remains
 
-- [ ] Finish running the remaining experiments (E02–E17, A01–A10) — the runner
-      works and E01 is done; the rest is wall-clock time
-- [ ] Regenerate tables and figures from the completed results (`make tables figures`)
-- [ ] **Revise the manuscript** against the corrected results — this is the
-      largest remaining task; see §5
-- [ ] Compile the PDF and check no `[RESULT TO BE GENERATED]` placeholder survives
-      for an experiment that has now been run
+- [x] All 27 experiments run (E01–E17, A01–A10); 26/26 batch succeeded
+- [x] Tables and figures regenerated from the completed results
+- [x] Manuscript revised against the corrected results; builds clean at 17 pages
+      with no undefined references or citations
+- [x] Two dead configuration channels found and wired (see MEMORY.md §C7)
+- [x] Pushed to https://github.com/adeliusa486/CivicDividendOS
 - [ ] Fill the author block (`CITATION.cff`, manuscript) — **requires author input**
-- [ ] Push to GitHub — **no remote is configured; requires the repository URL**
+- [ ] Supply the four unspecified digital-twin inputs — **requires author input**
+- [ ] Run the calibration once the licensed sources are available
 
 ## 4. Known issues and blockers
 
@@ -61,11 +61,12 @@ is not robustly stable. The manuscript must be revised to say both.
 | `X_ext`, `B_broad` indices | Limitation | No observable counterpart in the testbed; held at the paper's own constants. |
 | `gamma = 0.95` row of E01 | Numerical | Near-constant returns makes firm scale explosive (output ~1e11). Treat as a boundary diagnostic, not a policy result. |
 | Author identity | **BLOCKED** | Placeholders only. Nothing was invented. |
-| GitHub remote | **BLOCKED** | None configured. Repository is ready to push. |
+| GitHub remote | Resolved | `https://github.com/adeliusa486/CivicDividendOS` |
 
-## 5. The manuscript changes that are required
+## 5. The manuscript changes (all applied)
 
-Do **not** preserve a claim merely because it was in the old paper.
+Recorded here because the reasoning matters more than the diff. Do **not**
+restore any of these claims.
 
 1. **Restate the headline result conditionally.** B6c does not dominate. Report
    the E01 grid and the validity region (`sigma ≲ 1.7` at `gamma = 0.85`).
@@ -124,10 +125,11 @@ One override: `python scripts/run_campaign.py --set technology.sigma=2.0`
 | | |
 |---|---|
 | Baseline reproduction | Bit-exact, `results.json` md5 `788ce3e75b2417de34b445479a0bbdf1` |
-| Test suite | 214 unit + integration + regression + numerical — all passing |
+| Test suite | **337 tests, all passing** (unit, integration, regression, numerical) |
 | Environment | Python 3.11.9, NumPy 1.26.4, Windows 11 |
-| E01 | Complete, 18 cells × 4 arms × 10 seeds |
-| Release status | **NOT PUSHED — no GitHub remote configured** |
+| Experiments | All 27 complete; status in `results/summaries/experiment_status.json` |
+| Manuscript | Builds clean, 17 pages, no undefined references |
+| Release status | Pushed to `github.com/adeliusa486/CivicDividendOS` |
 
 ## 9. Rules
 

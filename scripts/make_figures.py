@@ -13,15 +13,15 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from cdos.config import load_config                   # noqa: E402
-from cdos.model.economy import run                    # noqa: E402
+from cdos.config import load_config  # noqa: E402
+from cdos.model.economy import run  # noqa: E402
 
 RAW = ROOT / "results" / "raw"
 FIG = ROOT / "figures"
@@ -36,7 +36,7 @@ except ImportError:                                    # pragma: no cover
     HAVE_MPL = False
 
 
-def _load(name: str) -> Optional[Dict[str, Any]]:
+def _load(name: str) -> dict[str, Any] | None:
     path = RAW / f"{name}.json"
     if not path.exists():
         print(f"  ! {path.name} not found; skipping its figures")
@@ -96,7 +96,7 @@ def figure_paths(arms=("B0", "B1", "B3", "B6c")) -> None:
         axes[2].plot(p[:, 0] / 4.0, p[:, 4], label=arm)
     for ax, title, ylabel in zip(
             axes, ("Wage share", "Labour tax rate", "Fund / annual output"),
-            ("$wL/Y$", r"$\tau_L$", "$F/4Y$")):
+            ("$wL/Y$", r"$\tau_L$", "$F/4Y$"), strict=False):
         ax.set_title(title)
         ax.set_xlabel("year")
         ax.set_ylabel(ylabel)
@@ -206,7 +206,7 @@ def figure_rate() -> None:
                "N_new": np.full(51, 0.30)}
         series[a_aug] = applied_rate(cfg, 51, idx)
         _write_dat(f"fig_rate_aug{int(a_aug * 100):02d}.dat",
-                   list(zip(s_grid, series[a_aug])))
+                   list(zip(s_grid, series[a_aug], strict=False)))
 
     if not HAVE_MPL:
         return

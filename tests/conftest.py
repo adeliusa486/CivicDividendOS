@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
-from cdos.config import Config, load_config      # noqa: E402
+from cdos.config import Config, load_config  # noqa: E402
 
 
 @pytest.fixture(scope="session")

@@ -11,7 +11,8 @@ from __future__ import annotations
 import itertools
 import os
 import warnings
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -24,14 +25,14 @@ __all__ = ["run_campaign", "aggregate", "AGG_KEYS", "PAIRED_KEYS"]
 AGG_KEYS = ("Y", "eff_units", "headcount", "ws", "ws_end", "gi", "gw", "pov",
             "taul", "taul_cv", "fund", "divgdp", "adopt", "sac", "rev_cv",
             "dwl", "revenue", "revenue_per_dwl", "spend", "wage",
-            "g_realised", "stability_margin", "incidence_labour",
+            "g_realised", "stability_margin", "leakage", "incidence_labour",
             "incidence_capital")
 
 PAIRED_KEYS = ("Y", "eff_units", "headcount", "gi", "gw", "pov", "taul",
                "ws_end", "dwl", "revenue_per_dwl", "wage")
 
 
-def _job(args: Tuple[Config, int, str]) -> Dict[str, Any]:
+def _job(args: tuple[Config, int, str]) -> dict[str, Any]:
     cfg, seed, arm = args
     with warnings.catch_warnings():
         # Fund-stability warnings are recorded per run as `stability_margin`;
@@ -42,7 +43,7 @@ def _job(args: Tuple[Config, int, str]) -> Dict[str, Any]:
 
 def run_campaign(cfg: Config, arms: Sequence[str] = ARMS,
                  seeds: Sequence[int] = range(50),
-                 processes: Optional[int] = None) -> List[Dict[str, Any]]:
+                 processes: int | None = None) -> list[dict[str, Any]]:
     """Execute every (seed, arm) pair. Returns the raw per-run results."""
     unknown = [a for a in arms if a not in ARMS]
     if unknown:
@@ -57,16 +58,16 @@ def run_campaign(cfg: Config, arms: Sequence[str] = ARMS,
         return pool.map(_job, tasks, chunksize=4)
 
 
-def aggregate(results: Sequence[Dict[str, Any]], arms: Sequence[str],
+def aggregate(results: Sequence[dict[str, Any]], arms: Sequence[str],
               seeds: Sequence[int], baseline: str = "B0",
-              reps: int = 2000, seed: int = 12345) -> Dict[str, Any]:
+              reps: int = 2000, seed: int = 12345) -> dict[str, Any]:
     """Aggregate per-run results into per-arm statistics and paired contrasts.
 
     Adds Holm-corrected significance across arms for each paired metric: the
     audited campaign compared seven arms against a baseline on seven metrics
     without any multiplicity control.
     """
-    by: Dict[str, List[Dict[str, Any]]] = {
+    by: dict[str, list[dict[str, Any]]] = {
         a: [r for r in results if r["arm"] == a] for a in arms}
     for a in arms:
         if len(by[a]) != len(seeds):
@@ -76,7 +77,7 @@ def aggregate(results: Sequence[Dict[str, Any]], arms: Sequence[str],
                 "not be paired")
         by[a].sort(key=lambda r: r["seed"])
 
-    agg: Dict[str, Any] = {}
+    agg: dict[str, Any] = {}
     for a in arms:
         agg[a] = {}
         for k in AGG_KEYS:

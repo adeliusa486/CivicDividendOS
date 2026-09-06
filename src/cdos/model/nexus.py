@@ -21,7 +21,7 @@ framework.
 
 from __future__ import annotations
 
-from typing import Dict, Optional, Sequence
+from collections.abc import Sequence
 
 import numpy as np
 
@@ -50,8 +50,8 @@ def validate_shares(shares, tol: float = 1e-9, name: str = "shares") -> np.ndarr
     return arr
 
 
-def nexus_shares(components: Dict[str, np.ndarray],
-                 weights: Optional[Sequence[float]] = None,
+def nexus_shares(components: dict[str, np.ndarray],
+                 weights: Sequence[float] | None = None,
                  tol: float = 1e-9) -> np.ndarray:
     """Combine the four component share matrices into ``Nexus_ij``.
 
@@ -73,7 +73,7 @@ def nexus_shares(components: Dict[str, np.ndarray],
         raise ValueError(
             f"nexus component weights must sum to one, got {float(w.sum()):.12g}")
     acc = None
-    for k, comp in zip(w, NEXUS_COMPONENTS):
+    for k, comp in zip(w, NEXUS_COMPONENTS, strict=False):
         mat = validate_shares(components[comp], tol, name=f"component {comp!r}")
         acc = k * mat if acc is None else acc + k * mat
     return validate_shares(acc, tol, name="nexus")

@@ -3,20 +3,32 @@
 from __future__ import annotations
 
 import json
+
 import numpy as np
 import pytest
 
 from cdos.config import Config, load_config, load_experiment
-from cdos.eval.metrics import (atkinson, decile_shares, deadweight_loss,
-                               employment_metrics, equivalent_variation, gini,
-                               incidence_by_decile, poverty_rate,
-                               revenue_normalised)
-from cdos.eval.uncertainty import (bootstrap_ci, combined_interval,
-                                   effect_size, holm_bonferroni,
-                                   paired_contrast, practical_significance,
-                                   seed_adequacy)
+from cdos.eval.metrics import (
+    atkinson,
+    deadweight_loss,
+    decile_shares,
+    employment_metrics,
+    equivalent_variation,
+    gini,
+    incidence_by_decile,
+    poverty_rate,
+    revenue_normalised,
+)
+from cdos.eval.uncertainty import (
+    bootstrap_ci,
+    combined_interval,
+    effect_size,
+    holm_bonferroni,
+    paired_contrast,
+    practical_significance,
+    seed_adequacy,
+)
 from cdos.utils.manifest import Manifest, environment_state, file_digest, git_state
-
 
 # ---------------------------------------------------------------------------
 # Config

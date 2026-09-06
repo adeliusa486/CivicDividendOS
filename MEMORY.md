@@ -3,7 +3,7 @@
 **Purpose.** Everything a future researcher or agent needs in order to continue
 this work without rediscovering its history. Read this before changing anything.
 
-Last updated: 2026-09-06.
+Last updated: 2026-09-07.
 
 ---
 
@@ -90,7 +90,7 @@ avoid `agents/` for this reason.
 | **F5** | P1 | A headline comparison used the wrong quantity | **FIXED** — revenue-normalised metrics reported alongside output effects |
 | **F6** | P1 | "Hours" was labour demand in efficiency units | **FIXED** — `eff_units`, `headcount`, `hours` separated and never conflated |
 | **F7/F8** | P2 | Repository and reproducibility defects | **FIXED** — package, configs, manifests, CI, Docker, automatic tables |
-| **F9** | P2 | Worked-example unit error | **Manuscript revision pending** |
+| **F9** | P2 | Worked-example unit error | **FIXED** — corrected in the manuscript |
 
 ---
 
@@ -115,8 +115,8 @@ avoid `agents/` for this reason.
 - **New:** `stability()` returns the margin `g − (1−rho)r_f` on every run;
   `stability_mode` ∈ {`require`, `warn`, `stress`}.
 - **Finding beyond the audit:** realised `g` is **seed-dependent**, ranging
-  ≈0.0166–0.0339. The condition therefore **holds for some seeds and fails for
-  others** — roughly 40% of seeds are on a divergent path. The fund is not
+  ≈0.0147–0.0336. The condition therefore **holds for some seeds and fails for
+  others**: at 50 seeds, **13 of 50 are on a divergent path**. The fund is not
   robustly stable, and reporting a terminal level as a steady state is wrong
   regardless of which seed is drawn.
 - **Decision:** the parameter was **not** changed to make the result look
@@ -144,6 +144,22 @@ Five-factor Shapley over all 31 coalitions (exact, not sampled); AEAP schema and
 registry with validation; rule-based classifier with controlled error injection;
 three-jurisdiction nexus with strategic shifting; four-channel waterfall with an
 explicit `kappa` shield; digital-twin screening interface.
+
+### C7 — two dead configuration channels wired (2026-09-07)
+- **Problem:** `classifier.error_rate` and `nexus.shifting_elasticity` were
+  configurable but never read by the run loop. The first pass of E06 and E10
+  therefore produced *identical* results at every setting — the experiments
+  measured nothing. A parameter that appears in a configuration file and
+  changes no result is worse than a missing one, because it looks like evidence.
+- **New:** classification error perturbs the `S` and `A_aug` indices that feed
+  the rate (deterministically, from the run seed and period, so it does not
+  disturb common random numbers). Nexus shifting apportions the liability
+  across jurisdictions and collects only the domestic share; firms still bear
+  the full liability and the foreign share is booked explicitly, so the
+  resource identity still closes.
+- **Tests:** `tests/integration/test_wired_channels.py` (12), which fail if
+  either channel is ever disconnected again.
+- **Result:** E06 and E10 re-run and now measure real effects. See §7.
 
 ### C6 — arms B7–B12 (2026-09-06)
 Optimal linear capital tax, consumption-tax shift, lump-sum-financed variant,
@@ -174,35 +190,80 @@ These could not be implemented honestly and were **not** invented.
 
 ## 7. Experiment history and headline results
 
-See `results/summaries/experiment_status.json` for machine-readable status.
+All 27 experiments (E01-E17, A01-A10) COMPLETE. Machine-readable status in
+`results/summaries/experiment_status.json`; per-run provenance in
+`results/manifests/`.
 
-### E01 — sigma × gamma robustness (COMPLETE, 18 cells × 4 arms × 10 seeds)
+### E01 - sigma x gamma robustness (18 cells x 4 arms x 10 seeds)
 
-**This is the most important result in the project.** B6c's output effect vs B0:
+**The most important result in the project.** B6c's output effect vs B0:
 
 | sigma \ gamma | 0.75 | 0.85 | 0.95 |
 |---|---|---|---|
 | **1.2** | +3.35 | +4.78 | +0.37 |
-| **1.5** | +2.35 | **+3.01** | −48.49 |
-| **2.0** | +1.17 | −2.23 | −62.21 |
-| **3.0** | −0.02 | −11.91 | −62.44 |
-| **5.0** | −0.91 | −20.77 | −62.34 |
-| **8.0** | −1.37 | −24.99 | −62.28 |
+| **1.5** | +2.35 | **+3.01** | -48.49 |
+| **2.0** | +1.17 | -2.23 | -62.21 |
+| **3.0** | -0.02 | -11.91 | -62.44 |
+| **5.0** | -0.91 | -20.77 | -62.34 |
+| **8.0** | -1.37 | -24.99 | -62.28 |
 
-- Bold is the paper's calibration: **+3.01% [+2.47, +3.39]** (replication CI).
-- **Positive in only 4 of 18 cells.** The sign reverses between `sigma` 1.5 and
-  2.0 at `gamma = 0.85`, exactly as the audit predicted.
-- At `gamma = 0.95` (near-constant returns) the model becomes extremely
-  sensitive and firm scale explodes; treat that row as a boundary diagnostic
-  rather than a policy result.
-- **B6 (`phi = 1`) is positive almost everywhere but small.** That is not good
-  news: by Proposition 2 full deduction makes the levy a marginal *subsidy*, so
-  a positive output effect there is evidence of the defect, not of merit.
+Positive in only 4 of 18 cells. Sign reverses between sigma 1.5 and 2.0 at
+gamma 0.85, exactly as the audit predicted. The gamma=0.95 row is a boundary
+diagnostic: firm scale becomes explosive and the model is out of its domain.
 
-**Conclusion: B6c does NOT dominate. The claim holds only for `sigma ≲ 1.7` at
-`gamma = 0.85`, and the paper must say so.**
+### Main campaign (14 arms x 50 seeds, corrected accounting)
 
----
+B6c: **+3.18%** output (was +3.30% before the F3 fix), Gini 0.3224,
+tau_L 0.3702, revenue 0.877% of Y, fund 15.1% of Y.
+
+### THREE FURTHER REVERSALS FOUND BEYOND THE AUDIT
+
+1. **Horizon (E05).** +1.78% at 80 quarters, +2.81% at 200, **-2.23% at 320,
+   -11.20% at 400**. The advantage is transitional. Reporting a fifty-year
+   window and stopping there flatters the instrument.
+2. **Automation speed (E14).** +2.85% at decay 0.004, **-7.34% at 0.010,
+   -22.45% at 0.015**. The instrument performs well against slow automation and
+   badly against fast automation - close to the opposite of the case usually
+   made for it.
+3. **Attribution granularity (E12).** Moving from the two-factor composite to
+   the exact five-factor Shapley game collapses revenue from 0.873% to
+   **0.081%** of Y and turns the output effect negative (-0.92%). The composite
+   machine factor materially overstates the contribution base.
+
+### The advantage is mostly fiscal stance, not attribution
+
+Arm B9, which finances the same programme with a lump sum instead of the
+attributed contribution, attains +3.03% against B6c's +3.18%. On revenue per
+unit of deadweight loss B6c scores **0.451** against B1's **1.472** and B4's
+**0.892** - it looks good on output largely because it raises little revenue.
+
+### Other completed experiments
+
+| ID | Finding |
+|---|---|
+| E02 | Budget closes in all 14 arms, every period, strict tolerance 1e-8 |
+| E03 | 16-cell stability grid; 4 cells diverge; at the paper's calibration the margin is +0.0026 on average but **13 of 50 seeds diverge** |
+| E04 | Full 14-arm revenue-normalised ranking |
+| E06 | Prop. 4 bound holds with room: observed revenue error 3.2/6.7/13.7% against a bound of 11.9/23.8/47.5% at eps = 5/10/20% |
+| E07, A09 | phi sweep: output +0.92% at phi=0, +2.81% at 0.5, +2.40% at 1.0 - consistent with Prop. 2 |
+| E08 | The three restored rate terms measurably change the rate |
+| E09 | Payout paradox: dividend rises 0.126 to 0.303% of Y as rho goes 0.20 to 0.95, while the fund falls 25.6 to 10.7% |
+| E10 | Leakage 2.1/4.1/8.2% at shifting elasticity 0.2/0.4/0.8; apportionment stays exhaustive |
+| E11 | Avoidance via inflated admitted costs crossed with relabelling |
+| E13 | Calibration NOT RUN - sources licensed; reports which targets could not be checked |
+| E15 | 100-seed adequacy analysis |
+| E16 | Incidence by factor for all levying arms |
+| E17 | Results stable in population size (2500 to 20000 households) |
+| A01-A10 | Ablations complete. A10 is notable: **turning the displacement channel off moves B6c from +2.81% to -1.68%**, so the entire output advantage depends on that channel |
+
+### Two channels were dead until 2026-09-07
+
+`classifier.error_rate` and `nexus.shifting_elasticity` were configurable but
+never read by the run loop, so the first pass of E06 and E10 produced identical
+results at every setting. Both are now wired, tested
+(`tests/integration/test_wired_channels.py`) and re-run. A parameter that
+appears in a config file and changes no result is worse than a missing one,
+because it looks like evidence.
 
 ## 8. Reproducibility
 

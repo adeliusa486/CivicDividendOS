@@ -35,7 +35,6 @@ from __future__ import annotations
 import math
 import warnings
 from dataclasses import dataclass
-from typing import Optional
 
 import numpy as np
 
@@ -52,8 +51,8 @@ class StabilityReport:
     drift: float          # (1 - rho) * r_f
     margin: float         # g - drift; positive means convergent
     stable: bool
-    steady_state: Optional[float]
-    half_life_years: Optional[float]
+    steady_state: float | None
+    half_life_years: float | None
 
     def as_dict(self) -> dict:
         return {
@@ -81,8 +80,8 @@ def steady_state_ratio(s: float, g: float, rho: float, r_f: float) -> float:
     denom = g - (1.0 - rho) * r_f
     if denom <= 0.0:
         raise ValueError(
-            "no finite steady state: (1-rho)*r_f = %.6f exceeds g = %.6f "
-            "(Proposition 6 violated)" % ((1.0 - rho) * r_f, g))
+            f"no finite steady state: (1-rho)*r_f = {(1.0 - rho) * r_f:.6f} exceeds g = {g:.6f} "
+            "(Proposition 6 violated)")
     return s * (1.0 + g) / denom
 
 
@@ -90,7 +89,7 @@ def half_life_years(rho: float, r_f: float, g: float) -> float:
     """Half-life of convergence to ``f*``, in years."""
     a = (1.0 + (1.0 - rho) * r_f) / (1.0 + g)
     if a >= 1.0:
-        raise ValueError("divergent: convergence factor a = %.6f is not below one" % a)
+        raise ValueError(f"divergent: convergence factor a = {a:.6f} is not below one")
     return math.log(0.5) / math.log(a)
 
 
@@ -109,11 +108,12 @@ def check_stability(report: StabilityReport, mode: str = "warn",
     """Act on a stability report according to the configured mode."""
     if report.stable or mode == "stress":
         return report
+    where = f" [{context}]" if context else ""
     message = (
-        "fund stability condition violated%s: (1-rho)*r_f = %.5f exceeds "
-        "realised g = %.5f, margin %.5f. The fund-to-output ratio diverges; "
-        "no finite steady state exists (audit F2)."
-        % (f" [{context}]" if context else "", report.drift, report.g, report.margin))
+        f"fund stability condition violated{where}: "
+        f"(1-rho)*r_f = {report.drift:.5f} exceeds realised g = {report.g:.5f}, "
+        f"margin {report.margin:.5f}. The fund-to-output ratio diverges; "
+        "no finite steady state exists (audit F2).")
     if mode == "require":
         raise RuntimeError(message)
     if mode == "warn":

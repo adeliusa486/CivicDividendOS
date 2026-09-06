@@ -6,12 +6,21 @@ import numpy as np
 import pytest
 
 from cdos.config import Config, RateConfig
-from cdos.framework.aeap import (AEAP, AEAPError, AEAPRegistry, MODEL_CLASSES,
-                                 RISK_CLASSES, TASK_CLASSES, validate_record)
-from cdos.framework.classifier import (MODES, classify, confusion_matrix,
-                                       inject_error)
-from cdos.framework.twin import (POLICY_VECTOR, REQUIRES_AUTHOR_SPECIFICATION,
-                                 SearchSpace, default_normaliser, screen)
+from cdos.framework.aeap import (
+    AEAP,
+    TASK_CLASSES,
+    AEAPError,
+    AEAPRegistry,
+    validate_record,
+)
+from cdos.framework.classifier import MODES, classify, confusion_matrix, inject_error
+from cdos.framework.twin import (
+    POLICY_VECTOR,
+    REQUIRES_AUTHOR_SPECIFICATION,
+    SearchSpace,
+    default_normaliser,
+    screen,
+)
 from cdos.model.rate import applied_rate, lipschitz_constant
 
 

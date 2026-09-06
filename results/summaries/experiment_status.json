@@ -1,0 +1,132 @@
+[
+ {
+  "experiment": "A01_flat_rate",
+  "status": "ok",
+  "seconds": 152.6
+ },
+ {
+  "experiment": "A02_cost_share",
+  "status": "ok",
+  "seconds": 99.1
+ },
+ {
+  "experiment": "A03_fund_off",
+  "status": "ok",
+  "seconds": 65.9
+ },
+ {
+  "experiment": "A04_shield_off",
+  "status": "ok",
+  "seconds": 61.6
+ },
+ {
+  "experiment": "A05_transition_off",
+  "status": "ok",
+  "seconds": 42.7
+ },
+ {
+  "experiment": "A06_retraining_off",
+  "status": "ok",
+  "seconds": 61.9
+ },
+ {
+  "experiment": "A07_rent_term_off",
+  "status": "ok",
+  "seconds": 58.5
+ },
+ {
+  "experiment": "A08_augmentation_off",
+  "status": "ok",
+  "seconds": 61.7
+ },
+ {
+  "experiment": "A09_phi",
+  "status": "ok",
+  "seconds": 128.4
+ },
+ {
+  "experiment": "A10_displacement_off",
+  "status": "ok",
+  "seconds": 62.4
+ },
+ {
+  "experiment": "E02_budget",
+  "status": "ok",
+  "seconds": 94.7
+ },
+ {
+  "experiment": "E03_fund_stability",
+  "status": "ok",
+  "seconds": 442.4
+ },
+ {
+  "experiment": "E04_revenue_normalised",
+  "status": "ok",
+  "seconds": 91.3
+ },
+ {
+  "experiment": "E05_horizon",
+  "status": "ok",
+  "seconds": 230.3
+ },
+ {
+  "experiment": "E06_classifier_error",
+  "status": "ok",
+  "seconds": 156.5
+ },
+ {
+  "experiment": "E07_phi_sweep",
+  "status": "ok",
+  "seconds": 139.9
+ },
+ {
+  "experiment": "E08_rate_terms",
+  "status": "ok",
+  "seconds": 156.6
+ },
+ {
+  "experiment": "E09_payout_paradox",
+  "status": "ok",
+  "seconds": 95.5
+ },
+ {
+  "experiment": "E10_jurisdictions",
+  "status": "ok",
+  "seconds": 32.6
+ },
+ {
+  "experiment": "E11_avoidance",
+  "status": "ok",
+  "seconds": 47.8
+ },
+ {
+  "experiment": "E12_five_factor",
+  "status": "ok",
+  "seconds": 41.2
+ },
+ {
+  "experiment": "E13_calibration",
+  "status": "ok",
+  "seconds": 29.4
+ },
+ {
+  "experiment": "E14_decay",
+  "status": "ok",
+  "seconds": 92.6
+ },
+ {
+  "experiment": "E15_seed_adequacy",
+  "status": "ok",
+  "seconds": 23.4
+ },
+ {
+  "experiment": "E16_incidence",
+  "status": "ok",
+  "seconds": 17.2
+ },
+ {
+  "experiment": "E17_scalability",
+  "status": "ok",
+  "seconds": 69.5
+ }
+]

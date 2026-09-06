@@ -34,8 +34,9 @@ configuration in place.
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -63,7 +64,7 @@ REQUIRES_AUTHOR_SPECIFICATION = (
 @dataclass
 class SearchSpace:
     """Bounds on each coordinate of ``Theta``, supplied by the caller."""
-    bounds: Dict[str, Tuple[float, float]]
+    bounds: dict[str, tuple[float, float]]
 
     def validate(self) -> None:
         unknown = [k for k in self.bounds if k not in POLICY_VECTOR]
@@ -77,11 +78,11 @@ class SearchSpace:
             if hi < lo:
                 raise ValueError(f"bounds for {key} are inverted: ({lo}, {hi})")
 
-    def sample(self, rng: np.random.Generator) -> Dict[str, float]:
+    def sample(self, rng: np.random.Generator) -> dict[str, float]:
         return {k: float(rng.uniform(lo, hi)) for k, (lo, hi) in self.bounds.items()}
 
     def latin_hypercube(self, n: int, rng: np.random.Generator
-                        ) -> List[Dict[str, float]]:
+                        ) -> list[dict[str, float]]:
         """Stratified sample: better coverage per evaluation than uniform draws."""
         keys = list(self.bounds)
         cuts = np.empty((n, len(keys)))
@@ -94,16 +95,16 @@ class SearchSpace:
 
 @dataclass
 class ScreeningResult:
-    theta: Dict[str, float]
+    theta: dict[str, float]
     objective: float
-    outcomes: Dict[str, float]
-    incidence: Dict[str, float]
+    outcomes: dict[str, float]
+    incidence: dict[str, float]
     feasible: bool
     n_evaluated: int
     n_feasible: int
-    trace: List[Dict[str, Any]] = field(default_factory=list)
+    trace: list[dict[str, Any]] = field(default_factory=list)
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return {"theta": self.theta, "objective": self.objective,
                 "outcomes": self.outcomes, "incidence": self.incidence,
                 "feasible": self.feasible, "n_evaluated": self.n_evaluated,
@@ -128,8 +129,8 @@ def default_normaliser(reference: Mapping[str, float]
 
 def _constraints_hold(cfg: Config, outcomes: Mapping[str, float],
                       revenue_floor: float, innovation_floor: float,
-                      leakage_ceiling: float) -> Tuple[bool, List[str]]:
-    failures: List[str] = []
+                      leakage_ceiling: float) -> tuple[bool, list[str]]:
+    failures: list[str] = []
     if outcomes.get("revenue", 0.0) < revenue_floor:
         failures.append("revenue floor")
     if outcomes.get("innovation", 0.0) < innovation_floor:
@@ -150,7 +151,7 @@ def _constraints_hold(cfg: Config, outcomes: Mapping[str, float],
 
 
 def screen(base: Config,
-           evaluate: Callable[[Config], Dict[str, float]],
+           evaluate: Callable[[Config], dict[str, float]],
            space: SearchSpace,
            weights: Mapping[str, float],
            normaliser: Callable[[str, float], float],
@@ -159,8 +160,8 @@ def screen(base: Config,
            leakage_ceiling: float,
            n_candidates: int = 64,
            seed: int = 0,
-           holdout_seeds: Optional[Sequence[int]] = None,
-           evaluate_holdout: Optional[Callable[[Config, int], Dict[str, float]]] = None
+           holdout_seeds: Sequence[int] | None = None,
+           evaluate_holdout: Callable[[Config, int], dict[str, float]] | None = None
            ) -> ScreeningResult:
     """Search ``Theta`` for the best feasible scalarised outcome.
 
@@ -183,8 +184,8 @@ def screen(base: Config,
     rng = np.random.default_rng(seed)
     candidates = space.latin_hypercube(n_candidates, rng)
 
-    trace: List[Dict[str, Any]] = []
-    scored: List[Tuple[float, Dict[str, float], Dict[str, float], Dict[str, float]]] = []
+    trace: list[dict[str, Any]] = []
+    scored: list[tuple[float, dict[str, float], dict[str, float], dict[str, float]]] = []
     n_feasible = 0
 
     for theta in candidates:
@@ -212,7 +213,7 @@ def screen(base: Config,
     if holdout_seeds and evaluate_holdout is not None:
         shortlist = scored[:max(1, len(scored) // 8)]
         rescored = []
-        for objective, theta, outcomes, incidence in shortlist:
+        for _objective, theta, outcomes, _incidence in shortlist:
             cfg = base.with_overrides(theta)
             vals = [evaluate_holdout(cfg, s) for s in holdout_seeds]
             merged = {k: float(np.mean([v.get(k, 0.0) for v in vals]))

@@ -192,11 +192,9 @@ def main() -> int:
     if not TEX.exists():
         raise SystemExit(f"manuscript not found at {TEX}")
 
-    gen = ROOT / "paper" / "generated"
-    gen.mkdir(parents=True, exist_ok=True)
-    for name, body in TABLE_WRAPPERS.items():
-        (gen / name).write_text(body, encoding="utf-8", newline="\n")
-        print(f"  wrote paper/generated/{name}")
+    # Tables themselves are complete floats written by scripts/make_tables.py
+    # and included at top level; this script only edits the prose around them.
+    (ROOT / "paper" / "generated").mkdir(parents=True, exist_ok=True)
 
     text = TEX.read_text(encoding="utf-8")
     if MARKER in text:

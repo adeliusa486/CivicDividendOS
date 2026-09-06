@@ -6,10 +6,15 @@ import numpy as np
 import pytest
 
 from cdos.model.production import firm_block
-from cdos.model.shapley import (FIVE_FACTORS, coalition_value,
-                                cost_share_attribution, dpsi_dM,
-                                marginal_below_price_condition,
-                                shapley_five_factor, shapley_machine)
+from cdos.model.shapley import (
+    FIVE_FACTORS,
+    coalition_value,
+    cost_share_attribution,
+    dpsi_dM,
+    marginal_below_price_condition,
+    shapley_five_factor,
+    shapley_machine,
+)
 
 SIGMA, GAMMA = 1.5, 0.85
 

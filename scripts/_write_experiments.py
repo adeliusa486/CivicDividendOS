@@ -285,8 +285,9 @@ ABLATIONS = {
                          {"rate.w_theta": [0.09, 0.0]}),
 "A09_phi": ("A09", "deduction share",
             "phi at 0, one half and 1, the three cases Proposition 2 "
-            "distinguishes.",
-            {"attribution.phi_deduct": [0.0, 0.5, 1.0]}),
+            "distinguishes. Uses arm B6, which reads phi from configuration; "
+            "arm B6c pins phi to one half by definition and so cannot vary it.",
+            {"attribution.phi_deduct": [0.0, 0.5, 1.0]}, ["B0", "B6"]),
 "A10_displacement_off": ("A10", "displacement channel off",
                          "Without displacement, automation has no effect on "
                          "worker efficiency and the case for the instrument "
@@ -299,7 +300,7 @@ experiment_id: {eid}
 name: {name}
 description: >
   {desc}
-arms: [B0, B6c]
+arms: {arms}
 seeds: 20
 sweep:
 {sweep}"""
@@ -309,11 +310,14 @@ def main() -> None:
     EXP.mkdir(parents=True, exist_ok=True)
     for stem, body in EXPERIMENTS.items():
         (EXP / f"{stem}.yaml").write_text(body, encoding="utf-8", newline="\n")
-    for stem, (eid, name, desc, sweep) in ABLATIONS.items():
+    for stem, spec in ABLATIONS.items():
+        eid, name, desc, sweep = spec[:4]
+        arms = spec[4] if len(spec) > 4 else ["B0", "B6c"]
         lines = "\n".join(f"  {k}: {v}".replace("'", "")
                           for k, v in sweep.items())
         (EXP / f"{stem}.yaml").write_text(
-            ABLATION_TEMPLATE.format(eid=eid, name=name, desc=desc, sweep=lines)
+            ABLATION_TEMPLATE.format(eid=eid, name=name, desc=desc,
+                                     sweep=lines, arms=arms)
             + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(EXPERIMENTS)} experiments and {len(ABLATIONS)} ablations "
           f"into {EXP}")

@@ -200,19 +200,23 @@
   "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
  },
  "experiment_id": "E03",
- "finished_at": "2026-09-06T23:24:38+0300",
+ "finished_at": "2026-09-06T23:36:33+0300",
  "git": {
   "branch": "master",
-  "describe": "v0-audit-3-g08de3bc",
+  "describe": "v0-audit-4-gbec4745",
   "dirty": true,
   "dirty_files": [
-   "M CivicDividendOS_v2.tex",
-   "?? results/manifests/E02.json",
-   "?? results/raw/E02.json",
-   "?? scripts/revise_manuscript.py"
+   "M results/manifests/E02.json",
+   " M results/raw/E02.json",
+   "?? results/manifests/A09.json",
+   "?? results/manifests/A10.json",
+   "?? results/manifests/E04.json",
+   "?? results/raw/A09.json",
+   "?? results/raw/A10.json",
+   "?? results/raw/E04.json"
   ],
-  "sha": "08de3bccc8b0262f94232ad2e8f92febc447e6ed",
-  "short_sha": "08de3bc"
+  "sha": "bec47454e6e40b18f392ee2de9ca897ad3120fbf",
+  "short_sha": "bec4745"
  },
  "inputs": {
   "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/experiments/E03_fund_stability.yaml": "b672f1bf7554ae90603944e74631cd65093065abf239d22ea42871da006d172f"
@@ -237,7 +241,7 @@
  "outputs": {
   "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/E03.json": "bb11aef9ef680f9c35e8346d9fc257ca94f208060d38a58b6f3993218f01a8ef"
  },
- "runtime_seconds": 514.706,
+ "runtime_seconds": 441.283,
  "seeds": [
   0,
   1,
@@ -250,5 +254,5 @@
   8,
   9
  ],
- "started_at": "2026-09-06T23:16:03+0300"
+ "started_at": "2026-09-06T23:29:11+0300"
 }

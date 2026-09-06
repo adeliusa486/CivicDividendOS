@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-import numpy as np
 import pytest
 
-from cdos.model.fund import (check_stability, fund_step, half_life_years,
-                             required_inflow, simulate_fund_ratio,
-                             stability, steady_state_ratio)
-
+from cdos.model.fund import (
+    check_stability,
+    fund_step,
+    half_life_years,
+    required_inflow,
+    simulate_fund_ratio,
+    stability,
+    steady_state_ratio,
+)
 
 # ---------------------------------------------------------------------------
 # Table VI arithmetic (the audit confirmed this part is correct)

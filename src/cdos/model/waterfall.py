@@ -28,7 +28,6 @@ supply elasticity the net cost of the shield is
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
 
 __all__ = ["WaterfallSplit", "split", "feasible", "shield_net_cost",
            "CHANNELS"]
@@ -48,7 +47,7 @@ class WaterfallSplit:
     def total(self) -> float:
         return self.fund + self.shield + self.transition + self.general
 
-    def as_dict(self) -> Dict[str, float]:
+    def as_dict(self) -> dict[str, float]:
         return {"revenue": self.revenue, "fund": self.fund,
                 "shield": self.shield, "transition": self.transition,
                 "general": self.general}

@@ -17,10 +17,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from cdos.config import load_config                       # noqa: E402
-from cdos.eval.campaign import aggregate, run_campaign    # noqa: E402
-from cdos.model.economy import ARMS                       # noqa: E402
-from cdos.utils.manifest import Manifest                  # noqa: E402
+from cdos.config import load_config  # noqa: E402
+from cdos.eval.campaign import aggregate, run_campaign  # noqa: E402
+from cdos.utils.manifest import Manifest  # noqa: E402
 
 DEFAULT_ARMS = ("B0", "B1", "B2", "B3", "B4", "B5", "B6", "B6c",
                 "B7", "B8", "B9", "B10", "B11", "B12")

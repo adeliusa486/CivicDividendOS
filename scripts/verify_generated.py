@@ -16,11 +16,9 @@ Exit codes: 0 clean, 1 drift detected, 2 nothing to check.
 from __future__ import annotations
 
 import argparse
-import shutil
 import sys
 import tempfile
 from pathlib import Path
-from typing import List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -61,7 +59,7 @@ def main(argv=None) -> int:
             print("could not regenerate: no results present")
             return 0 if args.allow_missing else 2
 
-        drift: List[Tuple[str, str]] = []
+        drift: list[tuple[str, str]] = []
         checked = 0
         for path in committed:
             fresh = tmp_gen / path.name

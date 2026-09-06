@@ -30,7 +30,6 @@ model ever asked whether the books closed.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 import numpy as np
 
@@ -100,10 +99,10 @@ class ResourceAccount:
     period: int
     tol: float = 1e-8
     strict: bool = True
-    sources: Dict[str, float] = field(default_factory=dict)
-    uses: Dict[str, float] = field(default_factory=dict)
-    fiscal_in: Dict[str, float] = field(default_factory=dict)
-    fiscal_out: Dict[str, float] = field(default_factory=dict)
+    sources: dict[str, float] = field(default_factory=dict)
+    uses: dict[str, float] = field(default_factory=dict)
+    fiscal_in: dict[str, float] = field(default_factory=dict)
+    fiscal_out: dict[str, float] = field(default_factory=dict)
 
     def source(self, name: str, value: float) -> None:
         self.sources[name] = self.sources.get(name, 0.0) + float(value)
@@ -144,7 +143,7 @@ class ResourceAccount:
     def _relative(self, residual: float, scale: float) -> float:
         return abs(residual) / max(abs(scale), 1e-12)
 
-    def check(self) -> Dict[str, float]:
+    def check(self) -> dict[str, float]:
         """Verify both identities. Raises :class:`AccountingError` when strict."""
         rel = self._relative(self.residual(), self.total_sources)
         frel = self._relative(self.fiscal_residual(), self.total_revenue)
@@ -164,12 +163,12 @@ class ResourceAccount:
             raise AccountingError(self.describe(report))
         return report
 
-    def describe(self, report: Optional[Dict[str, float]] = None) -> str:
+    def describe(self, report: dict[str, float] | None = None) -> str:
         report = report or {
             "resource_relative": self._relative(self.residual(), self.total_sources),
             "fiscal_relative": self._relative(self.fiscal_residual(), self.total_revenue),
         }
-        lines: List[str] = [
+        lines: list[str] = [
             f"resource accounting failed to close in period {self.period}",
             f"  sources {self.total_sources:.10g} vs uses {self.total_uses:.10g} "
             f"(relative {report['resource_relative']:.3e}, tol {self.tol:.1e})",
@@ -187,7 +186,7 @@ class ResourceAccount:
             lines.append(f"    - {k:<24s} {v:>18.10g}")
         return "\n".join(lines)
 
-    def as_dict(self) -> Dict[str, object]:
+    def as_dict(self) -> dict[str, object]:
         return {"period": self.period, "sources": dict(self.sources),
                 "uses": dict(self.uses), "fiscal_in": dict(self.fiscal_in),
                 "fiscal_out": dict(self.fiscal_out),

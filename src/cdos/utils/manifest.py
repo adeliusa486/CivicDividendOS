@@ -19,9 +19,9 @@ import platform
 import subprocess
 import sys
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence
+from typing import Any
 
 __all__ = ["Manifest", "file_digest", "git_state", "environment_state",
            "write_manifest"]
@@ -41,11 +41,11 @@ def file_digest(path: Path | str, chunk: int = 1 << 20) -> str:
     return h.hexdigest()
 
 
-def git_state(root: Optional[Path] = None) -> Dict[str, Any]:
+def git_state(root: Path | None = None) -> dict[str, Any]:
     """Current commit, branch and whether the tree is dirty."""
     root = Path(root or Path(__file__).resolve().parents[3])
 
-    def _run(*args: str) -> Optional[str]:
+    def _run(*args: str) -> str | None:
         try:
             out = subprocess.run(("git", *args), cwd=root, capture_output=True,
                                  text=True, timeout=15)
@@ -64,9 +64,9 @@ def git_state(root: Optional[Path] = None) -> Dict[str, Any]:
     }
 
 
-def environment_state() -> Dict[str, Any]:
+def environment_state() -> dict[str, Any]:
     """Interpreter, packages and machine."""
-    packages: Dict[str, Optional[str]] = {}
+    packages: dict[str, str | None] = {}
     for name in _TRACKED_PACKAGES:
         try:
             from importlib.metadata import version
@@ -93,18 +93,18 @@ class Manifest:
     finished_at: str = ""
     runtime_seconds: float = 0.0
     config_hash: str = ""
-    config: Dict[str, Any] = field(default_factory=dict)
-    seeds: List[int] = field(default_factory=list)
-    arms: List[str] = field(default_factory=list)
-    git: Dict[str, Any] = field(default_factory=dict)
-    environment: Dict[str, Any] = field(default_factory=dict)
-    inputs: Dict[str, str] = field(default_factory=dict)
-    outputs: Dict[str, str] = field(default_factory=dict)
-    notes: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
+    seeds: list[int] = field(default_factory=list)
+    arms: list[str] = field(default_factory=list)
+    git: dict[str, Any] = field(default_factory=dict)
+    environment: dict[str, Any] = field(default_factory=dict)
+    inputs: dict[str, str] = field(default_factory=dict)
+    outputs: dict[str, str] = field(default_factory=dict)
+    notes: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
     def start(cls, experiment_id: str, description: str = "", **kwargs
-              ) -> "Manifest":
+              ) -> Manifest:
         m = cls(experiment_id=experiment_id, description=description, **kwargs)
         m.started_at = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         m._t0 = time.time()          # type: ignore[attr-defined]
@@ -120,12 +120,12 @@ class Manifest:
         path = Path(path)
         self.outputs[str(path.as_posix())] = file_digest(path)
 
-    def finish(self) -> "Manifest":
+    def finish(self) -> Manifest:
         self.finished_at = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         self.runtime_seconds = round(time.time() - getattr(self, "_t0", time.time()), 3)
         return self
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         data = asdict(self)
         data.pop("_t0", None)
         return data

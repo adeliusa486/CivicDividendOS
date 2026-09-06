@@ -5,10 +5,15 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from cdos.model.nexus import (NEXUS_COMPONENTS, apply_shifting, apportion,
-                              leakage, nexus_shares, validate_shares)
+from cdos.model.nexus import (
+    NEXUS_COMPONENTS,
+    apply_shifting,
+    apportion,
+    leakage,
+    nexus_shares,
+    validate_shares,
+)
 from cdos.model.waterfall import CHANNELS, feasible, shield_net_cost, split
-
 
 # ---------------------------------------------------------------------------
 # Waterfall

@@ -92,6 +92,11 @@ These change results and therefore change what may be claimed.
   than returning an endpoint that is not a root
 - `paired_contrast` no longer reports a percentage change of zero when the
   control is identically zero; it reports the quantity as undefined
+- Arm B11 raised contribution revenue but was excluded from the distribution
+  waterfall, so none of it reached the fund
+- `classifier.error_rate` and `nexus.shifting_elasticity` were configurable but
+  never read by the run loop, so experiments E06 and E10 measured nothing at
+  any setting. Both are now wired and covered by regression tests
 
 ### Reproducibility Changes
 
@@ -110,12 +115,26 @@ These change results and therefore change what may be claimed.
 
 ### Paper Changes
 
-*Pending.* The manuscript revision is listed in `HANDOFF.md` §5. The required
-changes are: restate the headline result conditionally; remove the circular
-robustness argument; correct the fund discussion; relabel the employment
-metric; withdraw the revenue-matching claim; fix the F9 unit error; separate
-replication from structural uncertainty; label all results synthetic; and
-replace hand-pasted numbers with `\input`.
+The Results section is rewritten and a Sensitivity section added. Specifically:
+
+- the headline result is stated **conditionally**, with the validity region
+  from E01, and the dominance claim is withdrawn;
+- the circular "not a knife-edge case" argument is removed and replaced with
+  the structural condition `gamma > 1 - 1/sigma`;
+- the revenue-matching claim is withdrawn (it appeared twice);
+- three further reversals are reported: horizon, automation speed, and
+  attribution granularity;
+- cross-border leakage and classification error are reported for the first
+  time, the testbed previously having had one jurisdiction;
+- the employment column is relabelled as efficiency units;
+- confidence intervals are labelled as replication intervals, with the sweep
+  identified as where structural uncertainty lives;
+- the F9 unit error is corrected;
+- all results are labelled synthetic;
+- every numerical table is generated and included with `\input`.
+
+The manuscript builds clean at 17 pages with no undefined references or
+citations.
 
 ### Breaking Changes
 

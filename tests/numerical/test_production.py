@@ -5,8 +5,14 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from cdos.model.production import (ces_aggregate, ces_unit_cost, clear_wage,
-                                   firm_block, is_cobb_douglas, labour_supply)
+from cdos.model.production import (
+    ces_aggregate,
+    ces_unit_cost,
+    clear_wage,
+    firm_block,
+    is_cobb_douglas,
+    labour_supply,
+)
 
 GAMMA = 0.85
 

@@ -204,22 +204,21 @@
   "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
  },
  "experiment_id": "E02",
- "finished_at": "2026-09-06T23:16:01+0300",
+ "finished_at": "2026-09-06T23:29:10+0300",
  "git": {
   "branch": "master",
-  "describe": "v0-audit-2-g8f6da5f",
+  "describe": "v0-audit-4-gbec4745",
   "dirty": true,
   "dirty_files": [
-   "M HANDOFF.md",
-   "?? CHANGELOG.md",
-   "?? MEMORY.md",
-   "?? docs/",
-   "?? results/manifests/main.json",
-   "?? results/raw/main.json",
-   "?? results/raw/main_runs.json"
+   "?? results/manifests/A09.json",
+   "?? results/manifests/A10.json",
+   "?? results/manifests/E04.json",
+   "?? results/raw/A09.json",
+   "?? results/raw/A10.json",
+   "?? results/raw/E04.json"
   ],
-  "sha": "8f6da5f95dc498914df4a0e48a45923b0a3341f9",
-  "short_sha": "8f6da5f"
+  "sha": "bec47454e6e40b18f392ee2de9ca897ad3120fbf",
+  "short_sha": "bec4745"
  },
  "inputs": {
   "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/experiments/E02_budget.yaml": "8555ec586edcc4935549938318473ac684c9d19650b4d6d5270092cb03960fe1"
@@ -229,9 +228,9 @@
   "sweep": {}
  },
  "outputs": {
-  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/E02.json": "00d5c97b2409c4af9e613f921793a58983e8c49d6efda5c8054aabfb695f5d59"
+  "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/E02.json": "0f911844a3052bdf90a177949a6edf977792d1bc3168591b096f92520d28be0d"
  },
- "runtime_seconds": 158.523,
+ "runtime_seconds": 93.487,
  "seeds": [
   0,
   1,
@@ -244,5 +243,5 @@
   8,
   9
  ],
- "started_at": "2026-09-06T23:13:22+0300"
+ "started_at": "2026-09-06T23:27:37+0300"
 }

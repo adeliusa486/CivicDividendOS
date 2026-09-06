@@ -10,11 +10,14 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from cdos.model.accounting import (AccountingError, ResourceAccount,
-                                   marginal_decision_price,
-                                   profit_after_liability, sac_liability)
+from cdos.model.accounting import (
+    AccountingError,
+    ResourceAccount,
+    marginal_decision_price,
+    profit_after_liability,
+    sac_liability,
+)
 from cdos.model.economy import ARMS, run
-
 
 # ---------------------------------------------------------------------------
 # The accounting primitive

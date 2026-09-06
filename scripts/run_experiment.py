@@ -17,16 +17,14 @@ import json
 import sys
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List
-
-import numpy as np
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from cdos.config import load_experiment                   # noqa: E402
-from cdos.eval.campaign import aggregate, run_campaign    # noqa: E402
-from cdos.utils.manifest import Manifest                  # noqa: E402
+from cdos.config import load_experiment  # noqa: E402
+from cdos.eval.campaign import aggregate, run_campaign  # noqa: E402
+from cdos.utils.manifest import Manifest  # noqa: E402
 
 
 def main(argv=None) -> int:
@@ -44,7 +42,7 @@ def main(argv=None) -> int:
     arms = meta.get("arms") or ["B0", "B6", "B6c"]
     n_seeds = args.seeds if args.seeds is not None else int(meta.get("seeds", 20))
     seeds = list(range(n_seeds))
-    sweep: Dict[str, List[Any]] = meta.get("sweep") or {}
+    sweep: dict[str, list[Any]] = meta.get("sweep") or {}
 
     manifest = Manifest.start(
         exp_id, description=meta.get("description", ""),
@@ -58,9 +56,9 @@ def main(argv=None) -> int:
           f"{len(seeds)} seed(s) = {len(combos) * len(arms) * len(seeds)} runs",
           flush=True)
 
-    cells: List[Dict[str, Any]] = []
+    cells: list[dict[str, Any]] = []
     for values in combos:
-        overrides = dict(zip(keys, values))
+        overrides = dict(zip(keys, values, strict=False))
         cell_cfg = cfg.with_overrides(overrides) if overrides else cfg
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", RuntimeWarning)

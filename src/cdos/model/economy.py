@@ -35,19 +35,32 @@ editing source, which is why no sensitivity analysis existed.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 
 from ..config import Config
-from .accounting import (ResourceAccount, marginal_decision_price,
-                         profit_after_liability, sac_liability)
-from .fund import fund_step, stability, check_stability
-from .production import clear_wage, firm_block, labour_supply
-from .rate import (applied_rate, augmentation_index, displacement_index,
-                   rent_index, revenue_erosion_index, substitution_index)
-from .shapley import cost_share_attribution, shapley_five_factor, shapley_machine, dpsi_dM
+from .accounting import (
+    ResourceAccount,
+    marginal_decision_price,
+    profit_after_liability,
+    sac_liability,
+)
+from .fund import check_stability, fund_step, stability
+from .nexus import apply_shifting as nexus_apply_shifting
+from .nexus import apportion as nexus_apportion
+from .nexus import leakage as nexus_leakage_fraction
+from .production import clear_wage, firm_block
+from .rate import (
+    applied_rate,
+    augmentation_index,
+    displacement_index,
+    rent_index,
+    revenue_erosion_index,
+    substitution_index,
+)
+from .shapley import cost_share_attribution, dpsi_dM, shapley_five_factor, shapley_machine
 from .waterfall import split as waterfall_split
 
 __all__ = ["run", "Population", "ARMS", "ARM_LABEL", "SAC_ARMS", "WEDGE_ARMS"]
@@ -101,7 +114,7 @@ class Population:
     save_rate: np.ndarray
 
     @classmethod
-    def draw(cls, cfg: Config, seed: int) -> "Population":
+    def draw(cls, cfg: Config, seed: int) -> Population:
         p = cfg.population
         rng = np.random.default_rng(seed)
         nh, nf = p.n_households, p.n_firms
@@ -172,8 +185,8 @@ def _tau_c_for_arm(cfg: Config, arm: str) -> float:
 # The run
 # ---------------------------------------------------------------------------
 
-def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
-        ) -> Dict[str, Any]:
+def run(cfg: Config, seed: int | None = None, arm: str | None = None
+        ) -> dict[str, Any]:
     """Simulate one arm under one seed. Returns summary statistics."""
     seed = cfg.run.seed if seed is None else seed
     arm = cfg.run.arm if arm is None else arm
@@ -206,17 +219,17 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
     sigma_t = fnd.sigma_t if arm in waterfall_arms else 0.0
 
     fund = 0.0
-    lab_share0: Optional[np.ndarray] = None
-    wage_share0: Optional[np.ndarray] = None
-    w0: Optional[float] = None
+    lab_share0: np.ndarray | None = None
+    wage_share0: np.ndarray | None = None
+    w0: float | None = None
     prev_adopt = 0.0
 
     keys = ("Y", "eff_units", "headcount", "hours", "ws", "revr", "gi", "gw",
             "fund", "div", "pov", "adopt", "taul", "sac", "divgdp", "wage",
-            "liability", "dwl", "spend")
-    H: Dict[str, List[float]] = {k: [] for k in keys}
-    path: List[Tuple] = []
-    accounts: List[Dict[str, Any]] = []
+            "liability", "dwl", "spend", "leakage")
+    H: dict[str, list[float]] = {k: [] for k in keys}
+    path: list[tuple] = []
+    accounts: list[dict[str, Any]] = []
     incidence_acc = {"labour": 0.0, "capital": 0.0, "total": 0.0}
 
     for t in range(T):
@@ -243,7 +256,7 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
                 Lp, Mp, Yp, _ = firm_block(pop.alpha_f, pop.A_f, w_try, pm,
                                            sigma, gamma, tol)
                 ls = (w_try * Lp) / np.maximum(w_try * Lp + pm * Mp, 1e-12)
-                endogenous: Dict[str, Any] = {
+                endogenous: dict[str, Any] = {
                     "S": substitution_index(ls, lab_share0),
                     "C_rent": pop.rent_index,
                     "A_aug": augmentation_index(w_try, w0,
@@ -253,6 +266,9 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
                     endogenous["E_disp"] = displacement_index(eff, exposure)
                     endogenous["R_rev"] = revenue_erosion_index(
                         (w_try * Lp) / np.maximum(Yp, 1e-12), wage_share0)
+                if cfg.classifier.enabled and cfg.classifier.error_rate > 0:
+                    endogenous = _perturb_classification(
+                        endogenous, cfg.classifier.error_rate, seed, t)
                 wedge_f = applied_rate(cfg.rate, nf, endogenous)
 
         # ---- marginal decision price --------------------------------------
@@ -321,6 +337,8 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
         transition_amt = 0.0
         shield_amt = 0.0
         subsidy_amt = 0.0
+        nexus_leakage = 0.0
+        foreign_amt = 0.0
         lumpsum_rev = 0.0
 
         if arm in WEDGE_ARMS:
@@ -333,7 +351,16 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
         elif arm == "B5":
             equity_in = cfg.policy.aou_xi * Profit      # non-cash, no fiscal cost
         elif arm in SAC_ARMS + ("B9", "B11"):
-            sac_rev = float(liability_f.sum())
+            # Firms always bear the full liability. Under the nexus it is
+            # apportioned across jurisdictions and only the domestic share is
+            # collected here; the remainder accrues abroad. Leakage is
+            # therefore revenue leaving the domestic budget, not resources
+            # leaving the economy, and the resource identity still closes.
+            domestic_f = liability_f
+            if cfg.nexus.enabled:
+                domestic_f, nexus_leakage = _apportion_liability(cfg, liability_f)
+            foreign_amt = float(liability_f.sum()) - float(domestic_f.sum())
+            sac_rev = float(domestic_f.sum())
             rev_auto = sac_rev
             wf = waterfall_split(sac_rev, omega, kappa, sigma_t)
             transition_amt = wf.transition
@@ -417,7 +444,11 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
             acct.use("wage_bill", wage_bill)
             acct.use("machine_cost", machine_cost)
             acct.use("profit", Profit)
-            acct.use("automation_liability", rev_auto if arm not in WEDGE_ARMS else 0.0)
+            # The firms' full liability, including any share apportioned to
+            # another jurisdiction. Booking only the domestic share here would
+            # be the same class of error as audit finding F3.
+            acct.use("automation_liability",
+                     float(liability_f.sum()) if arm not in WEDGE_ARMS else 0.0)
             # Wedge arms charge machines at pm_eff, so their liability is
             # already inside machine_cost; account for the difference.
             if arm in WEDGE_ARMS:
@@ -433,6 +464,8 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
             acct.revenue("capital_tax", rev_K)
             acct.revenue("consumption_tax", rev_C)
             acct.revenue("automation_revenue", rev_auto)
+            acct.revenue("foreign_apportioned", foreign_amt)
+            acct.spend("foreign_apportioned", foreign_amt)
             acct.revenue("lump_sum", lumpsum_rev)
             acct.revenue("fund_payout", payout)
             acct.spend("public_spending", fisc.spend_ratio * Y)
@@ -477,6 +510,7 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
         H["sac"].append(rev_auto / max(Y, 1e-12))
         H["liability"].append(rev_auto)
         H["spend"].append((fisc.spend_ratio * Y + prog_spend) / max(Y, 1e-12))
+        H["leakage"].append(nexus_leakage)
         H["dwl"].append(_deadweight_loss(tau_L, wage_bill, tech.eps_l))
 
         if cfg.run.collect_path and t >= cfg.run.t_burn:
@@ -486,6 +520,60 @@ def run(cfg: Config, seed: Optional[int] = None, arm: Optional[str] = None
         tau_L = tau_L_next
 
     return _summarise(cfg, arm, seed, H, path, accounts, incidence_acc)
+
+
+def _perturb_classification(endogenous: dict[str, Any], epsilon: float,
+                            seed: int, period: int) -> dict[str, Any]:
+    """Apply classification error to the substitution and augmentation indices.
+
+    A misclassified deployment enters the entity index at the wrong end of
+    [0, 1]: an episode read as augmentation when it substituted contributes
+    ``S = 0, A_aug = 1`` instead of the reverse. This is the perturbation
+    Proposition 4 bounds, and it is what makes E06 a test of that bound rather
+    than of a parameter nothing reads.
+
+    The generator is derived from the run seed and the period, so the
+    perturbation is deterministic and does not disturb the common random
+    numbers shared across arms.
+    """
+    out = dict(endogenous)
+    s = np.atleast_1d(np.asarray(out.get("S", 0.0), dtype=float)).copy()
+    a = np.atleast_1d(np.asarray(out.get("A_aug", 0.0), dtype=float)).copy()
+    n = max(s.size, a.size)
+    s = np.broadcast_to(s, (n,)).copy()
+    a = np.broadcast_to(a, (n,)).copy()
+
+    rng = np.random.default_rng((int(seed) + 1) * 1_000_003 + int(period))
+    flip = rng.random(n) < epsilon
+    # Half the misreadings call substitution augmentation, half the reverse.
+    direction = rng.random(n) < 0.5
+    to_aug = flip & direction
+    to_sub = flip & ~direction
+    s[to_aug], a[to_aug] = 0.0, 1.0
+    s[to_sub], a[to_sub] = 1.0, 0.0
+
+    out["S"], out["A_aug"] = s, a
+    return out
+
+
+def _apportion_liability(cfg: Config, liability):
+    """Apportion the liability across jurisdictions and collect what is levied.
+
+    Returns ``(collected_per_firm, leakage_fraction)``. Each jurisdiction levies
+    its rate multiplier times its apportioned share; with a positive shifting
+    elasticity the base migrates towards the low-multiplier jurisdictions, so
+    the total collected falls. That fall is the leakage the manuscript's
+    limitations section says the single-jurisdiction testbed could not measure.
+    """
+    shares = np.asarray(cfg.nexus.shares, dtype=float).reshape(1, -1)
+    shares = shares / shares.sum(axis=1, keepdims=True)
+    multipliers = np.asarray(cfg.nexus.rate_multipliers, dtype=float)
+    shifted = nexus_apply_shifting(shares, multipliers,
+                                   cfg.nexus.shifting_elasticity)
+    liability = np.asarray(liability, dtype=float)
+    before = nexus_apportion(liability, shares) * multipliers[None, :]
+    after = nexus_apportion(liability, shifted) * multipliers[None, :]
+    return after.sum(axis=1), nexus_leakage_fraction(before, after)
 
 
 def _reference_programme(cfg: Config, Y: float) -> float:
@@ -534,7 +622,7 @@ def _five_factor_machine_value(cfg: Config, pop: Population, L_f, M_f,
 
 
 def _summarise(cfg: Config, arm: str, seed: int, H, path, accounts,
-               incidence_acc) -> Dict[str, Any]:
+               incidence_acc) -> dict[str, Any]:
     s = slice(cfg.run.t_burn, None)
     mean = lambda k: float(np.mean(H[k][s]))
 
@@ -545,7 +633,7 @@ def _summarise(cfg: Config, arm: str, seed: int, H, path, accounts,
     if arm in SAC_ARMS + ("B5", "B9", "B11"):
         check_stability(rep, cfg.fund.stability_mode, context=f"{arm} seed {seed}")
 
-    out: Dict[str, Any] = dict(
+    out: dict[str, Any] = dict(
         arm=arm, seed=seed, config_hash=cfg.hash(),
         Y=mean("Y"), Y_end=float(H["Y"][-1]),
         hours=mean("hours"),
@@ -558,7 +646,7 @@ def _summarise(cfg: Config, arm: str, seed: int, H, path, accounts,
         divgdp=mean("divgdp"), divgdp_end=float(H["divgdp"][-1]),
         taul=mean("taul"), taul_end=float(H["taul"][-1]), sac=mean("sac"),
         taul_cv=float(np.std(H["taul"][s]) / max(np.mean(H["taul"][s]), 1e-12)),
-        spend=mean("spend"), dwl=mean("dwl"),
+        spend=mean("spend"), dwl=mean("dwl"), leakage=mean("leakage"),
         revenue=float(np.mean(H["liability"][s])),
         g_realised=g_realised,
         stability_margin=rep.margin, fund_stable=rep.stable,

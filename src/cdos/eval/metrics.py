@@ -33,7 +33,8 @@ incidence by factor and by income decile, revenue volatility, stability margin.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Mapping, Optional, Sequence
+from collections.abc import Mapping
+from typing import Any
 
 import numpy as np
 
@@ -43,7 +44,7 @@ __all__ = ["gini", "poverty_rate", "employment_metrics", "equivalent_variation",
 
 # Whether a higher value is better, for reporting only. "context" means the
 # metric cannot be ranked without knowing what else changed.
-METRIC_DIRECTION: Dict[str, str] = {
+METRIC_DIRECTION: dict[str, str] = {
     "Y": "higher", "ws": "higher", "gi": "lower", "gw": "lower",
     "pov": "lower", "taul": "lower", "dwl": "lower",
     "revenue_per_dwl": "higher", "eff_units": "context", "headcount": "higher",
@@ -86,8 +87,8 @@ def poverty_rate(disposable, fraction: float = 0.5) -> float:
 def employment_metrics(labour_demand_efficiency_units: float,
                        efficiency: np.ndarray,
                        efficiency_floor: float,
-                       hours_per_worker: Optional[float] = None
-                       ) -> Dict[str, float]:
+                       hours_per_worker: float | None = None
+                       ) -> dict[str, float]:
     """Separate the three quantities the audited code conflated (F6)."""
     eff = np.asarray(efficiency, dtype=float)
     headcount = float(np.sum(eff > efficiency_floor + 1e-12))
@@ -130,7 +131,7 @@ def deadweight_loss(tau_l: float, wage_bill: float, eps_l: float) -> float:
     return 0.5 * eps_l * tau_l ** 2 / max(1.0 - tau_l, 1e-9) * wage_bill
 
 
-def revenue_normalised(revenue: float, dwl: float, output: float) -> Dict[str, float]:
+def revenue_normalised(revenue: float, dwl: float, output: float) -> dict[str, float]:
     """Efficiency of an instrument per unit of revenue actually raised (F5).
 
     Comparing arms on output effect alone is not valid when they raise
@@ -170,9 +171,9 @@ def incidence_by_decile(burden, income) -> np.ndarray:
     return np.array([bur[p].mean() if p.size else 0.0 for p in parts])
 
 
-def summarise_run(result: Mapping[str, Any]) -> Dict[str, float]:
+def summarise_run(result: Mapping[str, Any]) -> dict[str, float]:
     """Pull the reportable metrics out of a run, with the corrections applied."""
-    out: Dict[str, float] = {}
+    out: dict[str, float] = {}
     for key in ("Y", "Y_end", "ws", "ws_end", "gi", "gw", "pov", "taul",
                 "taul_cv", "fund", "divgdp", "adopt", "sac", "rev_cv",
                 "eff_units", "headcount", "wage", "dwl", "revenue",

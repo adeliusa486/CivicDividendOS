@@ -33,7 +33,7 @@ this module and is asserted directly in ``tests/unit/test_rate.py``.
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Mapping, Optional, Sequence
+from collections.abc import Mapping, Sequence
 
 import numpy as np
 
@@ -64,9 +64,9 @@ _WEIGHT_ATTR = {
 }
 
 
-def rate_weights(cfg: RateConfig) -> Dict[str, float]:
+def rate_weights(cfg: RateConfig) -> dict[str, float]:
     """Signed coefficient on each index: positive group ``+w``, negative ``-w``."""
-    out: Dict[str, float] = {}
+    out: dict[str, float] = {}
     for term in RATE_TERMS:
         w = float(getattr(cfg, _WEIGHT_ATTR[term]))
         if w < 0.0:
@@ -152,8 +152,8 @@ def externality_index_from_aeap(records: Sequence[Mapping],
 # ---------------------------------------------------------------------------
 
 def rate_terms(cfg: RateConfig, n_firms: int,
-               endogenous: Optional[Mapping[str, object]] = None
-               ) -> Dict[str, np.ndarray]:
+               endogenous: Mapping[str, object] | None = None
+               ) -> dict[str, np.ndarray]:
     """Resolve every index to a per-firm array in [0, 1].
 
     ``endogenous`` supplies the indices the caller has derived from the current
@@ -161,7 +161,7 @@ def rate_terms(cfg: RateConfig, n_firms: int,
     value was supplied, falls back to its configured constant.
     """
     endogenous = endogenous or {}
-    out: Dict[str, np.ndarray] = {}
+    out: dict[str, np.ndarray] = {}
     for term in RATE_TERMS:
         source = getattr(cfg, f"source_{term}")
         if source not in ("endogenous", "fixed"):
@@ -202,7 +202,7 @@ def logistic_map(raw, rmin: float, rmax: float):
 
 
 def applied_rate(cfg: RateConfig, n_firms: int,
-                 endogenous: Optional[Mapping[str, object]] = None,
+                 endogenous: Mapping[str, object] | None = None,
                  return_components: bool = False):
     """The applied rate ``r_i`` of Eq. (12).
 

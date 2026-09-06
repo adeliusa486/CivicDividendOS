@@ -28,8 +28,9 @@ cannot be validated must not enter the contribution base.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field, asdict
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Set
+from collections.abc import Iterable, Sequence
+from dataclasses import asdict, dataclass, field
+from typing import Any
 
 __all__ = ["AEAP", "AEAPError", "TASK_CLASSES", "RISK_CLASSES", "MODEL_CLASSES",
            "AEAPRegistry", "validate_record"]
@@ -55,10 +56,10 @@ class AEAP:
     risk_class: str = "minimal"
     energy: float = 0.0          # energy consumed over the reporting period
     output: float = 0.0          # attributed output over the reporting period
-    nexus_shares: Optional[Dict[str, float]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    nexus_shares: dict[str, float] | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @property
@@ -66,7 +67,7 @@ class AEAP:
         return self.energy / max(self.output, 1e-12)
 
 
-def _require_str(record: Dict[str, Any], key: str) -> str:
+def _require_str(record: dict[str, Any], key: str) -> str:
     value = record.get(key)
     if value is None or (isinstance(value, str) and not value.strip()):
         raise AEAPError(f"AEAP record is missing a {key}")
@@ -75,7 +76,7 @@ def _require_str(record: Dict[str, Any], key: str) -> str:
     return value
 
 
-def _require_number(record: Dict[str, Any], key: str, minimum: float = 0.0) -> float:
+def _require_number(record: dict[str, Any], key: str, minimum: float = 0.0) -> float:
     value = record.get(key, 0.0)
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise AEAPError(f"AEAP {key} must be a number, got {type(value).__name__}")
@@ -87,8 +88,8 @@ def _require_number(record: Dict[str, Any], key: str, minimum: float = 0.0) -> f
     return value
 
 
-def validate_record(record: Dict[str, Any],
-                    jurisdictions: Optional[Sequence[str]] = None,
+def validate_record(record: dict[str, Any],
+                    jurisdictions: Sequence[str] | None = None,
                     de_minimis: float = 0.0) -> AEAP:
     """Validate one record and return the passport.
 
@@ -162,11 +163,11 @@ def validate_record(record: Dict[str, Any],
 class AEAPRegistry:
     """A set of passports with unique deployment identifiers."""
 
-    def __init__(self, jurisdictions: Optional[Sequence[str]] = None,
+    def __init__(self, jurisdictions: Sequence[str] | None = None,
                  de_minimis: float = 0.0):
         self.jurisdictions = tuple(jurisdictions) if jurisdictions else None
         self.de_minimis = float(de_minimis)
-        self._records: Dict[str, AEAP] = {}
+        self._records: dict[str, AEAP] = {}
 
     def __len__(self) -> int:
         return len(self._records)
@@ -177,7 +178,7 @@ class AEAPRegistry:
     def __iter__(self):
         return iter(self._records.values())
 
-    def add(self, record: Dict[str, Any] | AEAP) -> AEAP:
+    def add(self, record: dict[str, Any] | AEAP) -> AEAP:
         passport = record if isinstance(record, AEAP) else validate_record(
             record, self.jurisdictions, self.de_minimis)
         if passport.deployment_id in self._records:
@@ -187,7 +188,7 @@ class AEAPRegistry:
         self._records[passport.deployment_id] = passport
         return passport
 
-    def add_many(self, records: Iterable[Dict[str, Any]]) -> List[AEAP]:
+    def add_many(self, records: Iterable[dict[str, Any]]) -> list[AEAP]:
         return [self.add(r) for r in records]
 
     def get(self, deployment_id: str) -> AEAP:
@@ -196,10 +197,10 @@ class AEAPRegistry:
         except KeyError:
             raise AEAPError(f"no AEAP registered under {deployment_id!r}") from None
 
-    def owners(self) -> Set[str]:
+    def owners(self) -> set[str]:
         return {r.owner for r in self._records.values()}
 
-    def by_task_class(self, task_class: str) -> List[AEAP]:
+    def by_task_class(self, task_class: str) -> list[AEAP]:
         if task_class not in TASK_CLASSES:
             raise AEAPError(f"unknown task_class {task_class!r}")
         return [r for r in self._records.values() if r.task_class == task_class]
@@ -210,5 +211,5 @@ class AEAPRegistry:
     def total_energy(self) -> float:
         return sum(r.energy for r in self._records.values())
 
-    def records(self) -> List[Dict[str, Any]]:
+    def records(self) -> list[dict[str, Any]]:
         return [r.as_dict() for r in self._records.values()]

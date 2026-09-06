@@ -24,20 +24,20 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from cdos.model.economy import ARM_LABEL              # noqa: E402
-from cdos.utils.manifest import git_state             # noqa: E402
+from cdos.model.economy import ARM_LABEL  # noqa: E402
+from cdos.utils.manifest import git_state  # noqa: E402
 
 RAW = ROOT / "results" / "raw"
 GEN = ROOT / "paper" / "generated"
 TABLES = ROOT / "tables"
 
 
-def _load(name: str) -> Optional[Dict[str, Any]]:
+def _load(name: str) -> dict[str, Any] | None:
     path = RAW / f"{name}.json"
     if not path.exists():
         print(f"  ! {path.name} not found; skipping the tables that need it")
@@ -93,7 +93,7 @@ def _fmt(value: float, places: int = 3, signed: bool = False) -> str:
 # Main campaign
 # ---------------------------------------------------------------------------
 
-def table_main(agg: Dict[str, Any], arms: List[str]) -> str:
+def table_main(agg: dict[str, Any], arms: list[str]) -> str:
     rows = []
     for arm in arms:
         if arm not in agg:
@@ -130,7 +130,7 @@ def table_main(agg: Dict[str, Any], arms: List[str]) -> str:
                   "l l c c c c c c c c", header, wide=True)
 
 
-def table_ci(agg: Dict[str, Any], arms: List[str], baseline: str = "B0") -> str:
+def table_ci(agg: dict[str, Any], arms: list[str], baseline: str = "B0") -> str:
     rows = []
     for arm in arms:
         if arm == baseline or arm not in agg:
@@ -152,7 +152,7 @@ def table_ci(agg: Dict[str, Any], arms: List[str], baseline: str = "B0") -> str:
     return _float("\n".join(rows), caption, "tab:ci", "l c c c c", header)
 
 
-def table_revenue_normalised(agg: Dict[str, Any], arms: List[str]) -> str:
+def table_revenue_normalised(agg: dict[str, Any], arms: list[str]) -> str:
     rows = []
     for arm in arms:
         if arm not in agg:
@@ -175,7 +175,7 @@ def table_revenue_normalised(agg: Dict[str, Any], arms: List[str]) -> str:
     return _float("\n".join(rows), caption, "tab:revnorm", "l c c c c", header)
 
 
-def table_incidence(agg: Dict[str, Any], arms: List[str]) -> str:
+def table_incidence(agg: dict[str, Any], arms: list[str]) -> str:
     rows = []
     for arm in arms:
         if arm not in agg or agg[arm]["incidence_labour"]["mean"] == 0.0:
@@ -196,7 +196,7 @@ def table_incidence(agg: Dict[str, Any], arms: List[str]) -> str:
     return _float("\n".join(rows), caption, "tab:incidence", "l c c c", header)
 
 
-def table_employment(agg: Dict[str, Any], arms: List[str]) -> str:
+def table_employment(agg: dict[str, Any], arms: list[str]) -> str:
     rows = []
     for arm in arms:
         if arm not in agg:
@@ -226,7 +226,7 @@ def table_employment(agg: Dict[str, Any], arms: List[str]) -> str:
 # Experiments
 # ---------------------------------------------------------------------------
 
-def table_sigma_gamma(exp: Dict[str, Any]) -> str:
+def table_sigma_gamma(exp: dict[str, Any]) -> str:
     rows = []
     for cell in exp["cells"]:
         sigma = cell["overrides"]["technology.sigma"]
@@ -257,7 +257,7 @@ def table_sigma_gamma(exp: Dict[str, Any]) -> str:
                   "c c c c c c c", header)
 
 
-def table_fund_stability(exp: Dict[str, Any]) -> str:
+def table_fund_stability(exp: dict[str, Any]) -> str:
     rows = []
     for cell in exp["cells"]:
         rho = cell["overrides"]["fund.rho_payout"]
@@ -284,7 +284,7 @@ def table_fund_stability(exp: Dict[str, Any]) -> str:
                   "c c c c c l c", header)
 
 
-def table_sweep(exp: Dict[str, Any], key: str, label: str, caption: str,
+def table_sweep(exp: dict[str, Any], key: str, label: str, caption: str,
                 param_header: str, arm: str = "B6c") -> str:
     rows = []
     for cell in exp["cells"]:

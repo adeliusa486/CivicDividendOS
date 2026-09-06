@@ -200,22 +200,54 @@
   "python_full": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
  },
  "experiment_id": "A02",
- "finished_at": "2026-09-06T23:18:32+0300",
+ "finished_at": "2026-09-06T23:52:01+0300",
  "git": {
   "branch": "master",
-  "describe": "v0-audit-3-g08de3bc",
+  "describe": "v0-audit-4-gbec4745",
   "dirty": true,
   "dirty_files": [
-   "M CivicDividendOS_v2.tex",
-   " M src/cdos/model/economy.py",
-   "?? results/manifests/A01.json",
-   "?? results/manifests/E02.json",
-   "?? results/raw/A01.json",
-   "?? results/raw/E02.json",
-   "?? scripts/revise_manuscript.py"
+   "M experiments/A09_phi.yaml",
+   " M results/manifests/A01.json",
+   " M results/manifests/E02.json",
+   " M results/manifests/E03.json",
+   " M results/raw/E02.json",
+   " M scripts/_write_experiments.py",
+   "?? results/manifests/A09.json",
+   "?? results/manifests/A10.json",
+   "?? results/manifests/E04.json",
+   "?? results/manifests/E05.json",
+   "?? results/manifests/E06.json",
+   "?? results/manifests/E07.json",
+   "?? results/manifests/E08.json",
+   "?? results/manifests/E09.json",
+   "?? results/manifests/E10.json",
+   "?? results/manifests/E11.json",
+   "?? results/manifests/E12.json",
+   "?? results/manifests/E13.json",
+   "?? results/manifests/E14.json",
+   "?? results/manifests/E15.json",
+   "?? results/manifests/E16.json",
+   "?? results/manifests/E17.json",
+   "?? results/raw/A09.json",
+   "?? results/raw/A10.json",
+   "?? results/raw/E04.json",
+   "?? results/raw/E05.json",
+   "?? results/raw/E06.json",
+   "?? results/raw/E07.json",
+   "?? results/raw/E08.json",
+   "?? results/raw/E09.json",
+   "?? results/raw/E10.json",
+   "?? results/raw/E11.json",
+   "?? results/raw/E12.json",
+   "?? results/raw/E13.json",
+   "?? results/raw/E14.json",
+   "?? results/raw/E15.json",
+   "?? results/raw/E16.json",
+   "?? results/raw/E17.json",
+   "?? results/summaries/"
   ],
-  "sha": "08de3bccc8b0262f94232ad2e8f92febc447e6ed",
-  "short_sha": "08de3bc"
+  "sha": "bec47454e6e40b18f392ee2de9ca897ad3120fbf",
+  "short_sha": "bec4745"
  },
  "inputs": {
   "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/experiments/A02_cost_share.yaml": "974e9caf622c05b57e57b632c3bcacc709daf6245cf8a43a7e9e4b882fc1a67a"
@@ -232,7 +264,7 @@
  "outputs": {
   "C:/Users/adeel/OneDrive/Desktop/4-agents-robots-taxation-financial/results/raw/A02.json": "3496e21e13008558c39b1b4673792b3bb1c842edbab2674af3a32c9d6c3efedb"
  },
- "runtime_seconds": 96.726,
+ "runtime_seconds": 16.184,
  "seeds": [
   0,
   1,
@@ -245,5 +277,5 @@
   8,
   9
  ],
- "started_at": "2026-09-06T23:16:56+0300"
+ "started_at": "2026-09-06T23:51:44+0300"
 }

@@ -30,7 +30,6 @@ Proposition 4 bounds:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -48,7 +47,7 @@ class ClassificationResult:
     modes: np.ndarray             # object array of mode names
     substitution_score: np.ndarray
     augmentation_score: np.ndarray
-    true_modes: Optional[np.ndarray] = None
+    true_modes: np.ndarray | None = None
 
     @property
     def error_rate(self) -> float:
@@ -58,7 +57,7 @@ class ClassificationResult:
 
 
 def episode_scores(delta_labour, delta_wage, is_new_task=None,
-                   is_hazardous=None) -> Tuple[np.ndarray, np.ndarray]:
+                   is_hazardous=None) -> tuple[np.ndarray, np.ndarray]:
     """Substitution and augmentation scores from observed episode outcomes.
 
     ``delta_labour`` is the proportional change in human labour input on the
@@ -150,6 +149,6 @@ def confusion_matrix(result: ClassificationResult) -> np.ndarray:
         raise ValueError("no ground truth recorded; confusion matrix undefined")
     k = len(MODES)
     out = np.zeros((k, k), dtype=int)
-    for true, obs in zip(result.true_modes, result.modes):
+    for true, obs in zip(result.true_modes, result.modes, strict=False):
         out[_MODE_INDEX[true], _MODE_INDEX[obs]] += 1
     return out

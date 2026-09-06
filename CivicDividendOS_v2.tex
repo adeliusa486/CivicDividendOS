@@ -1025,6 +1025,57 @@ not.
 
 \input{paper/generated/table_sigma_gamma}
 
+\subsubsection{Two further reversals}
+
+The elasticity of substitution is not the only dimension along which the sign
+turns. Two others matter as much, and neither was reported in the earlier
+version of this work.
+
+\emph{Horizon.} The reporting window of 200 quarters is a choice, not a result.
+Arm B6c's output effect is $+1.78\%$ at 80 quarters, $+2.81\%$ at 200,
+$-2.23\%$ at 320 and $-11.20\%$ at 400. The advantage is therefore transitional:
+it accrues while the fund is accumulating and the machine price has not yet
+fallen far, and it reverses once the contribution has been levied on a large
+automated base for long enough. Reporting a fifty-year window and stopping
+there flatters the instrument.
+
+\emph{Speed of automation.} The machine price decline of $0.6\%$ per quarter is
+assumed rather than calibrated, and it drives the entire transition. At
+$0.2\%$ the output effect is $+2.24\%$ and at $0.4\%$ it is $+2.85\%$, but at
+$1.0\%$ it is $-7.34\%$ and at $1.5\%$ it is $-22.45\%$. The instrument
+performs well against slow automation and badly against fast automation, which
+is close to the opposite of the case usually made for it.
+
+Taken with the elasticity sweep, the honest summary is that arm B6c's measured
+advantage requires a low elasticity of substitution, a moderate pace of
+automation, and a horizon of roughly fifty years. It is a statement about a
+region of the parameter space, and the region does not obviously contain the
+world.
+
+\subsection{Cross-Border Leakage and Classification Error}
+\label{sec:leakage}
+
+The single-jurisdiction testbed of the earlier version could not speak to
+leakage at all. Enabling the three-jurisdiction nexus of
+Section~\ref{sec:nexus}, with rate multipliers $(1.0, 0.5, 1.5)$ and a base
+that relocates towards the cheaper jurisdiction, gives revenue losses of
+$2.1\%$, $4.1\%$ and $8.2\%$ at shifting elasticities of $0.2$, $0.4$ and
+$0.8$. Apportionment remains exhaustive throughout, as
+Proposition~\ref{prop:nexus} requires: the loss appears as revenue accruing to
+another jurisdiction, not as a violated identity. Leakage is therefore bounded
+and roughly linear in the elasticity here, but it is not eliminated, and the
+magnitude depends entirely on how mobile the four nexus components are in
+practice --- which this model assumes rather than measures.
+
+Classification error behaves as Proposition~\ref{prop:robust} predicts. At
+injected error rates of $5\%$, $10\%$ and $20\%$ the induced revenue error is
+$3.2\%$, $6.7\%$ and $13.7\%$ of the clean revenue, against a bound of
+$\varepsilon(\alpha+\theta)$ that permits $11.9\%$, $23.8\%$ and $47.5\%$. The
+bound holds with room to spare, and the error grows linearly rather than
+catastrophically. This is the one robustness claim in the paper that survives
+the corrected testbed intact.
+
+
 \subsection{Fund Stability in the Testbed}
 \label{sec:fundstability}
 

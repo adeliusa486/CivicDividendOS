@@ -20,8 +20,6 @@ Two numerical points the audited baseline left open:
 
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 __all__ = ["ces_unit_cost", "ces_aggregate", "firm_block", "clear_wage",

@@ -26,8 +26,9 @@ number, because they answer different questions.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -44,7 +45,7 @@ class Interval:
     kind: str            # "replication" or "structural"
     n: int
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return {"point": self.point, "lo": self.lo, "hi": self.hi,
                 "kind": self.kind, "n": self.n}
 
@@ -77,7 +78,7 @@ def bootstrap_ci(x: Sequence[float], reps: int = 2000, seed: int = 12345,
 
 def paired_contrast(treatment: Sequence[float], control: Sequence[float],
                     reps: int = 2000, seed: int = 12345,
-                    relative: bool = False) -> Dict[str, Any]:
+                    relative: bool = False) -> dict[str, Any]:
     """Paired difference under common random numbers.
 
     Pairing is what makes the contrast precise; it is also what makes the
@@ -91,7 +92,7 @@ def paired_contrast(treatment: Sequence[float], control: Sequence[float],
             "Under common random numbers the i-th entry of each arm must come "
             "from the same seed.")
     diff = t - c
-    out: Dict[str, Any] = {
+    out: dict[str, Any] = {
         "diff": bootstrap_ci(diff, reps, seed, kind="replication").as_dict(),
         "effect_size": effect_size(t, c),
         "n_pairs": int(t.size),
@@ -126,7 +127,7 @@ def effect_size(treatment: Sequence[float], control: Sequence[float]) -> float:
 
 
 def holm_bonferroni(pvalues: Mapping[str, float], alpha: float = 0.05
-                    ) -> Dict[str, Dict[str, Any]]:
+                    ) -> dict[str, dict[str, Any]]:
     """Holm's step-down correction. Uniformly more powerful than Bonferroni.
 
     Holm is chosen over Benjamini-Hochberg because the comparisons here are
@@ -136,7 +137,7 @@ def holm_bonferroni(pvalues: Mapping[str, float], alpha: float = 0.05
     """
     items = sorted(pvalues.items(), key=lambda kv: kv[1])
     m = len(items)
-    out: Dict[str, Dict[str, Any]] = {}
+    out: dict[str, dict[str, Any]] = {}
     rejected_so_far = True
     for rank, (name, p) in enumerate(items):
         threshold = alpha / (m - rank)
@@ -151,7 +152,7 @@ def holm_bonferroni(pvalues: Mapping[str, float], alpha: float = 0.05
 def combined_interval(replication: Sequence[float],
                       structural: Sequence[float],
                       reps: int = 2000, seed: int = 12345
-                      ) -> Dict[str, Any]:
+                      ) -> dict[str, Any]:
     """Report replication and structural uncertainty side by side.
 
     Deliberately does not return a single merged interval. They quantify
@@ -173,7 +174,7 @@ def combined_interval(replication: Sequence[float],
 
 
 def practical_significance(interval: Mapping[str, float], threshold: float
-                           ) -> Dict[str, Any]:
+                           ) -> dict[str, Any]:
     """Is an effect large enough to matter, not merely large enough to detect?"""
     point = float(interval["point"])
     return {
@@ -188,7 +189,7 @@ def practical_significance(interval: Mapping[str, float], threshold: float
 
 
 def seed_adequacy(values: Sequence[float], target_halfwidth: float,
-                  alpha: float = 0.05) -> Dict[str, Any]:
+                  alpha: float = 0.05) -> dict[str, Any]:
     """How many seeds are needed for a given interval half-width (E15).
 
     Uses the normal approximation ``n = (z * sd / halfwidth)**2``. Answers the

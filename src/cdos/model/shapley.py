@@ -32,9 +32,9 @@ the calibration, not evidence about the world.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from itertools import combinations
 from math import factorial
-from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 
@@ -44,7 +44,7 @@ __all__ = ["shapley_machine", "dpsi_dM", "shapley_five_factor",
            "cost_share_attribution", "marginal_below_price_condition",
            "FIVE_FACTORS", "coalition_value"]
 
-FIVE_FACTORS: Tuple[str, ...] = ("H", "A", "R", "D", "K")
+FIVE_FACTORS: tuple[str, ...] = ("H", "A", "R", "D", "K")
 
 
 # ---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ def dpsi_dM(alpha, A, L, M, sigma: float, gamma: float, tol: float = 1e-8):
     return 0.5 * dvM + 0.5 * dvLM
 
 
-def marginal_below_price_condition(sigma: float, gamma: float) -> Dict[str, float | bool]:
+def marginal_below_price_condition(sigma: float, gamma: float) -> dict[str, float | bool]:
     """Report whether Proposition 2's inequality can fail at this calibration.
 
     The ratio ``dv({M})/dM  /  dY/dM`` equals ``s_M ** (gamma/rho - 1)`` with
@@ -112,8 +112,8 @@ def marginal_below_price_condition(sigma: float, gamma: float) -> Dict[str, floa
 # Five-factor game
 # ---------------------------------------------------------------------------
 
-def coalition_value(inputs: Dict[str, np.ndarray], members: Sequence[str],
-                    shares: Dict[str, float], A, sigma: float, gamma: float,
+def coalition_value(inputs: dict[str, np.ndarray], members: Sequence[str],
+                    shares: dict[str, float], A, sigma: float, gamma: float,
                     tol: float = 1e-8):
     """Value produced by a coalition of factors.
 
@@ -138,10 +138,10 @@ def coalition_value(inputs: Dict[str, np.ndarray], members: Sequence[str],
     return A * acc ** (gamma / rho)
 
 
-def shapley_five_factor(inputs: Dict[str, np.ndarray], A, sigma: float,
-                        gamma: float, shares: Dict[str, float] | None = None,
+def shapley_five_factor(inputs: dict[str, np.ndarray], A, sigma: float,
+                        gamma: float, shares: dict[str, float] | None = None,
                         factors: Sequence[str] = FIVE_FACTORS,
-                        tol: float = 1e-8) -> Dict[str, np.ndarray]:
+                        tol: float = 1e-8) -> dict[str, np.ndarray]:
     """Exact Shapley values over the ``2**n - 1`` non-empty coalitions.
 
     ``inputs`` maps every factor name to a per-firm input array. Returns a dict
@@ -157,7 +157,7 @@ def shapley_five_factor(inputs: Dict[str, np.ndarray], A, sigma: float,
         raise KeyError(f"missing inputs for factors {missing}")
 
     # Cache every coalition value once: 2**n evaluations, not n * 2**n.
-    values: Dict[frozenset, np.ndarray] = {frozenset(): np.zeros_like(
+    values: dict[frozenset, np.ndarray] = {frozenset(): np.zeros_like(
         np.asarray(A, dtype=float))}
     for size in range(1, n + 1):
         for members in combinations(factors, size):
@@ -166,7 +166,7 @@ def shapley_five_factor(inputs: Dict[str, np.ndarray], A, sigma: float,
 
     weights = {s: factorial(s) * factorial(n - s - 1) / factorial(n)
                for s in range(n)}
-    out: Dict[str, np.ndarray] = {}
+    out: dict[str, np.ndarray] = {}
     for f in factors:
         others = [g for g in factors if g != f]
         acc = np.zeros_like(np.asarray(A, dtype=float))
@@ -178,7 +178,7 @@ def shapley_five_factor(inputs: Dict[str, np.ndarray], A, sigma: float,
     return out
 
 
-def cost_share_attribution(costs: Dict[str, np.ndarray], total_value):
+def cost_share_attribution(costs: dict[str, np.ndarray], total_value):
     """Ablation A2: attribute value in proportion to factor cost.
 
     This is the conventional alternative to Shapley and is what the manuscript
