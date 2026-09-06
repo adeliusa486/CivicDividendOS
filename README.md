@@ -1,5 +1,11 @@
 # CivicDividendOS
 
+[![CI](https://github.com/adeliusa486/CivicDividendOS/actions/workflows/ci.yml/badge.svg)](https://github.com/adeliusa486/CivicDividendOS/actions/workflows/ci.yml)
+[![Python 3.11.9](https://img.shields.io/badge/python-3.11.9-blue.svg)](https://www.python.org/downloads/release/python-3119/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-337%20passing-brightgreen.svg)](tests/)
+[![Reproducible](https://img.shields.io/badge/baseline-bit--exact-brightgreen.svg)](#reproducibility)
+
 **Attribution-based taxation of autonomous economic activity: a framework and a
 computational testbed.**
 
@@ -48,7 +54,35 @@ All three have been fixed, and the fixes changed the results. See
 | **F4** | "Revenue-matched" arms were not actually matched | Fixed — `spending_mode` is explicit |
 | **F5** | A headline comparison used the wrong quantity | Fixed — revenue-normalised metrics reported alongside |
 | **F6** | "Hours" was labour demand in efficiency units | Fixed — efficiency units, headcount and hours reported separately |
-| **F9** | Worked-example unit error | Addressed in the manuscript revision |
+| **F9** | Worked-example unit error | Fixed — corrected in the manuscript |
+
+## Headline result, stated honestly
+
+The framework's central empirical claim **does not survive** the corrected
+testbed as a general result. Arm B6c (the proposed instrument with the
+corrected contribution base) improves output against the status quo **only in
+a limited region of the parameter space**:
+
+| Finding | Evidence |
+|---|---|
+| Output advantage is **positive in 4 of 18** cells of the σ×γ grid | E01 |
+| Sign **reverses** between σ = 1.5 and σ = 2.0 at γ = 0.85 | E01 |
+| Sign **reverses with the horizon**: +2.81% at 200 quarters, −2.23% at 320, −11.20% at 400 | E05 |
+| Sign **reverses with the pace of automation**: +2.85% at 0.4%/quarter, −22.45% at 1.5%/quarter | E14 |
+| On revenue per unit of deadweight loss it is **worse** than a fixed robot tax (0.45 vs 1.47) | E04 |
+| A lump-sum-financed variant attains nearly the same output gain (+3.03% vs +3.18%), so most of the advantage is **fiscal stance, not attribution** | E04 |
+| The entire advantage depends on the displacement channel: **+2.81% with it, −1.68% without** | A10 |
+| The wealth fund is **on a divergent path for 13 of 50 seeds** | E03 |
+| Moving to the specified five-factor attribution collapses revenue from 0.873% to **0.081%** of output | E12 |
+
+What *does* survive: Proposition 2's marginal-incidence warning (full cost
+deduction makes the levy a marginal **subsidy** to automation), the bounded
+monotone rate function, exact Shapley efficiency, and Proposition 4's
+classification-error bound — which holds empirically with room to spare
+(13.7% observed revenue error at ε = 0.20, against a bound permitting 47.5%).
+
+This repository is what it looks like when the evidence is followed rather
+than the conclusion.
 
 ## Important scientific caveats
 
@@ -132,6 +166,8 @@ conda env create -f environment.yml && conda activate cdos
 Or in Docker (includes LaTeX):
 
 ```bash
+git clone https://github.com/adeliusa486/CivicDividendOS.git
+cd CivicDividendOS
 docker build -t cdos .
 docker run --rm -v "$PWD:/work" cdos make reproduce
 ```
